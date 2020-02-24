@@ -1,9 +1,13 @@
-=>To start : 
+#### To start : 
 > npm install
+
 > npm start
 
-=> Description : Parent(Wrapper) state changes when clicking on child Component(Button), thus also affecting props of siblings of Button.
+---
+#### Description :
+Parent(Wrapper) state changes when clicking on child Component(Button), thus also affecting props of siblings of Button.
 
+------------
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
