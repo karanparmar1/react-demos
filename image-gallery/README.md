@@ -1,1 +1,9 @@
-Image Gallery with react js .axios and unsplash api
+#### Description
+Image Gallery With React js using Axios and Unsplash api
+
+----
+
+#### Features : 
+- [x] Live Image Search (search while typing)
+
+- [ ] Infinite Scrolling 
