@@ -5,7 +5,6 @@ import SearchBar from './SearchBar';
 import './style.css';
 
 
-let input = '';
 class Wrapper extends Component {
 
     constructor(props) {
@@ -17,9 +16,9 @@ class Wrapper extends Component {
             query: '',
             error: false
         };
+        this.input = '';
         this.typingTimer = 0;
     }
-
 
 
     isBlank = (value) => (value.trim() === null ||
@@ -27,8 +26,9 @@ class Wrapper extends Component {
         value.trim() === ' ' ||
         value.trim().length === 0);
 
-    clientId = "HWciOOv6d81L7UzgoqBnrNllU4EgYL9n4BBGe-jWPt0";
-    //clientId = "BGtUVlndC8IQAjSFGDKUMPBTCNNO9fvRaczJH3KuUms";
+
+    //clientId = "HWciOOv6d81L7UzgoqBnrNllU4EgYL9n4BBGe-jWPt0";
+    clientId = "BGtUVlndC8IQAjSFGDKUMPBTCNNO9fvRaczJH3KuUms";
     //clientId = "HqJ3aeJfSkUfgqvaO3otpmniy_vaQXyn3lOS8KYXSgo";
     //clientId = "HgyIReDaPCDFba86F_F4E8ELnbcg8s3PdxWnHq292ZM";
     setURL = (query) =>
@@ -39,7 +39,6 @@ class Wrapper extends Component {
     ;
 
     getData = (query = '', scroll = false) => {
-        console.log("called getData()");
         let url = this.setURL(query);
 
         axios({
@@ -49,7 +48,7 @@ class Wrapper extends Component {
         }).then(response => {
             let updatedData = query === '' ? response.data : response.data.results; //(this.state.apiData).concat
             this.setState((prevState) => ({
-                apiData: (!scroll) ? updatedData : (this.state.apiData).concat(updatedData),
+                apiData: (!scroll) ? updatedData : (this.state.apiData).concat(...updatedData),
                 query: query,
                 error: false
             }));
@@ -61,16 +60,25 @@ class Wrapper extends Component {
         });
     };
 
-    componentDidMount() { this.getData(); }
+    componentDidMount() {
+        // this.setState({
+        //     apiData: [],
+        //     page: 1
+        // });
+        this.getData();
+    }
+
 
     onChange = (e) => {
         clearTimeout(this.typingTimer);
-        input = e.target.value;
         this.setState({
             apiData: [],
             page: 1
         });
-        this.typingTimer = setTimeout(this.getData(input), 2000);
+
+        this.input = e.target.value;
+        this.typingTimer = setTimeout(this.getData(e.target.value), 2000);
+
     };
 
     render() {
@@ -80,7 +88,7 @@ class Wrapper extends Component {
         let cols = apiData.length;
         console.log(this.state.page);
         return (
-            <div className="container-md mx-auto" id="wrapper" style={{ minHeight: '300px' }}>
+            <div className="container-md mx-auto">
                 <header className="container-md border my-2 p-2">
                     <div className="row">
                         <div className="col"><h6>Image Search</h6></div>
@@ -96,28 +104,31 @@ class Wrapper extends Component {
                     dataLength={this.state.apiData.length}
                     next={() => {
                         this.setState({
-                            page: this.state.page + 1,
-                        }, this.getData(input, true));
+                            page: this.state.page + 1
+                        });
+                        this.getData(this.input, true)
                     }}
                     hasMore={true}
                     loader={<div className="loading mx-auto"></div>}
-                    style={{ overflow: 'hidden' }} /*scrollableTarget="wrapper"//Did Not work*/
-                    scrollThreshold={0.99}
+                    style={{ overflow: 'hidden' }}
+                    scrollThreshold={0.98}
                 >
                     {
                         <div className="row justify-content-center align-items-around flex-wrap"
                             id="image-gallery">
+                            {(!error) ?
+                                <div className="masonry-grid">
+                                    {apiData.map((row, i) => (
 
-                            <div className="masonry-grid">
-                                {apiData.map((row, i) =>
-                                    (!error) ?
                                         <div className="img-wrapper" key={i}>
                                             <img src={row.urls.small} key={i} alt={row.alt_description} />
                                             <div className="img-overlay">{row.user.name}</div>
                                         </div>
-                                        : <div className="errorDiv">Internal Error!</div>//When Limit reached : 403
-                                )}
-                            </div>
+
+                                    ))}
+                                </div>
+                                : <div className="errorDiv">Internal Error!</div> //When Limit reached : 403
+                            }
                         </div>
                     }
                 </InfiniteScroll>
