@@ -1,4 +1,7 @@
-.App {
+html {
+  overflow-y: scroll;
+}
+body {
   text-align: center;
 }
 
@@ -37,10 +40,27 @@
   }
 }
 
+.loading {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  animation: App-logo-spin 2s linear infinite;
+}
+
+
+.taskItem:hover{
+  background-Color: silver !important;
+}
+
 .deleteBtn {
   visibility: hidden;
 }
+
 .taskItem:hover + .deleteBtn,
 .deleteBtn:hover {
   visibility: visible;
 }
+

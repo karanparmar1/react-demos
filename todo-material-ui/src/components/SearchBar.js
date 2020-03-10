@@ -5,7 +5,7 @@ import { Search } from '@material-ui/icons';
 const SearchBar = (props) => (
 
     <TextField id="outlined-search"
-        label="Enter ItemName" type="search"
+        label="Enter Task" type="search"
         InputProps={{
             startAdornment: (
                 <InputAdornment position="start">
@@ -14,9 +14,9 @@ const SearchBar = (props) => (
             ),
         }}
         variant="outlined"
-        onChange={props.inputChanged} />
-
-
+        onChange={props.inputChanged}
+        onKeyDown={props.handleKeyDown}
+        value={props.value} />
 );
 
 export default SearchBar;
