@@ -6,7 +6,7 @@ import { List, ListItem, ListItemIcon, ListItemSecondaryAction, ListItemText, Ch
 const TaskList = (props) => {
     return (
         <List>
-            <FlipMove duration={250} easing="ease-out" enterAnimation="accordionHorizontal" leaveAnimation="accordionVertical">
+            <FlipMove duration={250} maintainContainerHeight="{true}" easing="ease-out" enterAnimation="accordionHorizontal" leaveAnimation="accordionVertical">
                 {
                     props.taskList.map((task, index) => {
                         const labelId = `checkbox-list-label-${task}`;

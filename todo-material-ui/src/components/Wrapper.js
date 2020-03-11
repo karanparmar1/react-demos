@@ -39,7 +39,7 @@ export class Wrapper extends Component {
         if (e.key === "Enter") {
             this.addTask();
         }
-    }
+    };
 
     inputChanged = (e) => {
         this.input = e.target.value;
@@ -78,7 +78,7 @@ export class Wrapper extends Component {
     };
 
     deleteTask = ({ id }) => {
-        let tempArr = [...this.originalArr.filter(task => task.id !== id)];
+        let tempArr = this.originalArr.filter(task => task.id !== id);
         tempArr.forEach((task, index) => {
             task.id = index
         });
@@ -89,7 +89,7 @@ export class Wrapper extends Component {
         this.statusMessage = "Item Deleted";
         this.severity = "error";
         this.input = "";
-    }
+    };
 
     finishTask = ({ id }) => {
         let tempArr = [...this.originalArr];
@@ -99,14 +99,14 @@ export class Wrapper extends Component {
                 this.setState({ taskList: tempArr }, () => this.originalArr = this.state.taskList);
             }
         });
-    }
+    };
 
     handleClose = (e, reason) => {
         if (reason === "clickaway") {
             return;
         }
         this.setState({ snackBarOpen: false });
-    }
+    };
 
     render() {
         this.taskList = this.state.taskList;
