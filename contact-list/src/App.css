@@ -2,6 +2,24 @@
   text-align: center;
 }
 
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.icon-gradient {
+  background: linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: "transparent";
+}
+.text-silver {
+  color: rgb(128, 128, 128);
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
