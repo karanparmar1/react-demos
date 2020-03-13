@@ -2,37 +2,74 @@ import React from "react";
 import clsx from "clsx";
 import "font-awesome/css/font-awesome.min.css"
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { Drawer, List, Grid, Hidden, AppBar, Toolbar, CssBaseline, Divider, IconButton, ListItem, ListItemIcon, ListItemText, Typography } from "@material-ui/core";
-import { Twitter, GitHub, PersonOutline, ClearAllRounded, ChevronLeft } from "@material-ui/icons";
+import {
+  Backdrop, Checkbox, Drawer, IconButton, Button,
+  InputBase, Grid, Hidden, AppBar, Toolbar, CssBaseline, Divider,
+  List, ListItem, ListItemIcon, ListItemText, ListItemSecondaryAction, ListItemAvatar, Avatar, Typography
+} from "@material-ui/core";
+import { Twitter, GitHub, Add, AddBox, Search, PersonOutline, Person, ClearAllRounded, ChevronLeft } from "@material-ui/icons";
 
-const drawerWidth = 240;
+const drawerWidth = 220;
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
+  },
+  large: {
+    width: theme.spacing(6),
+    height: theme.spacing(6),
+    marginRight: theme.spacing(2)
+  },
+  backdrop: {
+    [theme.breakpoints.down("sm")]: {
+      zIndex: theme.zIndex.drawer - 1,
+      color: "black"
+    }
   },
   active: {
     boxShadow: "inset 5px 0 0 0 white",
     background: "rgba(240,240,240,0.1)",
     color: "rgba(255,255,255,1)"
   },
-
+  button: {
+    textTransform: "none",
+    minWidth: "150px",
+    maxWidth: "150px",
+    whiteSpace: "nowrap",
+    minHeight: "48px",
+    [theme.breakpoints.down("sm")]: {
+      minWidth: "44px",
+      minHeight: "44px",
+      borderRadius: "50%"
+    }
+  },
+  searchbar: {
+    background: "rgb(230, 230, 230)",
+    display: "flex",
+    borderRadius: 25,
+    padding: "0 12px 0",
+    minWidth: "120px"
+  },
+  input: {
+    marginLeft: theme.spacing(1),
+    flex: 1
+  },
   textWhite: {
     color: "rgba(255,255,255,0.9)"
   },
   bgGradient: {
-
-    fontSize: "100px",
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
-    webkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent"
+    color: "white",
+    fontWeight: "bold",
   },
+
   appBar: {
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
     }),
-    background: "white"
+    background: "white",
+    position: "fixed"
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -83,9 +120,15 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar
   },
+  mainContent: {
+    [theme.breakpoints.down('xs')]: {
+      position: "fixed"
+    },
+  },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    margin: "20px"
   }
 }));
 
@@ -149,6 +192,7 @@ export default function Wrapper() {
             </ListItemIcon>
             <ListItemText primary="Twitter" />
           </ListItem>
+
           <ListItem button>
             <ListItemIcon className={classes.textWhite}>
               <GitHub fontSize="large" />
@@ -158,7 +202,7 @@ export default function Wrapper() {
         </List>
       </Drawer>
 
-      <AppBar style={{ background: "white" }}>
+      <AppBar className={classes.appBar}>
         <Toolbar>
           <IconButton
             aria-label="open drawer"
@@ -170,35 +214,103 @@ export default function Wrapper() {
           >
             <ClearAllRounded fontSize="large" />
           </IconButton>
+        </Toolbar>
+      </AppBar>
+      <Hidden smUp>
+        <Backdrop className={classes.backdrop} open={open} onClick={() => setOpen(false)} />
+      </Hidden>
 
-        </Toolbar></AppBar>
+      <main className={clsx({ [classes.mainContent]: open }, classes.content)}>
 
-      <Grid container >
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-
-          <Grid container item xs={12} alignItems="center">
-            <Grid item xs={4} sm={1}>
+        <div className={classes.toolbar} />
+        <Grid container spacing={5} >
+          <Grid container item xs={12} alignItems="center" >
+            <Grid item xs={3} sm={2} md={1}>
               <i className="fa fa-address-book fa-flip-horizontal fa-3x icon-gradient" ></i>
             </Grid>
 
-            <Grid item xs={8} sm={11} className="text-left" style={{ paddingLeft: "5px" }}>
+            <Grid item xs={9} sm={10} md={11} className="text-left" style={{ paddingLeft: "0px" }}>
               <Grid item xs={12}>
                 <Typography variant="h4" component="span">
                   Contacts </Typography>
               </Grid>
-
-              <Grid item xs={12}> <Hidden xsDown>
-                <Typography variant="subtitle1" component="span" className="text-silver"> Welcome to InstaConnect</Typography> </Hidden>
-              </Grid>
-
+              <Hidden xsDown>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle1" component="span" className="text-silver"> Welcome to InstaConnect</Typography>
+                </Grid>
+              </Hidden>
             </Grid>
           </Grid>
 
+          <Grid container item xs={12}>
+            <Hidden smDown><Grid item sm={1}></Grid> </Hidden>
+            {/* MAIN CONTENT SEARCHBAR AND LIST STARTS HERE */}
+            <Grid container item xs={12} sm={11} spacing={5} >
 
-        </main>
-      </Grid>
+              {/* SearchBar */}
+              <Grid container item xs={12} md={6} spacing={1}>
+                <Grid item xs={11} md={9} >
+                  <div className={classes.searchbar}>
+                    <InputBase
+                      className={classes.input}
+                      type="search"
+                      placeholder="Search Contacts"
+                    />
+                    <IconButton type="submit" className={classes.iconButton} aria-label="search">
+                      <Search />
+                    </IconButton>
+                  </div>
+                </Grid>
+                <Grid item xs={1} md={3}>
+                  <Button
+                    variant="contained"
+                    className={clsx(classes.button, classes.bgGradient)}
+                    size="large"
+                    fullWidth
+                  ><Add /><Hidden smDown> &nbsp;Add Contact</Hidden></Button>
+                </Grid>
+              </Grid>
 
-    </div>
+              <Grid container item spacing={0}>
+                <Grid container item xs={12} md={6} >
+
+                  <Grid container item spacing={3}>
+                    <List style={{ flexGrow: 1 }}>
+                      <ListItem className="bg-silver" dense >
+                        <ListItemIcon>
+                          <AddBox  />
+                        </ListItemIcon>
+                        <ListItemText primary="Basic Info" />
+                        <ListItemText primary="Company" style={{ display: 'flex', justifyContent: "center" }} />
+                      </ListItem>
+
+                     <ListItem dense button>
+                        <ListItemIcon>
+                          <Checkbox
+                            edge="start"
+                            disableRipple
+                            color="primary"
+                          />
+                        </ListItemIcon>
+                        <ListItemAvatar>
+                          <Avatar src="brokesgf.png" className={classes.large}>
+                            KP
+                          </Avatar>
+                        </ListItemAvatar>
+                        <ListItemText primary={<h3 style={{ display: "inline" }}>Karan Parmar</h3>} secondary={<small>k123parmar@gmail.com</small>} style={{ margin: '0px' }} />
+                        <ListItemText primary={<h4>ZURU TECH</h4>} style={{ display: 'flex', justifyContent: "center" }} />
+                      </ListItem>
+                   </List>
+
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+
+
+          </Grid>
+        </Grid>
+      </main>
+    </div >
   );
 }
