@@ -14,6 +14,7 @@ import SearchBar from "./SearchBar";
 import SideDrawer from "./SideDrawer";
 import CommonStyle from "./CommonStyle";
 
+const id = false;
 const localData = LocalData();
 
 export default function Wrapper() {
@@ -24,7 +25,8 @@ export default function Wrapper() {
   // const classes = useStyles();
   // const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [contact, setContact] = React.useState({});
+  const [id, setId] = React.useState(false);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -33,8 +35,8 @@ export default function Wrapper() {
     setOpen(false);
   };
 
-  const handleContactClick = (contact) => {
-    setContact(contact);
+  const handleContactClick = (currentId) => {
+    setId(currentId);
   }
 
   const onChange = (e) => {
@@ -71,7 +73,7 @@ export default function Wrapper() {
         <Grid container spacing={5} >
           {/* Heading-Contact starts here */}
           <Grid container item xs={12} alignItems="center" >
-            <Grid item xs={3} sm={2} md={1} style={{ maxWidth: "48px", marginRight: "16px" }}>
+            <Grid item xs={3} sm={2} md={1}>
               <i className="fa fa-address-book fa-flip-horizontal fa-3x icon-gradient" ></i>
             </Grid>
             <Grid item xs={9} sm={10} md={11} className="text-left" >
@@ -87,26 +89,35 @@ export default function Wrapper() {
             </Grid>
           </Grid>
           {/* Heading-Contact Ends here */}
-          <Grid container item xs={12} justify="center">
+
+          <Grid container item xs={12}>
+            {/* <Hidden smDown><Grid item md={1}></Grid> </Hidden> */}
             {/* MAIN CONTENT SEARCHBAR AND LIST STARTS HERE */}
-            <Grid container item xs={12} spacing={6} className={classes.innerContent} >
+            <Grid container item spacing={5} xs={12}>
 
               {/* SearchBar */}
               <SearchBar onChange={onChange} />
               {/* SearchBar Ends ; Wrapper for List starts here*/}
 
-              <Grid container item xs={12} className={clsx(classes.removePadding)}>
-                <Grid item xs={12} md >
-                  <ContactList handleContactClick={handleContactClick} data={localData} />
-                </Grid>
-                <Hidden smDown>
-                  <Grid container item xs={12} md>
-                    <DetailCard contact={contact} />
+              <Grid container item xs={12} style={{ padding: "0px" }}>
+                <Grid container item xs={12}>
+                  <Grid container item xs={12} md={6} style={{ padding: "8px 16px" }}>
+                    <Grid item xs={12}>
+                      <ContactList handleContactClick={handleContactClick} />
+                    </Grid>
                   </Grid>
-                </Hidden>
+
+                  <Grid container item xs={12} md={6} >
+                    <DetailCard open={open} id={id} />
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
+
+            <Grid container item xs={12}>
+            <DetailCard open={open} id={id} />
+            </Grid>
 
         </Grid>
       </main>

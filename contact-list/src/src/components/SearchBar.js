@@ -9,7 +9,7 @@ const SearchBar = (props) => {
     const theme = useTheme();
     const classes = CommonStyle(theme);
     return (
-        <Grid container item xs={12} md={6} spacing={1}  className={clsx(classes.removePadding)}>
+        <Grid container item xs={12} md={6} spacing={1} style={{ marginBottom: "20px" }}>
             <Grid item xs={10} sm={11} md={9} >
                 <div className={classes.searchbar}>
                     <InputBase

@@ -43,13 +43,6 @@ const CommonStyle = (theme) => {
                 borderRadius: "50%"
             }
         },
-        detailCard: {
-            textAlign: "left",
-            padding: "32px", 
-            [theme.breakpoints.up("md")]: {
-                marginLeft: "32px"
-            }
-        },
         searchbar: {
             background: "rgb(230, 230, 230)",
             display: "flex",
@@ -64,10 +57,6 @@ const CommonStyle = (theme) => {
         textWhite: {
             color: "rgba(255,255,255,0.9)"
         },
-        bgSilver: {
-            background: "rgb(230, 230, 230)",
-            color: "rgb(128, 128, 128)"
-        },
         bgGradient: {
             background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
             color: "white",
@@ -79,8 +68,7 @@ const CommonStyle = (theme) => {
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen
             }),
-            background: "white",
-           
+            background: "white"
         },
         appBarShift: {
             marginLeft: drawerWidth,
@@ -135,20 +123,6 @@ const CommonStyle = (theme) => {
         mainContent: {
             [theme.breakpoints.down('xs')]: {
                 position: "absolute"
-            }
-        },
-        removePadding:{
-            [theme.breakpoints.down('xs')]: {
-                padding:"20px 0px !important",
-            }
-        },
-        innerContent:{
-            padding:"auto 0px",
-            [theme.breakpoints.up('sm')]: {
-                paddingLeft: "32px"
-            },
-             [theme.breakpoints.down('sm')]: {
-                padding:"auto 0px auto",
             }
         },
         content: {
