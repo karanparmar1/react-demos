@@ -2,7 +2,7 @@
 const LocalData = () => {
     let data = [
         {
-            id: 0, checked: false,
+            id: 0,
             checked: false,
             fullname: "Admin User",
             about: "I am Admin Of the App",

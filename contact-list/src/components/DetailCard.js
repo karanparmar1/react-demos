@@ -23,15 +23,15 @@ const DetailCard = ({ contact, editable, handleEdit, handleSave }) => {
     const theme = useTheme();
     const classes = CommonStyle(theme);
     const [state, setState] = React.useState(contact);
-    let textBox = "";
+
     const handleChangeInput = (e) => {
         console.log(state);
-        setState({...state,
+        setState({
+            ...state,
             [e.target.name]: e.target.value
         });
     }
-    React.useEffect(()=>
-      {console.log(contact.fullname)}
+    React.useEffect(() => { console.log(contact.fullname) }
     );
     return (
         contact.id !== undefined && contact.id !== null ?
@@ -46,7 +46,7 @@ const DetailCard = ({ contact, editable, handleEdit, handleSave }) => {
                     <Grid container item xs={12} justify="center">
                         <Grid item>
                             <Avatar src={contact.image} className={classes.larger} style={{ background: stringToColor(contact.fullname) }}>
-                                <h2> {contact.fullname.split(" ").map(n => n[0])}</h2>
+                                {contact.fullname.split(" ").map((n, i) => i < 2 ? n[0].toUpperCase() : "")}
                             </Avatar>
                         </Grid>
                         <Grid container item style={{ textAlign: "center" }}>
@@ -64,7 +64,7 @@ const DetailCard = ({ contact, editable, handleEdit, handleSave }) => {
                         <Grid item xs={4}>Full Name</Grid>
                         <Grid item xs={8} className="text-black">
                             <Input disableUnderline={!editable} type="text" className={classes.contactField}
-                                value={state.fullname? state.fullname :contact.fullname} name="fullname" onChange={handleChangeInput}
+                                value={state.fullname ? state.fullname : contact.fullname} name="fullname" onChange={handleChangeInput}
                                 disabled={!editable}
                             />
 
@@ -73,12 +73,12 @@ const DetailCard = ({ contact, editable, handleEdit, handleSave }) => {
                     <Grid container item xs={12}>
                         <Grid item xs={4}>Email</Grid>
                         <Grid item xs={8} className="text-black">
-                            
+
                             <Input disableUnderline={!editable} type="text" className={classes.contactField}
-                                value={state.email? state.email :contact.email} name="email" onChange={handleChangeInput}
+                                value={state.email ? state.email : contact.email} name="email" onChange={handleChangeInput}
                                 disabled={!editable}
                             />
-                            
+
                             {contact.email}</Grid>
                     </Grid>
                     <Grid container item xs={12}>

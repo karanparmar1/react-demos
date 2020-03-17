@@ -14,7 +14,6 @@ import SearchBar from "./SearchBar";
 import SideDrawer from "./SideDrawer";
 import CommonStyle from "./CommonStyle";
 
-const originalData = LocalData();
 let localData = LocalData();
 
 export default function Wrapper() {
@@ -26,8 +25,9 @@ export default function Wrapper() {
   const [editable, setEditable] = React.useState(false);
   const [activeContact, setActiveContact] = React.useState({});
   const [data, setData] = React.useState(localData);
-  const [search,setSearch] = React.useState(""); 
-  const searchFilter = search => item =>item.fullname.toLowerCase().includes(search.toLowerCase())
+  const [search, setSearch] = React.useState("");
+  const [wannaCreateNew, setWannaCreateNew] = React.useState(false);
+  const searchFilter = search => item => item.fullname.toLowerCase().includes(search.toLowerCase())
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -38,25 +38,41 @@ export default function Wrapper() {
 
   const handleCheckedChange = (changedContact) => {
     let temp = data;
-   temp.forEach(item => {
-       item.checked = (item.id === changedContact.id) ?!changedContact.checked:item.checked;
+    temp.forEach(item => {
+      item.checked = (item.id === changedContact.id) ? !changedContact.checked : item.checked;
     });
     setData([...temp]);
   }
 
   const handleSelectAll = (selectAll) => {
-  let temp=data;
-  temp.forEach(contact => {
+    let temp = data;
+    temp.forEach(contact => {
       contact.checked = selectAll
     })
     setData([...temp]);
   };
 
   const handleDelete = () => {
-    localData =localData.filter(item => !item.checked);
+    localData = localData.filter(item => !item.checked);
     setData([...localData]);
     if (activeContact.checked) { setActiveContact({}) }
     setSearch("");
+  }
+
+  const handleAdd = (status = true) => {
+    setActiveContact({});
+    handleSelectAll(false);
+    setSearch("");
+    filterData("");
+    setWannaCreateNew(status);
+  }
+
+  const addNewContact = (contact) => {
+
+    localData.push(contact);
+    setData([...localData]);
+    setWannaCreateNew(false);
+    setActiveContact(contact)
   }
 
   const handleContactClick = (clickedContact) => {
@@ -64,11 +80,16 @@ export default function Wrapper() {
     setEditable((editable) ? clickedContact.id === activeContact.id : false);
   }
 
+  const filterData = (value) => {
+    setData([...localData.filter(searchFilter(value))]);
+  }
+
   const onChange = (e) => {
     setActiveContact({});
-    setData([...localData.filter(searchFilter(e.target.value))]);
+    filterData(e.target.value);
     setSearch(e.target.value);
   }
+
 
   const handleEdit = () => {
     setEditable(true);
@@ -134,12 +155,15 @@ export default function Wrapper() {
             <Grid container item xs={12} spacing={6} className={classes.innerContent} >
 
               {/* SearchBar */}
-              <SearchBar search={search} onChange={onChange}  handleDelete={handleDelete} data={data} />
+              <SearchBar data={data} search={search} onChange={onChange} handleDelete={handleDelete} handleAdd={handleAdd} wannaCreateNew={wannaCreateNew} />
               {/* SearchBar Ends ; Wrapper for List starts here*/}
 
               <Grid container item xs={12} className={clsx(classes.removePadding)}>
                 <Grid item xs={12} md >
-                  <ContactList  data={data} activeContact={activeContact} editable={editable} handleContactClick={handleContactClick} handleCheckedChange={handleCheckedChange} handleSelectAll={handleSelectAll} handleEdit={handleEdit} handleSave={handleSave} />
+                  <ContactList data={data} activeContact={activeContact} editable={editable}
+                    handleContactClick={handleContactClick} handleCheckedChange={handleCheckedChange}
+                    handleSelectAll={handleSelectAll} handleAdd={handleAdd} handleEdit={handleEdit} handleSave={handleSave}
+                    wannaCreateNew={wannaCreateNew} addNewContact={addNewContact} />
                 </Grid>
                 <Hidden smDown>
                   <Grid container item xs={12} md>

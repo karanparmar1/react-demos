@@ -51,12 +51,13 @@ const CommonStyle = (theme) => {
             border: "3px dashed white",
             right: "8%"
         },
-       
-        contactField: { 
-            position:"relative",
-            top:"-4px",
+
+        contactField: {
+            background: "transparent",
+            position: "relative",
+            top: "-4px",
             color: "black !important",
-            padding: "0px 3px", 
+            padding: "0px 3px",
             fontSize: "larger",
         },
         detailCard: {
