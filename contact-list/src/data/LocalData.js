@@ -1,8 +1,9 @@
 
 const LocalData = () => {
-    let data =[
+    let data = [
         {
-            id: 0,
+            id: 0, checked: false,
+            checked: false,
             fullname: "Admin User",
             about: "I am Admin Of the App",
             image: "",
@@ -10,9 +11,9 @@ const LocalData = () => {
             phone: "1231234567",
             company: "Work at Work",
             address: "Gotham City",
-
         }, {
             id: 1,
+            checked: false,
             fullname: "Karan Parmar",
             about: "Intern At Zuru Tech India pvt ltd",
             image: "brokenLink.png",
@@ -20,9 +21,9 @@ const LocalData = () => {
             phone: "+91 8511918322",
             company: "ZURU Tech India",
             address: "Jivrajpark, Ahmedabad, Gujarat",
-
         }, {
             id: 2,
+            checked: false,
             fullname: "Elon Musk",
             about: "I build cool stuff",
             image: "https://i1.wp.com/smestreet.in/wp-content/uploads/2018/05/Elon-Musk-Tesla.gif?fit=300%2C225&ssl=1",
@@ -30,9 +31,9 @@ const LocalData = () => {
             phone: "124 421 8055",
             company: "Tesla Inc",
             address: "Mars nearby Earth",
-
         }, {
             id: 3,
+            checked: false,
             fullname: "Jeff Bezos",
             about: "I am that rich guy",
             image: "https://images.ladbible.com/thumbnail?type=jpeg&url=http://beta.ems.ladbiblegroup.com/s3/content/dceff8665e34a7857ec00b211f98cd9f.png&quality=70&width=720",
@@ -40,9 +41,9 @@ const LocalData = () => {
             phone: "",
             company: "Amazon Inc",
             address: "Washington",
-
         }, {
             id: 4,
+            checked: false,
             fullname: "Vrajpal Jhala",
             about: "Intern At ZURU Tech India pvt ltd",
             image: "",
@@ -50,7 +51,6 @@ const LocalData = () => {
             phone: "+91 1234512345",
             company: "ZURU Tech India",
             address: "Navrangpura, Ahmedabad, Gujarat",
-
         },
     ];
     return (

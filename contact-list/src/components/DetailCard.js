@@ -1,5 +1,6 @@
 import React from 'react';
-import { Grid, Avatar, IconButton } from "@material-ui/core";
+import { Edit, Save } from "@material-ui/icons";
+import { Grid, Avatar, Fab, Input } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import CommonStyle from "./CommonStyle";
 
@@ -18,14 +19,28 @@ function stringToColor(string) {
     return color;
 }
 
-const DetailCard = ({ contact, handleCardClose }) => {
+const DetailCard = ({ contact, editable, handleEdit, handleSave }) => {
     const theme = useTheme();
     const classes = CommonStyle(theme);
+    const [state, setState] = React.useState(contact);
+    let textBox = "";
+    const handleChangeInput = (e) => {
+
+        textBox += e.target.value;
+        setState({
+            [e.target.name]: e.target.value
+        });
+    }
 
     return (
         contact.id !== undefined && contact.id !== null ?
             <Grid container item xs={12} justify="center" className={`${classes.detailCard} ${classes.bgSilver}`} >
-                <Grid item xs={12} style={{ color: "red", textAlign: "right" }}><IconButton color="secondary" onClick={()=>handleCardClose()}>Close</IconButton></Grid>
+
+                {!editable ?
+                    <Grid item xs={12} style={{ color: "red", textAlign: "right" }}>
+                        <Fab size="medium" className={classes.btnEdit} onClick={() => handleEdit()}><Edit /></Fab>
+                    </Grid> : <></>
+                }
                 <Grid container item spacing={3}>
                     <Grid container item xs={12} justify="center">
                         <Grid item>
@@ -46,7 +61,13 @@ const DetailCard = ({ contact, handleCardClose }) => {
                     </Grid>
                     <Grid container item xs={12}>
                         <Grid item xs={4}>Full Name</Grid>
-                        <Grid item xs={8} className="text-black">{contact.fullname}</Grid>
+                        <Grid item xs={8} className="text-black">
+                            <Input type="text" className={editable ? classes.editable : classes.notEditable}
+                                defaultValue={editable ? state.fullname : contact.fullname} name="fullname" onChange={handleChangeInput}
+                                disabled={!editable} readOnly={!editable}
+                            />
+
+                        </Grid>
                     </Grid>
                     <Grid container item xs={12}>
                         <Grid item xs={4}>Email</Grid>
@@ -65,6 +86,11 @@ const DetailCard = ({ contact, handleCardClose }) => {
                         <Grid item xs={8} className="text-black">{contact.address}</Grid>
                     </Grid>
                 </Grid>
+
+                {editable ? <Grid item style={{ margin: "24px auto 0px" }}>
+                    <Fab variant="extended" size="medium" color="primary" onClick={() => handleSave(state)}><Save /> &nbsp;Save </Fab>
+                </Grid> : <></>}
+
 
             </Grid>
             : <Grid container item xs={12} justify="center" className={`${classes.detailCard} ${classes.bgSilver}`} >

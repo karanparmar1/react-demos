@@ -4,7 +4,7 @@ import {
     Avatar, Checkbox, IconButton, Hidden
 } from '@material-ui/core';
 
-import { AddBox, ShowChartRounded } from "@material-ui/icons";
+import { AddBox, IndeterminateCheckBox } from "@material-ui/icons";
 import { useTheme } from "@material-ui/core/styles";
 import CommonStyle from "./CommonStyle";
 import DetailCard from "./DetailCard"
@@ -25,44 +25,15 @@ const ContactList = (props) => {
     const classes = CommonStyle(theme);
     let [selectedContact, setSelectedContact] = React.useState({});
     const [selectAll, setSelectAll] = React.useState(false);
-    const [selectedContacts, setSelectedContacts] = React.useState([]);
-
-    const handleCardClose = () => {
-        setSelectedContact({});
-        alert("HI");
-    }
-    const handleSelectAll = (contacts) => {
-        if (selectAll) {
-            contacts.map(contact => {
-                setSelectedContacts([]);
-                setSelectedContacts([...selectedContacts, contact.id]);
-            })
-
-        }
-        else {
-            setSelectedContacts([]);
-        }
-        setSelectAll(!selectAll);
-    };
+    const [checkedChanged, setCheckedChanged] = React.useState(false);
 
 
-    const handleCheckedChange = (id) => {
-        if (selectedContacts.includes(id)) {
-            setSelectedContacts(selectedContacts.filter(item => item !== id));
-            console.log("was in")
-        }
-        else {
-            setSelectedContacts([...selectedContacts, id]);
-            console.log("addedNow")
-        }
-        console.log(selectedContacts)
-    }
-
+    React.useEffect(() => { setSelectAll(props.data.every(contact => contact.checked)); });
     return (
         <List style={{ flexGrow: 1 }} disablePadding={true}>
             <ListItem className="bg-silver" >
-                <IconButton edge="start" onClick={() => handleSelectAll(props.data)}>
-                    <AddBox />
+                <IconButton edge="start" onClick={() => { props.handleSelectAll(!selectAll); setSelectAll(!selectAll); }}>
+                    {selectAll ? <IndeterminateCheckBox /> : <AddBox />}
                 </IconButton>
                 <ListItemText primary="Basic Info" />
                 <ListItemText primary="Company" style={{ display: 'flex', justifyContent: "center" }} />
@@ -71,15 +42,14 @@ const ContactList = (props) => {
             {
                 props.data.map((contact, index) =>
                     <React.Fragment key={index}>
-                        <ListItem dense button onClick={() => { setSelectedContact(contact); props.handleContactClick(contact) }} key={index}>
-                            <ListItemIcon>
+                        <ListItem selected={props.activeContact.id === contact.id} onClick={() => { setSelectedContact(contact); props.handleContactClick(contact) }} dense button key={index}>
+                            <ListItemIcon >
                                 <Checkbox
                                     edge="start"
                                     disableRipple
                                     color="primary"
-                                    checked={selectAll || selectedContacts.includes(contact.id)}
-                                    onChange={() => handleCheckedChange(contact.id)}
-
+                                    checked={contact.checked}
+                                    onClick={(e) => { setCheckedChanged(!checkedChanged); props.handleCheckedChange(contact); e.stopPropagation(); }}
                                 />
                             </ListItemIcon>
                             <ListItemAvatar>
@@ -93,7 +63,8 @@ const ContactList = (props) => {
                         </ListItem>
                         {(selectedContact.id === contact.id) ?
                             <Hidden mdUp>
-                                <DetailCard contact={contact} className={classes.hide} handleContactClick={handleCardClose} />
+                                <DetailCard contact={props.activeContact} editable={props.editable} handleEdit={props.handleEdit} handleSave={props.handleSave} />
+
                             </Hidden> : <></>}
                     </React.Fragment>
                 )

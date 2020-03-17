@@ -31,9 +31,10 @@ const CommonStyle = (theme) => {
             color: "rgba(255,255,255,1)"
         },
         button: {
+            minWidth: "80px",
+            maxWidth: "120px",
             textTransform: "none",
-            minWidth: "150px",
-            maxWidth: "150px",
+            fontSize: "110%",
             whiteSpace: "nowrap",
             minHeight: "48px",
             [theme.breakpoints.down("sm")]: {
@@ -43,9 +44,26 @@ const CommonStyle = (theme) => {
                 borderRadius: "50%"
             }
         },
+        btnEdit: {
+            background: "yellow",
+            color: "black",
+            position: "absolute",
+            border: "3px dashed white",
+            right: "8%"
+        },
+        notEditable: {
+            color: "black !important",
+            border: "none !important",
+            background: "transparent",
+            fontSize: "larger"
+        },
+        editable: {
+            padding: "0px 4px",
+            fontSize: "larger"
+        },
         detailCard: {
             textAlign: "left",
-            padding: "32px", 
+            padding: "32px",
             [theme.breakpoints.up("md")]: {
                 marginLeft: "32px"
             }
@@ -61,6 +79,7 @@ const CommonStyle = (theme) => {
             marginLeft: theme.spacing(1),
             flex: 1
         },
+
         textWhite: {
             color: "rgba(255,255,255,0.9)"
         },
@@ -80,7 +99,7 @@ const CommonStyle = (theme) => {
                 duration: theme.transitions.duration.leavingScreen
             }),
             background: "white",
-           
+
         },
         appBarShift: {
             marginLeft: drawerWidth,
@@ -137,18 +156,18 @@ const CommonStyle = (theme) => {
                 position: "absolute"
             }
         },
-        removePadding:{
+        removePadding: {
             [theme.breakpoints.down('xs')]: {
-                padding:"20px 0px !important",
+                padding: "20px 0px !important",
             }
         },
-        innerContent:{
-            padding:"auto 0px",
+        innerContent: {
+            padding: "auto 0px",
             [theme.breakpoints.up('sm')]: {
                 paddingLeft: "32px"
             },
-             [theme.breakpoints.down('sm')]: {
-                padding:"auto 0px auto",
+            [theme.breakpoints.down('sm')]: {
+                padding: "auto 0px auto",
             }
         },
         content: {
