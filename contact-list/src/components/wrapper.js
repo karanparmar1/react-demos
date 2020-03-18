@@ -14,7 +14,7 @@ import SearchBar from "./SearchBar";
 import SideDrawer from "./SideDrawer";
 import CommonStyle from "./CommonStyle";
 
-const orginalData = LocalData();
+const originalData = LocalData();
 let localData = LocalData();
 
 export default function Wrapper() {
@@ -26,8 +26,7 @@ export default function Wrapper() {
   const [editable, setEditable] = React.useState(false);
   const [activeContact, setActiveContact] = React.useState({});
   const [data, setData] = React.useState(localData);
-  const [search, setSearch] = React.useState("");
-  const [enableDelete,setEnableDelete]=React.useState(false);
+  const [search,setSearch] = React.useState(""); 
   const searchFilter = search => item =>item.fullname.toLowerCase().includes(search.toLowerCase())
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -38,30 +37,27 @@ export default function Wrapper() {
   };
 
   const handleCheckedChange = (changedContact) => {
-    localData.forEach(contact => {
-      if (contact.id === changedContact.id) {
-        contact.checked = !contact.checked;
-      }
-    
+    let temp = data;
+   temp.forEach(item => {
+       item.checked = (item.id === changedContact.id) ?!changedContact.checked:item.checked;
     });
-    setData(localData);
-    setEnableDelete(data.some(item=>item.checked));
-  }
-
-  const handleDelete = () => {
-    localData = localData.filter(item => !item.checked);
-    if (activeContact.checked) { setActiveContact({}) }
-    setData(localData);
+    setData([...temp]);
   }
 
   const handleSelectAll = (selectAll) => {
-    let tempData=data;
-    tempData.forEach(contact => {
+  let temp=data;
+  temp.forEach(contact => {
       contact.checked = selectAll
     })
-    setData(tempData);
-    setEnableDelete(data.some(item=>item.checked));
+    setData([...temp]);
   };
+
+  const handleDelete = () => {
+    localData =localData.filter(item => !item.checked);
+    setData([...localData]);
+    if (activeContact.checked) { setActiveContact({}) }
+    setSearch("");
+  }
 
   const handleContactClick = (clickedContact) => {
     setActiveContact(clickedContact);
@@ -69,8 +65,9 @@ export default function Wrapper() {
   }
 
   const onChange = (e) => {
-    //setSearch(e.target.value);
-    setData(localData.filter(searchFilter(e.target.value)))
+    setActiveContact({});
+    setData([...localData.filter(searchFilter(e.target.value))]);
+    setSearch(e.target.value);
   }
 
   const handleEdit = () => {
@@ -81,10 +78,11 @@ export default function Wrapper() {
     console.dir(contact);
     setEditable(false);
   }
+
   React.useEffect(() => {
-    // setData(localData)
-    //setEnableDelete(false)
+    console.log("Rendered");
   });
+
   return (
 
     <div className={classes.root}>
@@ -136,12 +134,12 @@ export default function Wrapper() {
             <Grid container item xs={12} spacing={6} className={classes.innerContent} >
 
               {/* SearchBar */}
-              <SearchBar onChange={onChange} enableDelete={enableDelete} handleDelete={handleDelete} data={data} />
+              <SearchBar search={search} onChange={onChange}  handleDelete={handleDelete} data={data} />
               {/* SearchBar Ends ; Wrapper for List starts here*/}
 
               <Grid container item xs={12} className={clsx(classes.removePadding)}>
                 <Grid item xs={12} md >
-                  <ContactList search={search}  data={data} activeContact={activeContact} editable={editable} handleContactClick={handleContactClick} handleCheckedChange={handleCheckedChange} handleSelectAll={handleSelectAll} handleEdit={handleEdit} handleSave={handleSave} />
+                  <ContactList  data={data} activeContact={activeContact} editable={editable} handleContactClick={handleContactClick} handleCheckedChange={handleCheckedChange} handleSelectAll={handleSelectAll} handleEdit={handleEdit} handleSave={handleSave} />
                 </Grid>
                 <Hidden smDown>
                   <Grid container item xs={12} md>

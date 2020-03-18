@@ -27,7 +27,6 @@ const ContactList = (props) => {
     const [selectAll, setSelectAll] = React.useState(false);
     const [checkedChanged, setCheckedChanged] = React.useState(false);
 
-
     React.useEffect(() => { setSelectAll(props.data.every(contact => contact.checked)); });
     return (
         <List style={{ flexGrow: 1 }} disablePadding={true}>
@@ -40,16 +39,16 @@ const ContactList = (props) => {
             </ListItem>
 
             {
-                props.data.map((contact, index) =>
+                props.data.length?props.data.map((contact, index) =>
                     <React.Fragment key={index}>
-                        <ListItem selected={props.activeContact.id === contact.id} onClick={() => { setSelectedContact(contact); props.handleContactClick(contact) }} dense button key={index}>
+                        <ListItem selected={props.activeContact.id === contact.id} onClick={() => { setSelectedContact(contact); props.handleContactClick(contact); }} dense button key={index}>
                             <ListItemIcon >
                                 <Checkbox
                                     edge="start"
                                     disableRipple
                                     color="primary"
                                     checked={contact.checked}
-                                    onClick={(e) => { setCheckedChanged(!checkedChanged); props.handleCheckedChange(contact); e.stopPropagation(); }}
+                                    onClick={(e) => {  props.handleCheckedChange(contact); e.stopPropagation(); }}
                                 />
                             </ListItemIcon>
                             <ListItemAvatar>
@@ -61,14 +60,17 @@ const ContactList = (props) => {
                             <ListItemText primary={<h4 style={{ lineHeight: "1", display: 'flex', justifyContent: "center" }}>{contact.company}</h4>} />
 
                         </ListItem>
+
                         {(selectedContact.id === contact.id) ?
                             <Hidden mdUp>
                                 <DetailCard contact={props.activeContact} editable={props.editable} handleEdit={props.handleEdit} handleSave={props.handleSave} />
+                            </Hidden> : <></>
+                        }
 
-                            </Hidden> : <></>}
                     </React.Fragment>
+                    
                 )
-
+                :<h3 style={{color:"red"}}>NO CONTACTS FOUND !</h3>
             }
 
         </List>

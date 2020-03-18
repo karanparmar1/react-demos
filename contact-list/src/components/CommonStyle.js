@@ -51,15 +51,13 @@ const CommonStyle = (theme) => {
             border: "3px dashed white",
             right: "8%"
         },
-        notEditable: {
+       
+        contactField: { 
+            position:"relative",
+            top:"-4px",
             color: "black !important",
-            border: "none !important",
-            background: "transparent",
-            fontSize: "larger"
-        },
-        editable: {
-            padding: "0px 4px",
-            fontSize: "larger"
+            padding: "0px 3px", 
+            fontSize: "larger",
         },
         detailCard: {
             textAlign: "left",

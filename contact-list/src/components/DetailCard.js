@@ -25,13 +25,14 @@ const DetailCard = ({ contact, editable, handleEdit, handleSave }) => {
     const [state, setState] = React.useState(contact);
     let textBox = "";
     const handleChangeInput = (e) => {
-
-        textBox += e.target.value;
-        setState({
+        console.log(state);
+        setState({...state,
             [e.target.name]: e.target.value
         });
     }
-
+    React.useEffect(()=>
+      {console.log(contact.fullname)}
+    );
     return (
         contact.id !== undefined && contact.id !== null ?
             <Grid container item xs={12} justify="center" className={`${classes.detailCard} ${classes.bgSilver}`} >
@@ -62,16 +63,23 @@ const DetailCard = ({ contact, editable, handleEdit, handleSave }) => {
                     <Grid container item xs={12}>
                         <Grid item xs={4}>Full Name</Grid>
                         <Grid item xs={8} className="text-black">
-                            <Input type="text" className={editable ? classes.editable : classes.notEditable}
-                                defaultValue={editable ? state.fullname : contact.fullname} name="fullname" onChange={handleChangeInput}
-                                disabled={!editable} readOnly={!editable}
+                            <Input disableUnderline={!editable} type="text" className={classes.contactField}
+                                value={state.fullname? state.fullname :contact.fullname} name="fullname" onChange={handleChangeInput}
+                                disabled={!editable}
                             />
 
                         </Grid>
                     </Grid>
                     <Grid container item xs={12}>
                         <Grid item xs={4}>Email</Grid>
-                        <Grid item xs={8} className="text-black">{contact.email}</Grid>
+                        <Grid item xs={8} className="text-black">
+                            
+                            <Input disableUnderline={!editable} type="text" className={classes.contactField}
+                                value={state.email? state.email :contact.email} name="email" onChange={handleChangeInput}
+                                disabled={!editable}
+                            />
+                            
+                            {contact.email}</Grid>
                     </Grid>
                     <Grid container item xs={12}>
                         <Grid item xs={4}>Phone</Grid>
