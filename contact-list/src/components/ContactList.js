@@ -23,87 +23,111 @@ function stringToColor(string) {
 const ContactList = (props) => {
     const theme = useTheme();
     const classes = CommonStyle(theme);
-    let [selectedContact, setSelectedContact] = React.useState({});
     const [selectAll, setSelectAll] = React.useState(false);
     const [newContactName, setNewContactName] = React.useState("");
     const handleOnChange = (e) => { setNewContactName(e.target.value); }
-
+    const saveContact = (e) => {
+        if (e.keyCode === 13 && newContactName.trim().length) {
+            props.addNewContact({
+                id: props.data.length ? props.data.reduce((max, next) => Math.max(max, next.id), props.data[0].id) + 1 : 0,
+                fullname: newContactName,
+                checked: false
+            });
+            setNewContactName("");
+        }
+    }
     React.useEffect(() => { setSelectAll(props.data.every(contact => contact.checked)); });
     return (
         <List style={{ flexGrow: 1 }} disablePadding={true}>
-            <ListItem className="bg-silver" >
+            <ListItem className="bg-silver">
                 <IconButton edge="start" disabled={props.wannaCreateNew} onClick={() => { props.handleSelectAll(!selectAll); setSelectAll(!selectAll); }}>
                     {selectAll ? <IndeterminateCheckBox /> : <AddBox />}
                 </IconButton>
                 <ListItemText primary="Basic Info" style={{ marginLeft: "32px" }} />
-                <ListItemText primary="Company" style={{ display: 'flex', justifyContent: "center" }} />
+                <Hidden smDown> <ListItemText primary="Email" style={{ display: 'flex', justifyContent: "flex-start" }} /> </Hidden>
             </ListItem>
             {
                 props.wannaCreateNew ?
-                    <ListItem>
-                        <ListItemAvatar>
-                            <Fab color="primary"
-                                onClick={() => {
-                                    props.addNewContact({ id: props.data.length, fullname: newContactName, checked: false });
-                                    setNewContactName("");
-                                }}
-                                disabled={!newContactName.trim().length}
-                            >
-                                <DoneOutline />
-                            </Fab>
-                        </ListItemAvatar>
+                    <form onSubmit={saveContact}>
+                        <ListItem>
+                            <ListItemAvatar>
+                                <Fab type="submit" color="primary" size="medium"
+                                    onClick={() => {
+                                        props.addNewContact({
+                                            id: props.data.length ? props.data.reduce((max, next) => Math.max(max, next.id), props.data[0].id) + 1 : 0,
+                                            fullname: newContactName,
+                                            checked: false
+                                        });
+                                        setNewContactName("");
+                                    }}
+                                    disabled={!newContactName.trim().length}
+                                >
+                                    <DoneOutline />
+                                </Fab>
+                            </ListItemAvatar>
 
-                        <ListItemText primary={
-                            <TextField required value={newContactName} onChange={handleOnChange} label="Full Name"
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <AccountCircle />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                placeholder="Peter Parker"
-                                autoFocus
-                            />
-                        } style={{ margin: "10px 20px" }} />
-                        <ListItemSecondaryAction>
-                            <Fab color="secondary" size="medium" onClick={() => props.handleAdd(false)}><Close /></Fab>
-                        </ListItemSecondaryAction>
-                    </ListItem>
+                            <ListItemText primary={
+                                <TextField required value={newContactName} label="Full Name"
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <AccountCircle />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    helperText="max 20 chars"
+                                    // onChange={handleOnChange}
+                                    onKeyDown={saveContact}
+                                    placeholder="Peter Parker"
+                                    autoFocus required
+                                    name="fullname" ref="fullname"
+                                />
+                            } style={{ margin: "10px 20px" }} />
+                            <ListItemSecondaryAction>
+                                <Fab color="secondary" size="medium" onClick={() => props.handleAdd(false)}><Close /></Fab>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    </form>
                     : <></>
             }
             {
-                props.data.length ? props.data.map((contact, index) =>
-                    <React.Fragment key={index}>
-                        <ListItem selected={props.activeContact.id === contact.id} disabled={props.wannaCreateNew} onClick={() => { setSelectedContact(contact); props.handleContactClick(contact); }} dense button key={index}>
-                            <ListItemIcon >
-                                <Checkbox
-                                    edge="start"
-                                    disableRipple
-                                    color="primary"
-                                    checked={contact.checked}
-                                    onClick={(e) => { props.handleCheckedChange(contact); e.stopPropagation(); }}
+                props.data.length ?
+                    props.data.map((contact, index) =>
+                        <React.Fragment key={index}>
+                            <ListItem selected={props.activeContact.id === contact.id} disabled={props.wannaCreateNew}
+                                onClick={() => { props.handleContactClick(contact); }} dense button key={index}>
+                                <ListItemIcon className={classes.Checkbox}>
+                                    <Checkbox
+                                        edge="start"
+                                        disableRipple
+                                        color="primary"
+                                        checked={contact.checked}
+                                        onClick={(e) => { props.handleCheckedChange(contact); e.stopPropagation(); }}
+                                    />
+                                </ListItemIcon>
+                                <ListItemAvatar>
+                                    <Avatar src={contact.image} alt={contact.fullname} className={classes.large} style={{ background: stringToColor(contact.fullname) }}>
+                                        {contact.fullname.split(" ").map((n, i) => i < 2 ? n[0] : "")}
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText
+                                    primary={<h3 style={{ lineHeight: "1", margin: "6px 0px", maxWidth: "10em", overflowWrap: "anywhere", }}>{contact.fullname}</h3>}
+                                    secondary={<Hidden mdUp>{contact.email ? <small style={{ fontWeight: "600" }}>{contact.email}</small> : <small>&nbsp;</small>}</Hidden>}
+                                    className={classes.basicInfo}
                                 />
-                            </ListItemIcon>
-                            <ListItemAvatar>
-                                <Avatar src={contact.image} alt={contact.fullname} className={classes.large} style={{ background: stringToColor(contact.fullname) }}>
-                                    {contact.fullname.split(" ").map((n, i) => i < 2 ? n[0].toUpperCase() : "")}
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary={<h3 style={{ lineHeight: "1", margin: "12px auto" }} >{contact.fullname}</h3>} secondary={contact.email} />
-                            <ListItemText primary={<h4 style={{ lineHeight: "1", display: 'flex', justifyContent: "center" }}>{contact.company}</h4>} />
+                                <Hidden smDown><ListItemText primary={<h4>{contact.email}</h4>} /> </Hidden>
 
-                        </ListItem>
+                            </ListItem>
 
-                        {(selectedContact.id === contact.id) ?
-                            <Hidden mdUp>
-                                <DetailCard contact={props.activeContact} editable={props.editable} handleEdit={props.handleEdit} handleSave={props.handleSave} />
-                            </Hidden> : <></>
-                        }
+                            {(props.activeContact.id === contact.id) ?
+                                <Hidden lgUp>
+                                    <DetailCard contact={props.activeContact} editable={props.editable} handleEdit={props.handleEdit} handleSave={props.handleSave} />
+                                </Hidden> : <></>
+                            }
 
-                    </React.Fragment>
+                        </React.Fragment>
 
-                )
+                    )
                     : <h3 style={{ color: "red" }}>NO CONTACTS FOUND !</h3>
             }
 

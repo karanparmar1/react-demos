@@ -12,7 +12,10 @@ const CommonStyle = (theme) => {
         large: {
             width: theme.spacing(6),
             height: theme.spacing(6),
-            marginRight: theme.spacing(2)
+            marginRight: theme.spacing(2),
+            [theme.breakpoints.down("xs")]: {
+                marginRight: 0,
+            }
         },
         larger: {
             width: theme.spacing(10),
@@ -44,14 +47,29 @@ const CommonStyle = (theme) => {
                 borderRadius: "50%"
             }
         },
+        Checkbox: {
+            [theme.breakpoints.down("xs")]: {
+                minWidth: "24px"
+            }
+        },
         btnEdit: {
-            background: "yellow",
             color: "black",
+            background:"white",
             position: "absolute",
-            border: "3px dashed white",
             right: "8%"
         },
-
+        basicInfo:{
+            flex: "1 0 auto",
+            // [theme.breakpoints.only("sm")]:{
+            //     overflow:"scroll",
+            //     maxWidth:"300px"
+            // },
+            [theme.breakpoints.down(320)]:{
+                overflow:"scroll",
+                maxWidth:"130px",
+                overflowWrap:"anywhere"
+            }
+        },
         contactField: {
             background: "transparent",
             position: "relative",
@@ -63,7 +81,7 @@ const CommonStyle = (theme) => {
         detailCard: {
             textAlign: "left",
             padding: "32px",
-            [theme.breakpoints.up("md")]: {
+            [theme.breakpoints.up("lg")]: {
                 marginLeft: "32px"
             }
         },
