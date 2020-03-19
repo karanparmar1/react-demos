@@ -12,7 +12,10 @@ const CommonStyle = (theme) => {
         large: {
             width: theme.spacing(6),
             height: theme.spacing(6),
-            marginRight: theme.spacing(2)
+            marginRight: theme.spacing(2),
+            [theme.breakpoints.down("xs")]: {
+                marginRight: 0,
+            }
         },
         larger: {
             width: theme.spacing(10),
@@ -42,16 +45,43 @@ const CommonStyle = (theme) => {
                 maxWidth: "44px",
                 minHeight: "44px",
                 borderRadius: "50%"
+            },
+            [theme.breakpoints.down(321)]: {
+                "&:parent": {
+                    background: "red !important"
+                },
+                minWidth: "44px",
+                maxWidth: "44px",
+                transform: "scale(0.8)",
+            }
+        },
+        Checkbox: {
+            [theme.breakpoints.down("xs")]: {
+                minWidth: "24px"
             }
         },
         btnEdit: {
-            background: "yellow",
             color: "black",
+            background: "white",
             position: "absolute",
-            border: "3px dashed white",
-            right: "8%"
+            right: "8%",
+            transition: "0.3s all linear",
+            "&:hover": {
+                transform: "scale(1.1)"
+            }
         },
-
+        basicInfo: {
+            flex: "1 0 auto",
+            // [theme.breakpoints.only("sm")]:{
+            //     overflow:"scroll",
+            //     maxWidth:"300px"
+            // },
+            [theme.breakpoints.down(320)]: {
+                overflow: "scroll",
+                maxWidth: "130px",
+                overflowWrap: "anywhere"
+            }
+        },
         contactField: {
             background: "transparent",
             position: "relative",
@@ -63,8 +93,15 @@ const CommonStyle = (theme) => {
         detailCard: {
             textAlign: "left",
             padding: "32px",
-            [theme.breakpoints.up("md")]: {
+            [theme.breakpoints.up("lg")]: {
                 marginLeft: "32px"
+            }
+        },
+        newContactField: {
+            marginRight: "10px",
+            marginTop: "10px",
+            [theme.breakpoints.down(321)]: {
+                minWidth: "124px"
             }
         },
         searchbar: {
@@ -72,13 +109,21 @@ const CommonStyle = (theme) => {
             display: "flex",
             borderRadius: 25,
             padding: "0 12px 0",
-            minWidth: "120px"
+            minWidth: "120px",
+            [theme.breakpoints.down(321)]: {
+                transform: "scale(0.9)"
+            }
         },
         input: {
             marginLeft: theme.spacing(1),
             flex: 1
         },
-
+        heading: {
+            [theme.breakpoints.down(321)]: {
+                paddingRight: "0px",
+                transform: "scale(0.8)"
+            }
+        },
         textWhite: {
             color: "rgba(255,255,255,0.9)"
         },

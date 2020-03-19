@@ -46,12 +46,12 @@ const DetailCard = ({ contact, editable, handleEdit, handleSave }) => {
                     <Grid container item xs={12} justify="center">
                         <Grid item>
                             <Avatar src={contact.image} className={classes.larger} style={{ background: stringToColor(contact.fullname) }}>
-                                {contact.fullname.split(" ").map((n, i) => i < 2 ? n[0].toUpperCase() : "")}
+                                {contact.fullname.split(" ").map((n, i) => i < 2 ? n[0] : "")}
                             </Avatar>
                         </Grid>
                         <Grid container item style={{ textAlign: "center" }}>
                             <Grid item xs={12}>
-                                <h1 style={{ display: "inline", lineHeight: 1, color: "black" }}>
+                                <h1 style={{ lineHeight: 1, color: "black", maxWidth: "100%", overflowWrap: "anywhere", }}>
                                     {contact.fullname}
                                 </h1>
                             </Grid>
@@ -63,8 +63,9 @@ const DetailCard = ({ contact, editable, handleEdit, handleSave }) => {
                     <Grid container item xs={12}>
                         <Grid item xs={4}>Full Name</Grid>
                         <Grid item xs={8} className="text-black">
+
                             <Input disableUnderline={!editable} type="text" className={classes.contactField}
-                                value={state.fullname ? state.fullname : contact.fullname} name="fullname" onChange={handleChangeInput}
+                                value={/*state.fullname ? state.fullname :*/ contact.fullname} name="fullname" onChange={handleChangeInput}
                                 disabled={!editable}
                             />
 
@@ -75,11 +76,11 @@ const DetailCard = ({ contact, editable, handleEdit, handleSave }) => {
                         <Grid item xs={8} className="text-black">
 
                             <Input disableUnderline={!editable} type="text" className={classes.contactField}
-                                value={state.email ? state.email : contact.email} name="email" onChange={handleChangeInput}
+                                value={/*state.email ? state.email :*/ contact.email} name="email" onChange={handleChangeInput}
                                 disabled={!editable}
                             />
 
-                            {contact.email}</Grid>
+                        </Grid>
                     </Grid>
                     <Grid container item xs={12}>
                         <Grid item xs={4}>Phone</Grid>
@@ -101,8 +102,9 @@ const DetailCard = ({ contact, editable, handleEdit, handleSave }) => {
 
 
             </Grid>
-            : <Grid container item xs={12} justify="center" className={`${classes.detailCard} ${classes.bgSilver}`} >
-                "Contact Details will be displayed over here"</Grid>
+            : <></>
+        // : <Grid container item xs={12} justify="center" className={`${classes.detailCard} ${classes.bgSilver}`} >
+        //     "Contact Details will be displayed over here"</Grid>
     )
 }
 

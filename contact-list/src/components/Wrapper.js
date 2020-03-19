@@ -68,7 +68,6 @@ export default function Wrapper() {
   }
 
   const addNewContact = (contact) => {
-
     localData.push(contact);
     setData([...localData]);
     setWannaCreateNew(false);
@@ -90,7 +89,6 @@ export default function Wrapper() {
     setSearch(e.target.value);
   }
 
-
   const handleEdit = () => {
     setEditable(true);
   }
@@ -105,7 +103,6 @@ export default function Wrapper() {
   });
 
   return (
-
     <div className={classes.root}>
       {/* <CssBaseline /> */}
       <SideDrawer open={open} handleDrawerOpen={handleDrawerOpen} handleDrawerClose={handleDrawerClose} />
@@ -133,7 +130,7 @@ export default function Wrapper() {
         <div className={classes.toolbar} />
         <Grid container spacing={5} >
           {/* Heading-Contact starts here */}
-          <Grid container item xs={12} alignItems="center" >
+          <Grid container item xs={12} alignItems="center" className={classes.heading} >
             <Grid item xs={3} sm={2} md={1} style={{ maxWidth: "48px", marginRight: "16px" }}>
               <i className="fa fa-address-book fa-flip-horizontal fa-3x icon-gradient" ></i>
             </Grid>
@@ -159,15 +156,19 @@ export default function Wrapper() {
               {/* SearchBar Ends ; Wrapper for List starts here*/}
 
               <Grid container item xs={12} className={clsx(classes.removePadding)}>
-                <Grid item xs={12} md >
+                <Grid item xs={12} lg >
+
                   <ContactList data={data} activeContact={activeContact} editable={editable}
                     handleContactClick={handleContactClick} handleCheckedChange={handleCheckedChange}
                     handleSelectAll={handleSelectAll} handleAdd={handleAdd} handleEdit={handleEdit} handleSave={handleSave}
-                    wannaCreateNew={wannaCreateNew} addNewContact={addNewContact} />
+                    wannaCreateNew={wannaCreateNew} addNewContact={addNewContact}
+                  />
                 </Grid>
-                <Hidden smDown>
-                  <Grid container item xs={12} md>
-                    <DetailCard contact={activeContact} editable={editable} handleEdit={handleEdit} handleSave={handleSave} />
+                <Hidden mdDown>
+                  <Grid container item xs={12} lg>
+
+                    <DetailCard contact={activeContact} editable={editable} handleEdit={handleEdit} handleSave={handleSave}
+                    />
                   </Grid>
                 </Hidden>
               </Grid>

@@ -29,7 +29,7 @@ const SearchBar = (props) => {
                 </div>
             </Grid>
             <Grid container justify="center" item xs={4} lg>
-                <Grid item xs>
+                <Grid item xs={6}>
                     <Button
                         variant="contained"
                         className={clsx(classes.button, classes.bgGradient)}
@@ -39,7 +39,7 @@ const SearchBar = (props) => {
                         onClick={() => props.handleAdd(true)}
                     ><Add /><Hidden smDown> &nbsp;Add </Hidden></Button>
                 </Grid>
-                <Grid item xs>
+                <Grid item xs={6}>
                     <Button
                         variant="contained"
                         className={clsx(classes.button, classes.bgGradient)}
