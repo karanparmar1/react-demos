@@ -45,6 +45,14 @@ const CommonStyle = (theme) => {
                 maxWidth: "44px",
                 minHeight: "44px",
                 borderRadius: "50%"
+            },
+            [theme.breakpoints.down(321)]: {
+                "&:parent": {
+                    background: "red !important"
+                },
+                minWidth: "44px",
+                maxWidth: "44px",
+                transform: "scale(0.8)",
             }
         },
         Checkbox: {
@@ -54,20 +62,21 @@ const CommonStyle = (theme) => {
         },
         btnEdit: {
             color: "black",
-            background:"white",
-            position: "absolute",
-            right: "8%"
+            background: "white",
+            "& :hover": {
+                fontWeight: "600"
+            }
         },
-        basicInfo:{
+        basicInfo: {
             flex: "1 0 auto",
             // [theme.breakpoints.only("sm")]:{
             //     overflow:"scroll",
             //     maxWidth:"300px"
             // },
-            [theme.breakpoints.down(320)]:{
-                overflow:"scroll",
-                maxWidth:"130px",
-                overflowWrap:"anywhere"
+            [theme.breakpoints.down(320)]: {
+                overflow: "scroll",
+                maxWidth: "130px",
+                overflowWrap: "anywhere"
             }
         },
         contactField: {
@@ -85,18 +94,42 @@ const CommonStyle = (theme) => {
                 marginLeft: "32px"
             }
         },
+        newContactField: {
+            marginTop: "10px",
+            width:"46%",
+            minWidth: "45%",
+            marginLeft:"2.4%",
+            [theme.breakpoints.down("xs")]: {
+                minWidth: "94%",
+            }
+        },
         searchbar: {
             background: "rgb(230, 230, 230)",
             display: "flex",
             borderRadius: 25,
             padding: "0 12px 0",
-            minWidth: "120px"
+            minWidth: "120px",
+
+            [theme.breakpoints.down(321)]: {
+                transform: "scale(0.9)"
+            }
         },
         input: {
+            background: "transparent",
             marginLeft: theme.spacing(1),
-            flex: 1
-        },
+            flex: 1,
+            transition: "all 0.5s linear",
+            "& :focus": {
+                fontWeight: "600"
+            }
 
+        },
+        heading: {
+            [theme.breakpoints.down(321)]: {
+                paddingRight: "0px",
+                transform: "scale(0.8)"
+            }
+        },
         textWhite: {
             color: "rgba(255,255,255,0.9)"
         },

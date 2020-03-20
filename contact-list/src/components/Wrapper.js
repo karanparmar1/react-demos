@@ -28,13 +28,12 @@ export default function Wrapper() {
   const [search, setSearch] = React.useState("");
   const [wannaCreateNew, setWannaCreateNew] = React.useState(false);
   const searchFilter = search => item => item.fullname.toLowerCase().includes(search.toLowerCase())
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
 
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const handleDrawerOpen = () => setOpen(true);
+
+  const handleDrawerClose = () => setOpen(false);
+
+  const setActive = (contact) => setActiveContact(contact);
 
   const handleCheckedChange = (changedContact) => {
     let temp = data;
@@ -71,7 +70,7 @@ export default function Wrapper() {
     localData.push(contact);
     setData([...localData]);
     setWannaCreateNew(false);
-    setActiveContact(contact)
+    setActiveContact(contact);
   }
 
   const handleContactClick = (clickedContact) => {
@@ -130,7 +129,7 @@ export default function Wrapper() {
         <div className={classes.toolbar} />
         <Grid container spacing={5} >
           {/* Heading-Contact starts here */}
-          <Grid container item xs={12} alignItems="center" >
+          <Grid container item xs={12} alignItems="center" className={classes.heading} >
             <Grid item xs={3} sm={2} md={1} style={{ maxWidth: "48px", marginRight: "16px" }}>
               <i className="fa fa-address-book fa-flip-horizontal fa-3x icon-gradient" ></i>
             </Grid>
@@ -158,7 +157,7 @@ export default function Wrapper() {
               <Grid container item xs={12} className={clsx(classes.removePadding)}>
                 <Grid item xs={12} lg >
 
-                  <ContactList data={data} activeContact={activeContact} editable={editable}
+                  <ContactList data={data} activeContact={activeContact} editable={editable} setActive={setActive}
                     handleContactClick={handleContactClick} handleCheckedChange={handleCheckedChange}
                     handleSelectAll={handleSelectAll} handleAdd={handleAdd} handleEdit={handleEdit} handleSave={handleSave}
                     wannaCreateNew={wannaCreateNew} addNewContact={addNewContact}
@@ -167,7 +166,7 @@ export default function Wrapper() {
                 <Hidden mdDown>
                   <Grid container item xs={12} lg>
 
-                    <DetailCard contact={activeContact} editable={editable} handleEdit={handleEdit} handleSave={handleSave}
+                    <DetailCard contact={activeContact} setActive={setActive} editable={editable} handleEdit={handleEdit} handleSave={handleSave}
                     />
                   </Grid>
                 </Hidden>

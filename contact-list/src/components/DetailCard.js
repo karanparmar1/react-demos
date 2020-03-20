@@ -1,6 +1,6 @@
 import React from 'react';
-import { Edit, Save } from "@material-ui/icons";
-import { Grid, Avatar, Fab, Input } from "@material-ui/core";
+import { Edit, Save, ArrowBack } from "@material-ui/icons";
+import { Grid, Avatar, Fab, Input, IconButton, Tooltip } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import CommonStyle from "./CommonStyle";
 
@@ -19,7 +19,7 @@ function stringToColor(string) {
     return color;
 }
 
-const DetailCard = ({ contact, editable, handleEdit, handleSave }) => {
+const DetailCard = ({ contact, editable, handleEdit, handleSave, setActive }) => {
     const theme = useTheme();
     const classes = CommonStyle(theme);
     const [state, setState] = React.useState(contact);
@@ -37,21 +37,29 @@ const DetailCard = ({ contact, editable, handleEdit, handleSave }) => {
         contact.id !== undefined && contact.id !== null ?
             <Grid container item xs={12} justify="center" className={`${classes.detailCard} ${classes.bgSilver}`} >
 
-                {!editable ?
-                    <Grid item xs={12} style={{ color: "red", textAlign: "right" }}>
-                        <Fab size="medium" className={classes.btnEdit} onClick={() => handleEdit()}><Edit /></Fab>
-                    </Grid> : <></>
-                }
+                <Grid container item xs={12} justify="space-between">
+                    <Grid item xs style={{ textAlign: "left" }}>
+                        <Tooltip title="Back">
+                            <IconButton variant="extended" color="secondary" style={{ padding: "8px 0px" }} onClick={() => setActive({})}><ArrowBack/>  </IconButton>
+                        </Tooltip>
+                    </Grid>
+                    <Grid item xs style={{ textAlign: "right" }}>  {!editable ?
+                        <Tooltip title="Edit">
+                            <Fab size="medium" variant="extended" className={classes.btnEdit} onClick={() => handleEdit()}><Edit fontSize="small" /> &nbsp;EDIT </Fab>
+                        </Tooltip> : <></>}
+                    </Grid>
+                </Grid>
+
                 <Grid container item spacing={3}>
                     <Grid container item xs={12} justify="center">
                         <Grid item>
-                            <Avatar src={contact.image} className={classes.larger} style={{ background: stringToColor(contact.fullname) }}>
+                            <Avatar src={contact.image} className={classes.larger} style={{ background: stringToColor(contact.id+contact.fullname) }}>
                                 {contact.fullname.split(" ").map((n, i) => i < 2 ? n[0] : "")}
                             </Avatar>
                         </Grid>
                         <Grid container item style={{ textAlign: "center" }}>
                             <Grid item xs={12}>
-                                <h1 style={{lineHeight: 1, color: "black", maxWidth:"100%",overflowWrap:"anywhere",}}>
+                                <h1 style={{ lineHeight: 1, color: "black", maxWidth: "100%", overflowWrap: "anywhere", }}>
                                     {contact.fullname}
                                 </h1>
                             </Grid>

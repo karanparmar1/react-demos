@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from "clsx";
-import { Grid, InputBase, Button, IconButton, Hidden } from "@material-ui/core";
+import { Grid, InputBase, Button, IconButton, Hidden, Tooltip,Zoom } from "@material-ui/core";
 import { Add, Delete, Search } from "@material-ui/icons";
 import { useTheme } from "@material-ui/core/styles";
 import CommonStyle from "./CommonStyle";
@@ -13,7 +13,6 @@ const SearchBar = (props) => {
         <Grid container item xs={12} lg={6} className={clsx(classes.removePadding)}>
             <Grid item xs={8} lg>
                 <div className={classes.searchbar}>
-
                     <InputBase
                         className={classes.input}
                         type="search"
@@ -22,14 +21,15 @@ const SearchBar = (props) => {
                         onChange={props.onChange}
                         disabled={props.wannaCreateNew}
                         style={!props.data.length ? { color: "red" } : {}}
+                       
                     />
-                    <IconButton type="submit" aria-label="search">
+                    <IconButton type="submit" disabled aria-label="search">
                         <Search />
                     </IconButton>
                 </div>
             </Grid>
             <Grid container justify="center" item xs={4} lg>
-                <Grid item xs>
+                <Grid item xs={6}> <Tooltip title="Add Contact" arrow TransitionComponent={Zoom}> 
                     <Button
                         variant="contained"
                         className={clsx(classes.button, classes.bgGradient)}
@@ -37,17 +37,21 @@ const SearchBar = (props) => {
                         fullWidth
                         disabled={props.wannaCreateNew}
                         onClick={() => props.handleAdd(true)}
-                    ><Add /><Hidden smDown> &nbsp;Add </Hidden></Button>
+                    ><Add /><Hidden smDown> &nbsp;Add </Hidden></Button></Tooltip>
                 </Grid>
-                <Grid item xs>
-                    <Button
-                        variant="contained"
-                        className={clsx(classes.button, classes.bgGradient)}
-                        size="large"
-                        fullWidth
-                        onClick={props.handleDelete}
-                        disabled={!props.data.some(item => item.checked) || props.wannaCreateNew}
-                    > <Delete /><Hidden smDown> &nbsp;Delete &nbsp; </Hidden></Button>
+                <Grid item xs={6}>
+                    <Tooltip title="Delete Selected" arrow TransitionComponent={Zoom}>
+                        <span><Button
+                            variant="contained"
+                            className={clsx(classes.button, classes.bgGradient)}
+                            size="large"
+                            fullWidth
+                            onClick={props.handleDelete}
+                            disabled={!props.data.some(item => item.checked) || props.wannaCreateNew}
+                        > <Delete /><Hidden smDown> &nbsp;Delete &nbsp; </Hidden>
+                        </Button>
+                        </span>
+                    </Tooltip>
                 </Grid>
             </Grid>
         </Grid >

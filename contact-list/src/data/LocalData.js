@@ -17,7 +17,7 @@ const LocalData = () => {
             fullname: "Karan Parmar",
             about: "Intern At Zuru Tech India pvt ltd",
             image: "brokenLink.png",
-            email: "k123parmar@gmail",
+            email: "k123parmar@gmail.com",
             phone: "+91 8511918322",
             company: "ZURU Tech India",
             address: "Jivrajpark, Ahmedabad, Gujarat",
