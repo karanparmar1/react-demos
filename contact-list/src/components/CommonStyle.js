@@ -54,8 +54,8 @@ const CommonStyle = (theme) => {
         },
         btnEdit: {
             color: "black",
+            background:"white",
             position: "absolute",
-            border: "3px solid white",
             right: "8%"
         },
         basicInfo:{

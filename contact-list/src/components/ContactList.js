@@ -29,7 +29,7 @@ const ContactList = (props) => {
     const saveContact = (e) => {
         if (e.keyCode === 13 && newContactName.trim().length) {
             props.addNewContact({
-                id: props.data.length ? props.data.reduce((max, next) => Math.max(max, next.id), props.data[0].id) + 1 : props.data.length,
+                id: props.data.length ? props.data.reduce((max, next) => Math.max(max, next.id), props.data[0].id) + 1 : 0,
                 fullname: newContactName,
                 checked: false
             });
@@ -44,46 +44,50 @@ const ContactList = (props) => {
                     {selectAll ? <IndeterminateCheckBox /> : <AddBox />}
                 </IconButton>
                 <ListItemText primary="Basic Info" style={{ marginLeft: "32px" }} />
-                <Hidden smDown> <ListItemText primary="Email" style={{ display: 'flex', justifyContent: "center" }} /> </Hidden>
+                <Hidden smDown> <ListItemText primary="Email" style={{ display: 'flex', justifyContent: "flex-start" }} /> </Hidden>
             </ListItem>
             {
                 props.wannaCreateNew ?
-                    <ListItem>
-                        <ListItemAvatar>
-                            <Fab color="primary" size="medium"
-                                onClick={() => {
-                                    props.addNewContact({
-                                        id: props.data.length ? props.data.reduce((max, next) => Math.max(max, next.id), props.data[0].id) + 1 : props.data.length,
-                                        fullname: newContactName,
-                                        checked: false
-                                    });
-                                    setNewContactName("");
-                                }}
-                                disabled={!newContactName.trim().length}
-                            >
-                                <DoneOutline />
-                            </Fab>
-                        </ListItemAvatar>
+                    <form onSubmit={saveContact}>
+                        <ListItem>
+                            <ListItemAvatar>
+                                <Fab type="submit" color="primary" size="medium"
+                                    onClick={() => {
+                                        props.addNewContact({
+                                            id: props.data.length ? props.data.reduce((max, next) => Math.max(max, next.id), props.data[0].id) + 1 : 0,
+                                            fullname: newContactName,
+                                            checked: false
+                                        });
+                                        setNewContactName("");
+                                    }}
+                                    disabled={!newContactName.trim().length}
+                                >
+                                    <DoneOutline />
+                                </Fab>
+                            </ListItemAvatar>
 
-                        <ListItemText primary={
-                            <TextField required value={newContactName} label="Full Name"
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <AccountCircle />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                onChange={handleOnChange}
-                                onKeyDown={saveContact}
-                                placeholder="Peter Parker"
-                                autoFocus required
-                            />
-                        } style={{ margin: "10px 20px" }} />
-                        <ListItemSecondaryAction>
-                            <Fab color="secondary" size="medium" onClick={() => props.handleAdd(false)}><Close /></Fab>
-                        </ListItemSecondaryAction>
-                    </ListItem>
+                            <ListItemText primary={
+                                <TextField required value={newContactName} label="Full Name"
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <AccountCircle />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    helperText="max 20 chars"
+                                    // onChange={handleOnChange}
+                                    onKeyDown={saveContact}
+                                    placeholder="Peter Parker"
+                                    autoFocus required
+                                    name="fullname" ref="fullname"
+                                />
+                            } style={{ margin: "10px 20px" }} />
+                            <ListItemSecondaryAction>
+                                <Fab color="secondary" size="medium" onClick={() => props.handleAdd(false)}><Close /></Fab>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                    </form>
                     : <></>
             }
             {
@@ -107,7 +111,7 @@ const ContactList = (props) => {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={<h3 style={{ lineHeight: "1", margin: "6px 0px",maxWidth:"10em", overflowWrap: "anywhere", }}>{contact.fullname}</h3>}
+                                    primary={<h3 style={{ lineHeight: "1", margin: "6px 0px", maxWidth: "10em", overflowWrap: "anywhere", }}>{contact.fullname}</h3>}
                                     secondary={<Hidden mdUp>{contact.email ? <small style={{ fontWeight: "600" }}>{contact.email}</small> : <small>&nbsp;</small>}</Hidden>}
                                     className={classes.basicInfo}
                                 />
