@@ -35,6 +35,8 @@ export default function Wrapper() {
 
   const setActive = (contact) => setActiveContact(contact);
 
+  const handleEdit = (editable = true) => setEditable(editable);
+  
   const handleCheckedChange = (changedContact) => {
     let temp = data;
     temp.forEach(item => {
@@ -88,13 +90,15 @@ export default function Wrapper() {
     setSearch(e.target.value);
   }
 
-  const handleEdit = () => {
-    setEditable(true);
-  }
+  const handleUpdate = (updatedContact) => {
+    localData.forEach((item, index) => {
+      if (item.id === updatedContact.id) {
+        localData[index] = updatedContact;
+      }
+    });
+    setData([...localData]);
+    setActiveContact(updatedContact);
 
-  const handleSave = (contact) => {
-    console.dir(contact);
-    setEditable(false);
   }
 
   React.useEffect(() => {
@@ -127,14 +131,14 @@ export default function Wrapper() {
 
       <main className={clsx({ [classes.mainContent]: open }, classes.content)}>
         <div className={classes.toolbar} />
-        <Grid container spacing={5} >
+        <Grid container spacing={5}>
           {/* Heading-Contact starts here */}
-          <Grid container item xs={12} alignItems="center" className={classes.heading} >
-            <Grid item xs={3} sm={2} md={1} style={{ maxWidth: "48px", marginRight: "16px" }}>
+          <Grid container item xs={12} wrap="nowrap" alignItems="center" className={classes.heading} >
+            <Grid item xs style={{ maxWidth: "48px", marginRight: "16px" }}>
               <i className="fa fa-address-book fa-flip-horizontal fa-3x icon-gradient" ></i>
             </Grid>
-            <Grid item xs={9} sm={10} md={11} className="text-left" >
-              <Grid item xs={12}>
+            <Grid item xs className="text-left" >
+              <Grid item xs>
                 <Typography variant="h4" component="span">
                   Contacts </Typography>
               </Grid>
@@ -144,6 +148,7 @@ export default function Wrapper() {
                 </Grid>
               </Hidden>
             </Grid>
+
           </Grid>
           {/* Heading-Contact Ends here */}
           <Grid container item xs={12} justify="center">
@@ -159,14 +164,14 @@ export default function Wrapper() {
 
                   <ContactList data={data} activeContact={activeContact} editable={editable} setActive={setActive}
                     handleContactClick={handleContactClick} handleCheckedChange={handleCheckedChange}
-                    handleSelectAll={handleSelectAll} handleAdd={handleAdd} handleEdit={handleEdit} handleSave={handleSave}
+                    handleSelectAll={handleSelectAll} handleAdd={handleAdd} handleEdit={handleEdit} handleUpdate={handleUpdate}
                     wannaCreateNew={wannaCreateNew} addNewContact={addNewContact}
                   />
                 </Grid>
                 <Hidden mdDown>
                   <Grid container item xs={12} lg>
 
-                    <DetailCard contact={activeContact} setActive={setActive} editable={editable} handleEdit={handleEdit} handleSave={handleSave}
+                    <DetailCard contact={activeContact} setActive={setActive} editable={editable} handleEdit={handleEdit} handleUpdate={handleUpdate}
                     />
                   </Grid>
                 </Hidden>

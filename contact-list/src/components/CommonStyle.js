@@ -1,7 +1,7 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { useTheme, makeStyles } from "@material-ui/core/styles";
 
-const CommonStyle = (theme) => {
-
+const CommonStyle = () => {
+    const theme = useTheme();
     const drawerWidth = 220;
 
     const styles =
@@ -30,9 +30,49 @@ const CommonStyle = (theme) => {
         },
         active: {
             boxShadow: "inset 5px 0 0 0 white",
-            background: "rgba(240,240,240,0.1)",
+            background: "rgba(140, 81, 81, 0.15)",
             color: "rgba(255,255,255,1)"
         },
+        heading: {
+            [theme.breakpoints.down("xs")]: {
+                // paddingRight: "0px",
+                // transform: "scale(0.8)"
+                //textAlign:"center"
+                marginLeft: "50%",
+                transform: "translate(-50%)",
+            }
+        },
+
+        searchbar: {
+            background: "rgb(230, 230, 230)",
+            display: "flex",
+            borderRadius: 25,
+            padding: "0 6px 0 12px",
+            minWidth: "120px",
+            "& :hover": {
+                cursor: "help",
+            },
+            [theme.breakpoints.down(321)]: {
+                transform: "scale(0.8)",
+            }
+
+        },
+        input: {
+            background: "transparent",
+            marginLeft: theme.spacing(1),
+            flex: 1,
+            transition: "all 0.5s linear",
+            "& :focus": {
+                fontWeight: "600",
+                cursor: "text"
+            },
+        },
+        Checkbox: {
+            [theme.breakpoints.down("xs")]: {
+                minWidth: "24px"
+            }
+        },
+
         button: {
             minWidth: "80px",
             maxWidth: "120px",
@@ -47,17 +87,12 @@ const CommonStyle = (theme) => {
                 borderRadius: "50%"
             },
             [theme.breakpoints.down(321)]: {
-                "&:parent": {
-                    background: "red !important"
-                },
-                minWidth: "44px",
-                maxWidth: "44px",
                 transform: "scale(0.8)",
             }
         },
-        Checkbox: {
-            [theme.breakpoints.down("xs")]: {
-                minWidth: "24px"
+        btnAdd: {
+            [theme.breakpoints.up("md")]: {
+                paddingLeft: "12px"
             }
         },
         btnEdit: {
@@ -67,67 +102,44 @@ const CommonStyle = (theme) => {
                 fontWeight: "600"
             }
         },
+        hoverbold: {
+            "& :hover": {
+                fontWeight: "bolder"
+            }
+        },
+        listHeaderItem: {
+            [theme.breakpoints.up("md")]: {
+                marginLeft: "24px",
+            },
+            [theme.breakpoints.down("sm")]: {
+                textAlign: "center"
+            }
+        },
         basicInfo: {
-            flex: "1 0 auto",
-            // [theme.breakpoints.only("sm")]:{
-            //     overflow:"scroll",
-            //     maxWidth:"300px"
-            // },
-            [theme.breakpoints.down(320)]: {
-                overflow: "scroll",
-                maxWidth: "130px",
-                overflowWrap: "anywhere"
+            minWidth: "23ch",
+            maxWidth: "23ch",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+            overflowSpace:"break-word",
+            [theme.breakpoints.only("md")]: {
+                minWidth: "28ch",
+                maxWidth: "32ch",
             }
         },
         contactField: {
+            display: "flex",
             background: "transparent",
             position: "relative",
             top: "-4px",
             color: "black !important",
-            padding: "0px 3px",
-            fontSize: "larger",
+            padding: "0px 3px"
         },
         detailCard: {
             textAlign: "left",
             padding: "32px",
             [theme.breakpoints.up("lg")]: {
                 marginLeft: "32px"
-            }
-        },
-        newContactField: {
-            marginTop: "10px",
-            width:"46%",
-            minWidth: "45%",
-            marginLeft:"2.4%",
-            [theme.breakpoints.down("xs")]: {
-                minWidth: "94%",
-            }
-        },
-        searchbar: {
-            background: "rgb(230, 230, 230)",
-            display: "flex",
-            borderRadius: 25,
-            padding: "0 12px 0",
-            minWidth: "120px",
-
-            [theme.breakpoints.down(321)]: {
-                transform: "scale(0.9)"
-            }
-        },
-        input: {
-            background: "transparent",
-            marginLeft: theme.spacing(1),
-            flex: 1,
-            transition: "all 0.5s linear",
-            "& :focus": {
-                fontWeight: "600"
-            }
-
-        },
-        heading: {
-            [theme.breakpoints.down(321)]: {
-                paddingRight: "0px",
-                transform: "scale(0.8)"
             }
         },
         textWhite: {

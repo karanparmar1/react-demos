@@ -43,7 +43,7 @@ const SideDrawer = (props) => {
                 </IconButton>
             </div>
 
-            <List className={classes.textWhite}>
+            <List className={classes.textWhite} style={{marginTop:"40px"}}>
                 <ListItem button className={classes.active} >
                     <ListItemIcon className={classes.textWhite}>
                         <PersonOutline fontSize="large" />
