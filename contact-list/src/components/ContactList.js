@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     List, ListItem, ListItemIcon, ListItemText, ListItemAvatar,
-    Checkbox, Hidden, IconButton, Fab, Avatar, Tooltip
+    Checkbox, Hidden, IconButton, Fab, Avatar, Tooltip, Typography
 } from '@material-ui/core';
 
 import { AddBox, IndeterminateCheckBox } from "@material-ui/icons";
@@ -28,7 +28,7 @@ const ContactList = (props) => {
     React.useEffect(() => { setSelectAll(props.data.some(contact => contact.checked)); });
     return (
         <List style={{ flexGrow: 1 }} disablePadding={true}>
-            <ListItem className="bg-silver" style={{ padding: "1px 12px" }}>
+            <ListItem dense className="bg-silver" style={{ padding: "1px 12px" }}>
                 <Tooltip title={selectAll ? "DeSelectAll" : "SelectAll"} arrow><span>
                     <IconButton edge="start" disabled={props.wannaCreateNew || props.data.length < 1}
                         onClick={() => { props.handleSelectAll(!selectAll); setSelectAll(!selectAll); }} >
@@ -36,7 +36,7 @@ const ContactList = (props) => {
                     </IconButton></span>
                 </Tooltip>
                 <ListItemText primary="Basic Info" className={classes.listHeaderItem} />
-                <Hidden smDown> <ListItemText primary="Email" className={classes.listHeaderItem} /> </Hidden>
+                <Hidden smDown> <ListItemText primary="Email" /> </Hidden>
             </ListItem>
             {
                 props.wannaCreateNew ?
@@ -49,7 +49,7 @@ const ContactList = (props) => {
                         <React.Fragment key={index}>
                             <ListItem dense selected={props.activeContact.id === contact.id} disabled={props.wannaCreateNew}
                                 button onClick={() => { props.handleContactClick(contact); }} key={index}
-                                style={{ padding: "6px 16px" }}>
+                                style={{ padding: "8px 16px"}}>
                                 <ListItemIcon className={classes.Checkbox}>
                                     <Checkbox
                                         edge="start"
@@ -65,14 +65,14 @@ const ContactList = (props) => {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={<h3 style={{ minWidth: "17ch", maxWidth: "17ch", whiteSpace: "normal", lineHeight: "1", margin: "6px 0px 4px", fontSize: "120%" }}>{contact.fullname}</h3>}
-                                    secondary={<Hidden mdUp>{contact.email ? <small style={{ fontWeight: "600" }}>{contact.email}</small> : <small>&nbsp;</small>}</Hidden>}
+                                    primary={<Typography variant="h6" style={{ overflowWrap: "break-word", lineHeight: "1" }}>{contact.fullname}</Typography>}
+                                    secondary={<Hidden mdUp>{contact.email ? <Typography noWrap={true} style={{ fontWeight: "600" }}>{contact.email}</Typography> : <small>&nbsp;</small>}</Hidden>}
                                     className={classes.basicInfo}
                                 />
                                 <Hidden smDown>
-                                    <ListItemText className={classes.basicInfo}
+                                    <ListItemText /*className={classes.basicInfo}*/ style={{ maxWidth: "fit-content" }}
                                         primary={contact.email ?
-                                            <h4 style={{ minWidth: "18ch", maxWidth: '18ch', overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                            <h4 style={{ maxWidth: "24ch", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                                                 {contact.email}</h4> : <h4>&nbsp;</h4>} />
                                 </Hidden>
 

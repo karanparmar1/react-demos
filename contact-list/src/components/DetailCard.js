@@ -8,7 +8,7 @@ import CommonStyle from "./CommonStyle";
 
 function display(data) {
     if (data !== undefined) return (data.length > 0)
-        ? <span style={{ overflowWrap: "break-word",maxWidth:"29ch" }}>{data}</span>
+        ? data
         : <span style={{ color: "dimgray" }}>Info Not Provided</span>;
 }
 function stringToColor(string) {
@@ -199,7 +199,7 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) 
                     </Grid>
                     <Grid container item xs={12}>
                         <Grid item xs={12} sm={4}>Email</Grid>
-                        <Grid item xs={12} sm={8} className="text-black" >
+                        <Grid item xs={12} sm={8} className="text-black" style={{ overflowWrap: "break-word"}}>
                             {editable ?
                                 <TextField multiline type="text" className={classes.contactField}
                                     value={state.email} name="email" onChange={handleChangeInput}
@@ -219,7 +219,7 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) 
                     </Grid>
                     <Grid container item xs={12}>
                         <Grid item xs={12} sm={4}>Company</Grid>
-                        <Grid item xs={12} sm={8} className="text-black"> {editable ?
+                        <Grid item xs={12} sm={8} className="text-black" > {editable ?
                             <TextField multiline type="text" className={classes.contactField}
                                 value={state.company} name="company" onChange={handleChangeInput}
                                 helperText={companyError || " "} error={companyError.length > 0}

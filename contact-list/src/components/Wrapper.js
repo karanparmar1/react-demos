@@ -8,6 +8,7 @@ import {
 
 import { ClearAllRounded } from "@material-ui/icons";
 import LocalData from "../data/LocalData";
+import Header from "./Header";
 import DetailCard from "./DetailCard";
 import ContactList from "./ContactList";
 import SearchBar from "./SearchBar";
@@ -36,7 +37,7 @@ export default function Wrapper() {
   const setActive = (contact) => setActiveContact(contact);
 
   const handleEdit = (editable = true) => setEditable(editable);
-  
+
   const handleCheckedChange = (changedContact) => {
     let temp = data;
     temp.forEach(item => {
@@ -132,25 +133,9 @@ export default function Wrapper() {
       <main className={clsx({ [classes.mainContent]: open }, classes.content)}>
         <div className={classes.toolbar} />
         <Grid container spacing={5}>
-          {/* Heading-Contact starts here */}
-          <Grid container item xs={12} wrap="nowrap" alignItems="center" className={classes.heading} >
-            <Grid item xs style={{ maxWidth: "48px", marginRight: "16px" }}>
-              <i className="fa fa-address-book fa-flip-horizontal fa-3x icon-gradient" ></i>
-            </Grid>
-            <Grid item xs className="text-left" >
-              <Grid item xs>
-                <Typography variant="h4" component="span">
-                  Contacts </Typography>
-              </Grid>
-              <Hidden xsDown>
-                <Grid item xs={12}>
-                  <Typography variant="subtitle1" component="span" className="text-silver"> Welcome to InstaConnect</Typography>
-                </Grid>
-              </Hidden>
-            </Grid>
-
-          </Grid>
-          {/* Heading-Contact Ends here */}
+         
+          <Header title="Contacts" subtitle=" Welcome to InstaConnect" classes={classes} iconClass="fa fa-address-book fa-flip-horizontal fa-3x icon-gradient" />
+         
           <Grid container item xs={12} justify="center">
             {/* MAIN CONTENT SEARCHBAR AND LIST STARTS HERE */}
             <Grid container item xs={12} spacing={6} className={classes.innerContent} >

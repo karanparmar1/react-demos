@@ -51,7 +51,7 @@ const NewContact = (props) => {
                     setEmailError("Invalid email address");
                 }
                 else if(value.length>100){
-                    emailError="max 100 chars";
+                    setEmailError("max 100 chars");
                 }
                 else if (found !== null) {
                     setEmailError("Email already exists");

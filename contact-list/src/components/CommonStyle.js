@@ -29,14 +29,16 @@ const CommonStyle = () => {
             }
         },
         active: {
+            transition: 'all 0.5s linear',
             boxShadow: "inset 5px 0 0 0 white",
             background: "rgba(140, 81, 81, 0.15)",
             color: "rgba(255,255,255,1)"
         },
         heading: {
+            transition: 'all 0.5s linear',
             [theme.breakpoints.down("xs")]: {
                 // paddingRight: "0px",
-                // transform: "scale(0.8)"
+                // transform: "scale(0.8)",
                 //textAlign:"center"
                 marginLeft: "50%",
                 transform: "translate(-50%)",
@@ -108,24 +110,53 @@ const CommonStyle = () => {
             }
         },
         listHeaderItem: {
-            [theme.breakpoints.up("md")]: {
+            maxWidth: "40ch",
+            [theme.breakpoints.up("lg")]: {
                 marginLeft: "24px",
+                maxWidth:"25ch",
+            },
+            [theme.breakpoints.only("md")]: {
+                marginLeft: "24px",
+                maxWidth:"32ch",
             },
             [theme.breakpoints.down("sm")]: {
                 textAlign: "center"
             }
         },
         basicInfo: {
-            minWidth: "23ch",
-            maxWidth: "23ch",
-            overflow: "hidden",
-            whiteSpace: "nowrap",
-            textOverflow: "ellipsis",
-            overflowSpace:"break-word",
+            // minWidth: "18ch",
+            // maxWidth: "18ch",
+            // maxWidth: "18ch",
+            margin: "0 8px 0 0",
+            overflowSpace: "break-word",
+            // overflow: "hidden",
+            // whiteSpace: "nowrap",
+            // textOverflow: "ellipsis",
+            [theme.breakpoints.up("lg")]: {
+                minWidth: "18ch",
+                maxWidth: "18ch",
+            },
             [theme.breakpoints.only("md")]: {
-                minWidth: "28ch",
+                minWidth: "32ch",
                 maxWidth: "32ch",
-            }
+            },
+
+            [theme.breakpoints.only("sm")]: {
+                minWidth: "24ch",
+                maxWidth: "24ch",
+                padding:"8px"
+            },
+            [theme.breakpoints.down("xs")]: {
+                minWidth: "20ch",
+                maxWidth: "20ch",
+                padding:"8px"
+            },
+
+            [theme.breakpoints.down(321)]: {
+                minWidth: "16ch",
+                maxWidth: "16ch",
+            },
+
         },
         contactField: {
             display: "flex",
