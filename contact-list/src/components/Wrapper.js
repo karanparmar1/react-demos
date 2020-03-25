@@ -1,9 +1,10 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import clsx from "clsx";
 import "font-awesome/css/font-awesome.min.css"
 import { useTheme } from "@material-ui/core/styles";
 import {
-  Backdrop, IconButton, Grid, Hidden, AppBar, Toolbar, Typography
+  Backdrop, IconButton, Grid, Hidden, AppBar, Toolbar
 } from "@material-ui/core";
 
 import { ClearAllRounded } from "@material-ui/icons";
@@ -106,36 +107,14 @@ export default function Wrapper() {
     console.log("Rendered");
   });
 
-  return (
-    <div className={classes.root}>
-      {/* <CssBaseline /> */}
-      <SideDrawer open={open} handleDrawerOpen={handleDrawerOpen} handleDrawerClose={handleDrawerClose} />
-      }
-
-      <AppBar className={clsx(classes.appBar, { [classes.appBarShift]: open })}>
-        <Toolbar>
-          <IconButton
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}
-          >
-            <ClearAllRounded fontSize="large" />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Hidden smUp>
-        <Backdrop className={classes.backdrop} open={open} onClick={() => setOpen(false)} />
-      </Hidden>
-
-      <main className={clsx({ [classes.mainContent]: open }, classes.content)}>
+  const Main =
+    ({ classes, data, headerTitle, headerSubtitle, iconClass }) => {
+      return (<main className={clsx({ [classes.mainContent]: open }, classes.content)}>
         <div className={classes.toolbar} />
         <Grid container spacing={5}>
-         
-          <Header title="Contacts" subtitle=" Welcome to InstaConnect" classes={classes} iconClass="fa fa-address-book fa-flip-horizontal fa-3x icon-gradient" />
-         
+
+          <Header title={headerTitle} subtitle={headerSubtitle} headerStyle={classes.heading} iconClass={iconClass} />
+
           <Grid container item xs={12} justify="center">
             {/* MAIN CONTENT SEARCHBAR AND LIST STARTS HERE */}
             <Grid container item xs={12} spacing={6} className={classes.innerContent} >
@@ -146,7 +125,6 @@ export default function Wrapper() {
 
               <Grid container item xs={12} className={clsx(classes.removePadding)}>
                 <Grid item xs={12} lg >
-
                   <ContactList data={data} activeContact={activeContact} editable={editable} setActive={setActive}
                     handleContactClick={handleContactClick} handleCheckedChange={handleCheckedChange}
                     handleSelectAll={handleSelectAll} handleAdd={handleAdd} handleEdit={handleEdit} handleUpdate={handleUpdate}
@@ -155,7 +133,6 @@ export default function Wrapper() {
                 </Grid>
                 <Hidden mdDown>
                   <Grid container item xs={12} lg>
-
                     <DetailCard contact={activeContact} setActive={setActive} editable={editable} handleEdit={handleEdit} handleUpdate={handleUpdate}
                     />
                   </Grid>
@@ -166,6 +143,50 @@ export default function Wrapper() {
 
         </Grid>
       </main>
-    </div >
+
+      )
+    };
+
+
+
+  return (
+    <div className={classes.root}>
+      <Router>
+        {/* <CssBaseline /> */}
+        <SideDrawer open={open} handleDrawerOpen={handleDrawerOpen} handleDrawerClose={handleDrawerClose} />
+      }
+
+        <AppBar className={clsx(classes.appBar, { /*[classes.appBarShift]: open */ })}>
+          <Toolbar>
+            <IconButton onClick={handleDrawerOpen} edge="start"
+              className={clsx(classes.menuButton, { [classes.invisible]: open, })} >
+              <ClearAllRounded fontSize="large" />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+
+        <Hidden smUp>
+          <Backdrop className={classes.backdrop} open={open} onClick={() => setOpen(false)} />
+        </Hidden>
+        <Switch>
+          <Route exact path="/contact-app" render={props => (
+            <Main classes={classes} data={data} headerTitle="Contacts" headerSubtitle="Welcome to InstConnect" iconClass="fa fa-address-book fa-flip-horizontal fa-3x icon-gradient" />
+          )}
+          />
+
+          <Route exact path="/contact-app/twitter" render={props => (
+            <Main classes={classes} data={data} headerTitle="Twitter" headerSubtitle="Welcome to Twitter" iconClass="fa fa-twitter fa-3x icon-gradient" />
+          )}
+          />
+
+          <Route exact path="/contact-app/github" render={props => (
+            <Main classes={classes} data={data} headerTitle="Github" headerSubtitle="Welcome to gitConnect" iconClass="fa fa-github fa-3x icon-gradient" />
+          )}
+          />
+          <Route render={props => <h1><br /><br /><br /><br /><br />404</h1>} />
+        </Switch>
+      </Router>
+
+    </div>
   );
 }

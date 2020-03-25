@@ -1,5 +1,5 @@
 import React from 'react'
-import { ListItem, ListItemAvatar, ListItemText, Fab, InputAdornment, TextField, ListItemSecondaryAction } from "@material-ui/core";
+import { ListItem, ListItemAvatar, ListItemText, Fab, InputAdornment, TextField } from "@material-ui/core";
 import { DoneOutline, Close, AccountBox, Email } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles"
 
@@ -50,7 +50,7 @@ const NewContact = (props) => {
                 if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
                     setEmailError("Invalid email address");
                 }
-                else if(value.length>100){
+                else if (value.length > 100) {
                     setEmailError("max 100 chars");
                 }
                 else if (found !== null) {
@@ -67,7 +67,7 @@ const NewContact = (props) => {
 
     const handleOnKeyDown = (e) => {
         if (e.keyCode === 13 && newContactName.trim().length && !nameError.length && !emailError.length) {
-                saveContact();   
+            saveContact();
         }
     }
 
@@ -129,7 +129,8 @@ const NewContact = (props) => {
             <ListItemAvatar style={{ textAlign: "right" }}>
                 <Fab color="secondary" size="medium"
                     onClick={() => {
-                        props.handleAdd(false); setNewContactName(""); setNewContactEmail(""); setNameError(""); setEmailError("");
+                        props.handleAdd(false); setNewContactName(""); setNewContactEmail("");
+                        setNameError(""); setEmailError("");
                     }}>
                     <Close />
                 </Fab>

@@ -1,9 +1,9 @@
 import React from 'react';
 import {Grid,Typography,Hidden} from "@material-ui/core";
 
-const Header = ({ title, subtitle,classes,iconClass }) => {
+const Header = ({ title, subtitle,headerStyle,iconClass }) => {
     return (
-        <Grid container item xs={12} wrap="nowrap" alignItems="center" className={classes.heading} >
+        <Grid container item xs={12} wrap="nowrap" alignItems="center" className={headerStyle} >
             <Grid item xs style={{ maxWidth: "48px", marginRight: "16px" }}>
                 <i className={iconClass} ></i>
             </Grid>

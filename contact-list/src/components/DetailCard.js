@@ -1,9 +1,8 @@
 import React from 'react';
 import { Edit, Save, Close, ArrowBack, AddAPhoto } from "@material-ui/icons";
-import { Grid, Avatar, Fab, Input, Badge, TextField, IconButton, Tooltip } from "@material-ui/core";
+import { Grid, Avatar, Fab, Badge, TextField, IconButton, Tooltip } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { DropzoneDialog } from 'material-ui-dropzone';
-import axios from "axios";
 import CommonStyle from "./CommonStyle";
 
 function display(data) {
@@ -123,10 +122,10 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) 
     };
 
     React.useEffect(() => {
-        setState(contact); console.log("state : " + state.fullname);
+        setState(contact);
         nameError = ""; emailError = ""; phoneError = ""; companyError = ""; addressError = ""; aboutError = ""; formError = false;
-    }, [contact]
-    );
+    }, [contact]);
+
     return (
         contact.id !== undefined && contact.id !== null ?
             <Grid container item xs={12} justify="center" className={`${classes.detailCard} ${classes.bgSilver}`} >
@@ -189,17 +188,18 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) 
                     <Grid container item xs={12}>
                         <Grid item xs={12} sm={4}>Full Name</Grid>
                         <Grid item xs={12} sm={8} className="text-black">
-
-                            {editable ? <TextField multiline type="text" className={classes.contactField}
-                                value={state.fullname} name="fullname" onChange={handleChangeInput}
-                                helperText={nameError || " "} error={nameError.length > 0}
-                            /> : display(contact.fullname)}
+                            {editable ?
+                                <TextField multiline type="text" className={classes.contactField}
+                                    value={state.fullname} name="fullname" onChange={handleChangeInput}
+                                    helperText={nameError || " "} error={nameError.length > 0}
+                                />
+                                : display(contact.fullname)}
 
                         </Grid>
                     </Grid>
                     <Grid container item xs={12}>
                         <Grid item xs={12} sm={4}>Email</Grid>
-                        <Grid item xs={12} sm={8} className="text-black" style={{ overflowWrap: "break-word"}}>
+                        <Grid item xs={12} sm={8} className="text-black" style={{ overflowWrap: "break-word" }}>
                             {editable ?
                                 <TextField multiline type="text" className={classes.contactField}
                                     value={state.email} name="email" onChange={handleChangeInput}

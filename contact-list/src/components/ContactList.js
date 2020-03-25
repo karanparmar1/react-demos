@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     List, ListItem, ListItemIcon, ListItemText, ListItemAvatar,
-    Checkbox, Hidden, IconButton, Fab, Avatar, Tooltip, Typography
+    Checkbox, Hidden, IconButton, Avatar, Tooltip, Typography
 } from '@material-ui/core';
 
 import { AddBox, IndeterminateCheckBox } from "@material-ui/icons";
@@ -25,7 +25,7 @@ const ContactList = (props) => {
     const [selectAll, setSelectAll] = React.useState(false);
 
 
-    React.useEffect(() => { setSelectAll(props.data.some(contact => contact.checked)); });
+    React.useEffect(() => { setSelectAll(props.data.some(contact => contact.checked)); },[props.data]);
     return (
         <List style={{ flexGrow: 1 }} disablePadding={true}>
             <ListItem dense className="bg-silver" style={{ padding: "1px 12px" }}>
@@ -66,7 +66,7 @@ const ContactList = (props) => {
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={<Typography variant="h6" style={{ overflowWrap: "break-word", lineHeight: "1" }}>{contact.fullname}</Typography>}
-                                    secondary={<Hidden mdUp>{contact.email ? <Typography noWrap={true} style={{ fontWeight: "600" }}>{contact.email}</Typography> : <small>&nbsp;</small>}</Hidden>}
+                                    secondary={<Hidden mdUp>{contact.email ? <Typography component="span" noWrap={true} style={{ fontWeight: "600",display:"block" }}>{contact.email}</Typography> : <small>&nbsp;</small>}</Hidden>}
                                     className={classes.basicInfo}
                                 />
                                 <Hidden smDown>

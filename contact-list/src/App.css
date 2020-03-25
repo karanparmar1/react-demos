@@ -11,6 +11,10 @@ html {
 .text-left {
   text-align: left;
 }
+.link{
+  text-decoration: none;
+  color:white;
+}
 
 .icon-gradient {
   background: linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%);

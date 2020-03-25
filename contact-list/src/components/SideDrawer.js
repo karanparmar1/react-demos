@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 import {
     List, ListItem, ListItemIcon, ListItemText, IconButton, Drawer,
@@ -43,26 +44,34 @@ const SideDrawer = (props) => {
                 </IconButton>
             </div>
 
-            <List className={classes.textWhite} style={{marginTop:"40px"}}>
-                <ListItem button className={classes.active} >
-                    <ListItemIcon className={classes.textWhite}>
-                        <PersonOutline fontSize="large" />
-                    </ListItemIcon>
-                    <ListItemText primary="Local" />
-                </ListItem>
-                <ListItem button >
-                    <ListItemIcon className={classes.textWhite}>
-                        <Twitter fontSize="large" />
-                    </ListItemIcon>
-                    <ListItemText primary="Twitter" />
-                </ListItem>
+            <List className={classes.textWhite} style={{ marginTop: "40px" }}>
 
-                <ListItem button>
-                    <ListItemIcon className={classes.textWhite}>
-                        <GitHub fontSize="large" />
-                    </ListItemIcon>
-                    <ListItemText primary="GitHub" />
-                </ListItem>
+                <NavLink exact activeClassName={classes.active} className="link" to="/contact-app" >
+                    <ListItem button>
+                        <ListItemIcon className={classes.textWhite}>
+                            <PersonOutline fontSize="large" />
+                        </ListItemIcon>
+                        <ListItemText primary="Local" />
+                    </ListItem>
+                </NavLink>
+
+                <NavLink  activeClassName={classes.active} className="link" to="/contact-app/twitter">
+                    <ListItem button >
+                        <ListItemIcon className={classes.textWhite}>
+                            <Twitter fontSize="large" />
+                        </ListItemIcon>
+                        <ListItemText primary="Twitter" />
+                    </ListItem>
+                </NavLink>
+
+                <NavLink  activeClassName={classes.active} className="link" to="/contact-app/github">
+                    <ListItem button>
+                        <ListItemIcon className={classes.textWhite}>
+                            <GitHub fontSize="large" />
+                        </ListItemIcon>
+                        <ListItemText primary="GitHub" />
+                    </ListItem>
+                </NavLink>
             </List>
         </Drawer>
 
