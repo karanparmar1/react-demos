@@ -28,12 +28,7 @@ const CommonStyle = () => {
                 color: "black"
             }
         },
-        // const activeStyle = {
-        //     boxShadow: "inset 5px 0 0 0 white",
-        //     background: "rgba(140, 81, 81, 0.15)",
-        //     textDecoration: "none",
-        //     color: "white"
-        // };
+      
         active: {
             "& > div": {
                 boxShadow: "inset 4px 0 0 0 white",
@@ -45,17 +40,19 @@ const CommonStyle = () => {
         },
         heading: {
             transition: 'all 0.5s linear',
+            whiteSpace: "nowrap",
+            maxWidth: "fit-content",
+            [theme.breakpoints.only("sm")]: {
+                marginLeft: theme.spacing(3),
+            },
             [theme.breakpoints.down("xs")]: {
-                // paddingRight: "0px",
-                // transform: "scale(0.8)",
-                //textAlign:"center"
                 marginLeft: "50%",
-                transform: "translate(-50%)",
+                transform: "translate(-50%)"
             }
         },
 
         searchbar: {
-            transition:"all 0.3s linear",
+            transition: "all 0.3s linear",
             background: "rgb(230, 230, 230)",
             display: "flex",
             borderRadius: 25,
@@ -65,7 +62,7 @@ const CommonStyle = () => {
                 cursor: "help",
             },
             [theme.breakpoints.down(321)]: {
-                transform: "scale(0.8)",
+                transform: "scale(0.9)",
             }
 
         },
@@ -86,7 +83,7 @@ const CommonStyle = () => {
         },
 
         button: {
-            transition:"all 0.3s ease-in",
+            transition: "all 0.3s ease-in",
             minWidth: "80px",
             maxWidth: "120px",
             textTransform: "none",
@@ -100,13 +97,28 @@ const CommonStyle = () => {
                 borderRadius: "50%"
             },
             [theme.breakpoints.down(321)]: {
-                transform: "scale(0.8)",
+                transform: "scale(0.9)",
             }
         },
+        btn: {
+            "&:hover": {
+                "& button": {
+                    color: "rgba(213, 213, 213, 0.85);",
+                    boxShadow: "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);"
+                },
+            },
+        },
+
         btnAdd: {
             [theme.breakpoints.up("md")]: {
                 paddingLeft: "12px"
             }
+        },
+        btnDelete: {
+            [theme.breakpoints.up("md")]: {
+                paddingRight: "14px"
+            },
+
         },
         btnEdit: {
             color: "black",
@@ -121,7 +133,7 @@ const CommonStyle = () => {
             }
         },
         listHeaderItem: {
-            transition:"all 0.3s linear",
+            transition: "all 0.3s linear",
             maxWidth: "40ch",
             [theme.breakpoints.up("lg")]: {
                 marginLeft: "24px",
@@ -129,7 +141,7 @@ const CommonStyle = () => {
             },
             [theme.breakpoints.only("md")]: {
                 marginLeft: "24px",
-                minWidth:"36ch",
+                minWidth: "36ch",
                 maxWidth: "39ch",
             },
             [theme.breakpoints.down("sm")]: {
@@ -137,10 +149,7 @@ const CommonStyle = () => {
             }
         },
         basicInfo: {
-            transition:"all 0.3s linear",
-            // minWidth: "18ch",
-            // maxWidth: "18ch",
-            // maxWidth: "18ch",
+            transition: "all 0.3s linear",
             margin: "0 8px 0 0",
             overflowSpace: "break-word",
             // overflow: "hidden",
@@ -157,18 +166,50 @@ const CommonStyle = () => {
 
             [theme.breakpoints.only("sm")]: {
                 minWidth: "24ch",
-                maxWidth: "24ch",
+                maxWidth: "32ch",
                 padding: "8px"
             },
             [theme.breakpoints.down("xs")]: {
-                minWidth: "20ch",
-                maxWidth: "20ch",
-                padding: "8px"
+                minWidth: "16ch",
+                maxWidth: "16ch",
+                padding: "4px 0px",
             },
 
-            [theme.breakpoints.down(321)]: {
-                minWidth: "15ch",
-                maxWidth: "15ch",
+            // [theme.breakpoints.down(321)]: {
+            //     minWidth: "24ch",
+            //     maxWidth: "24ch",
+            // },
+
+        },
+        aboutGrid: {
+            minHeight: "3ch",
+            maxWidth: "36ch",
+            lineHeight: "1.2",
+            overflowWrap: "break-word",
+            [theme.breakpoints.down("xs")]: {
+                maxWidth: "24ch"
+            },
+        },
+        fieldGrid: {
+            color: "black",
+            transition: "all 0.5s linear",
+            overflowWrap: "break-word",
+            lineHeight: "1.2",
+            // maxWidth: "40ch",
+            [theme.breakpoints.up("lg")]: {
+                maxWidth: "25ch"
+            },
+            [theme.breakpoints.only("md")]: {
+                minWidth: "40ch",
+                maxWidth: "50ch"
+            },
+            [theme.breakpoints.down("sm")]: {
+                minWidth: "32ch",
+                maxWidth: "40ch"
+            },
+            [theme.breakpoints.down("xs")]: {
+                minWidth: "20ch",
+                maxWidth: "24ch"
             },
 
         },
@@ -221,6 +262,8 @@ const CommonStyle = () => {
         },
         invisible: {
             visibility: "hidden",
+            [theme.breakpoints.down("sm")]: { display: "none" },
+
         },
         hide: {
             display: "none",
@@ -262,8 +305,10 @@ const CommonStyle = () => {
             ...theme.mixins.toolbar
         },
         mainContent: {
-            [theme.breakpoints.down('xs')]: {
-                position: "absolute"
+            [theme.breakpoints.down('sm')]: {
+                position: "absolute",
+                left: "0",
+                top: "0",
             }
         },
         removePadding: {
@@ -273,7 +318,7 @@ const CommonStyle = () => {
         },
         innerContent: {
             padding: "auto 0px",
-            [theme.breakpoints.up('sm')]: {
+            [theme.breakpoints.up('md')]: {
                 paddingLeft: "32px"
             },
             [theme.breakpoints.down('sm')]: {
@@ -283,7 +328,9 @@ const CommonStyle = () => {
         content: {
             flexGrow: 1,
             padding: theme.spacing(3),
-            margin: "20px",
+            [theme.breakpoints.up("md")]: {
+                margin: "20px",
+            },
             [theme.breakpoints.down('xs')]: {
                 margin: "0px"
             },

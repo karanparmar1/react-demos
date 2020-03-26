@@ -15,11 +15,19 @@ import ContactList from "./ContactList";
 import SearchBar from "./SearchBar";
 import SideDrawer from "./SideDrawer";
 import CommonStyle from "./CommonStyle";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
+import GraphqlData from "../data/GraphqlData";
+
+
+const client = new ApolloClient({
+  uri: "https://api.spacex.land/graphql/"
+});
+
 
 let localData = LocalData();
 
 export default function Wrapper() {
-
   const theme = useTheme();
   const classes = CommonStyle(theme);
 
@@ -107,45 +115,47 @@ export default function Wrapper() {
     console.log("Rendered");
   });
 
-  const Main =
-    ({ classes, data, headerTitle, headerSubtitle, iconClass }) => {
-      return (<main className={clsx({ [classes.mainContent]: open }, classes.content)}>
-        <div className={classes.toolbar} />
-        <Grid container spacing={5}>
 
-          <Header title={headerTitle} subtitle={headerSubtitle} headerStyle={classes.heading} iconClass={iconClass} />
 
-          <Grid container item xs={12} justify="center">
-            {/* MAIN CONTENT SEARCHBAR AND LIST STARTS HERE */}
-            <Grid container item xs={12} spacing={6} className={classes.innerContent} >
 
-              {/* SearchBar */}
-              <SearchBar data={data} search={search} onChange={onChange} handleDelete={handleDelete} handleAdd={handleAdd} wannaCreateNew={wannaCreateNew} />
-              {/* SearchBar Ends ; Wrapper for List starts here*/}
+  const Main = ({ classes, data, headerTitle, headerSubtitle, iconClass }) => {
+    return (<main className={clsx({ [classes.mainContent]: open }, classes.content)}>
+      <div className={classes.toolbar} />
+      <Grid container spacing={5}>
 
-              <Grid container item xs={12} className={clsx(classes.removePadding)}>
-                <Grid item xs={12} lg >
-                  <ContactList data={data} activeContact={activeContact} editable={editable} setActive={setActive}
-                    handleContactClick={handleContactClick} handleCheckedChange={handleCheckedChange}
-                    handleSelectAll={handleSelectAll} handleAdd={handleAdd} handleEdit={handleEdit} handleUpdate={handleUpdate}
-                    wannaCreateNew={wannaCreateNew} addNewContact={addNewContact}
+        <Header title={headerTitle} subtitle={headerSubtitle} headerStyle={classes.heading} iconClass={iconClass} />
+
+        <Grid container item xs={12} justify="center">
+          {/* MAIN CONTENT SEARCHBAR AND LIST STARTS HERE */}
+          <Grid container item xs={12} spacing={6} className={classes.innerContent} >
+
+            {/* SearchBar */}
+            <SearchBar data={data} search={search} onChange={onChange} handleDelete={handleDelete} handleAdd={handleAdd} wannaCreateNew={wannaCreateNew} />
+            {/* SearchBar Ends ; Wrapper for List starts here*/}
+
+            <Grid container item xs={12} className={clsx(classes.removePadding)}>
+              <Grid item xs={12} lg >
+                <ContactList data={data} activeContact={activeContact} editable={editable} setActive={setActive}
+                  handleContactClick={handleContactClick} handleCheckedChange={handleCheckedChange}
+                  handleSelectAll={handleSelectAll} handleAdd={handleAdd} handleEdit={handleEdit} handleUpdate={handleUpdate}
+                  wannaCreateNew={wannaCreateNew} addNewContact={addNewContact}
+                />
+              </Grid>
+              <Hidden mdDown>
+                <Grid container item xs={12} lg>
+                  <DetailCard contact={activeContact} setActive={setActive} editable={editable} handleEdit={handleEdit} handleUpdate={handleUpdate}
                   />
                 </Grid>
-                <Hidden mdDown>
-                  <Grid container item xs={12} lg>
-                    <DetailCard contact={activeContact} setActive={setActive} editable={editable} handleEdit={handleEdit} handleUpdate={handleUpdate}
-                    />
-                  </Grid>
-                </Hidden>
-              </Grid>
+              </Hidden>
             </Grid>
           </Grid>
-
         </Grid>
-      </main>
 
-      )
-    };
+      </Grid>
+    </main>
+
+    )
+  };
 
 
 
@@ -165,7 +175,7 @@ export default function Wrapper() {
           </Toolbar>
         </AppBar>
 
-        <Hidden smUp>
+        <Hidden mdUp>
           <Backdrop className={classes.backdrop} open={open} onClick={() => setOpen(false)} />
         </Hidden>
         <Switch>
@@ -175,7 +185,10 @@ export default function Wrapper() {
           />
 
           <Route exact path="/contact-app/twitter" render={props => (
-            <Main classes={classes} data={data} headerTitle="Twitter" headerSubtitle="Welcome to Twitter" iconClass="fa fa-twitter fa-3x icon-gradient" />
+            <ApolloProvider client={client}>
+              <GraphqlData limit={10} classes={classes} />
+            </ApolloProvider>
+            //<Main classes={classes} data={data} headerTitle="Twitter" headerSubtitle="Welcome to Twitter" iconClass="fa fa-twitter fa-3x icon-gradient" />
           )}
           />
 

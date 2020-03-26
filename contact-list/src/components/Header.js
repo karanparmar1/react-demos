@@ -1,7 +1,7 @@
 import React from 'react';
-import {Grid,Typography,Hidden} from "@material-ui/core";
+import { Grid, Typography, Hidden } from "@material-ui/core";
 
-const Header = ({ title, subtitle,headerStyle,iconClass }) => {
+const Header = ({ title, subtitle, headerStyle, iconClass }) => {
     return (
         <Grid container item xs={12} wrap="nowrap" alignItems="center" className={headerStyle} >
             <Grid item xs style={{ maxWidth: "48px", marginRight: "16px" }}>
@@ -14,7 +14,7 @@ const Header = ({ title, subtitle,headerStyle,iconClass }) => {
                 </Grid>
                 <Hidden xsDown>
                     <Grid item xs={12}>
-                        <Typography variant="subtitle1" component="span" className="text-silver">{subtitle}</Typography>
+                        <Typography variant="subtitle1" wrap="nowrap" component="span" className="text-silver">{subtitle}</Typography>
                     </Grid>
                 </Hidden>
             </Grid>

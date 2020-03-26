@@ -155,14 +155,14 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) 
                                     horizontal: 'right',
                                 }}
                                 badgeContent=
-                                {<IconButton
+                                {<Tooltip title="Upload Photo" arrow><IconButton
                                     onClick={() => setDropzoneOpen(true)}
                                     style={{
                                         position: "relative", top: "-5px", left: "-5px", padding: "4px", background: "white", border: "3px solid darkgray"
                                     }}
                                     size="medium">
                                     <AddAPhoto color="primary" />
-                                </IconButton>}
+                                </IconButton></Tooltip>}
                             >
                                 <Avatar src={state.image} className={classes.larger} style={{ background: stringToColor(contact.id + contact.fullname) }}>
                                     {contact.fullname.split(" ").map((n, i) => i < 2 ? n[0] : "")}
@@ -175,19 +175,19 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) 
                                     {contact.fullname}
                                 </h1>
                             </Grid>
-                            <Grid item xs={12} md={8} style={{ minHeight: "3ch", maxWidth: "32ch" }}>
+                            <Grid item xs={12} md={8} className={classes.aboutGrid}>
                                 {editable ?
                                     <TextField multiline type="text" label="about" variant="filled" className={classes.contactField}
-                                        value={state.about} name="about" onChange={handleChangeInput}
-                                        helperText={aboutError || " "} error={aboutError.length > 0} rowsMax={3}
+                                        value={state.about} name="about" onChange={handleChangeInput} autoFocus
+                                        helperText={aboutError || " "} error={aboutError.length > 0} rowsMax={3} 
                                     />
                                     : display(contact.about)}
                             </Grid>
                         </Grid>
                     </Grid>
                     <Grid container item xs={12}>
-                        <Grid item xs={12} sm={4}>Full Name</Grid>
-                        <Grid item xs={12} sm={8} className="text-black">
+                        <Grid item xs={12} md={4}>Full Name</Grid>
+                        <Grid item xs={12} md={8} className={classes.fieldGrid} >
                             {editable ?
                                 <TextField multiline type="text" className={classes.contactField}
                                     value={state.fullname} name="fullname" onChange={handleChangeInput}
@@ -198,8 +198,8 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) 
                         </Grid>
                     </Grid>
                     <Grid container item xs={12}>
-                        <Grid item xs={12} sm={4}>Email</Grid>
-                        <Grid item xs={12} sm={8} className="text-black" style={{ overflowWrap: "break-word" }}>
+                        <Grid item xs={12} md={4}>Email</Grid>
+                        <Grid item xs={12} md={8} className={classes.fieldGrid}>
                             {editable ?
                                 <TextField multiline type="text" className={classes.contactField}
                                     value={state.email} name="email" onChange={handleChangeInput}
@@ -209,8 +209,8 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) 
                         </Grid>
                     </Grid>
                     <Grid container item xs={12}>
-                        <Grid item xs={12} sm={4}>Phone</Grid>
-                        <Grid item xs={12} sm={8} className="text-black"> {editable ?
+                        <Grid item xs={12} md={4}>Phone</Grid>
+                        <Grid item xs={12} md={8} className={classes.fieldGrid} > {editable ?
                             <TextField multiline type="number" className={classes.contactField}
                                 value={state.phone} name="phone" onChange={handleChangeInput}
                                 helperText={phoneError || " "} error={phoneError.length > 0}
@@ -218,8 +218,8 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) 
                             : display(contact.phone)}</Grid>
                     </Grid>
                     <Grid container item xs={12}>
-                        <Grid item xs={12} sm={4}>Company</Grid>
-                        <Grid item xs={12} sm={8} className="text-black" > {editable ?
+                        <Grid item xs={12} md={4}>Company</Grid>
+                        <Grid item xs={12} md={8} className={classes.fieldGrid}  > {editable ?
                             <TextField multiline type="text" className={classes.contactField}
                                 value={state.company} name="company" onChange={handleChangeInput}
                                 helperText={companyError || " "} error={companyError.length > 0}
@@ -227,8 +227,8 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) 
                             : display(contact.company)}</Grid>
                     </Grid>
                     <Grid container item xs={12}>
-                        <Grid item xs={12} sm={4}>Address</Grid>
-                        <Grid item xs={12} sm={8} className="text-black"> {editable ?
+                        <Grid item xs={12} md={4}>Address</Grid>
+                        <Grid item xs={12} md={8} className={classes.fieldGrid} > {editable ?
                             <TextField multiline type="text" className={classes.contactField}
                                 value={state.address} name="address" onChange={handleChangeInput}
                                 helperText={addressError || " "} error={addressError.length > 0}
@@ -239,10 +239,16 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) 
 
                 {editable ? <Grid container item justify="center" spacing={1}>
                     <Grid item>
-                        <Fab variant="extended" size="medium" color="primary" disabled={formError} onClick={() => { handleUpdate(state); handleEdit(false); setState(contact) }}><Save /> &nbsp;Save </Fab>
+                        <Tooltip title={formError?"Saving requires valid values":"Save"} arrow>
+                            <span>
+                                <Fab variant="extended" size="medium" color="primary" disabled={formError} onClick={() => { handleUpdate(state); handleEdit(false); setState(contact) }}><Save /> &nbsp;Save </Fab>
+                            </span>
+                        </Tooltip>
                     </Grid>
                     <Grid item>
-                        <Fab variant="extended" size="medium" color="secondary" onClick={handleCancel}><Close /> &nbsp;Cancel </Fab>
+                        <Tooltip title="Cancel" arrow>
+                            <Fab variant="extended" size="medium" color="secondary" onClick={handleCancel}><Close /> &nbsp;Cancel </Fab>
+                        </Tooltip>
                     </Grid>
                 </Grid>
                     : <></>}

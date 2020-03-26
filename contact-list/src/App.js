@@ -4,7 +4,8 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App" style={{fontFamily:`"Lucida Sans Unicode", "Lucida Grande", "sans-serif"`}}>
+
+    <div className="App" style={{ fontFamily: `"Lucida Sans Unicode", "Lucida Grande", "sans-serif"` }}>
       <Wrapper />
     </div>
   );

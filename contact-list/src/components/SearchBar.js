@@ -12,37 +12,42 @@ const SearchBar = (props) => {
     return (
         <Grid container item xs={12} lg={6} style={{ textAlign: "right" }} className={clsx(classes.removePadding)}>
             <Grid item xs={8} lg={6} style={{ textAlign: "left" }} >
-                <div className={classes.searchbar}>
-                    <InputBase
-                        className={classes.input}
-                        type="search"
-                        value={props.search}
-                        placeholder="Search Contacts"
-                        onChange={props.onChange}
-                        disabled={props.wannaCreateNew}
-                        style={!props.data.length ? { color: "red" } : {}}
-                    />
-                    <IconButton type="submit" disabled aria-label="search">
-                        <Search />
-                    </IconButton>
-                </div>
+                <Tooltip title="Search" arrow>
+                    <div className={classes.searchbar}>
+                        <InputBase
+                            className={classes.input}
+                            type="search"
+                            value={props.search}
+                            placeholder="Search Contacts"
+                            onChange={props.onChange}
+                            disabled={props.wannaCreateNew}
+                            style={!props.data.length ? { color: "red" } : {}}
+                        />
+                        <IconButton type="submit" disabled aria-label="search">
+                            <Search />
+                        </IconButton>
+                    </div>
+                </Tooltip>
             </Grid>
             <Grid item xs={2} lg={3} >
-                <Tooltip title="Add Contact" arrow TransitionComponent={Zoom}>
+                <Tooltip title="Add Contact" arrow TransitionComponent={Zoom}><span>
                     <Button
                         variant="contained"
-                        className={clsx(classes.button, classes.bgGradient,classes.btnAdd)}
+                        className={clsx(classes.button, classes.bgGradient, classes.btnAdd)}
                         size="large"
                         fullWidth
                         disabled={props.wannaCreateNew}
-                        onClick={() => props.handleAdd(true)}
-                    ><Add /><Hidden smDown> &nbsp;Add </Hidden></Button></Tooltip>
+                        onClick={() => props.handleAdd(true)} >
+                        <Add /><Hidden smDown> &nbsp;Add </Hidden>
+                    </Button> </span>
+                </Tooltip>
             </Grid>
             <Grid item xs={2} lg={3}>
                 <Tooltip title="Delete Selected" arrow TransitionComponent={Zoom}>
-                    <div><Button
+                    <div className={classes.btn}><Button
                         variant="contained"
-                        className={clsx(classes.button, classes.bgGradient)}
+                        // style={{paddingRight:"16px"}}
+                        className={clsx(classes.button, classes.bgGradient, classes.btnDelete)}
                         size="large"
                         fullWidth
                         onClick={props.handleDelete}

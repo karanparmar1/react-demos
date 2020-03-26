@@ -2,7 +2,7 @@ import React from 'react'
 import { ListItem, ListItemAvatar, ListItemText, Fab, InputAdornment, TextField } from "@material-ui/core";
 import { DoneOutline, Close, AccountBox, Email } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles"
-
+import {v4 as uuidv4} from "uuid";
 
 const NewContact = (props) => {
     const useStyles = makeStyles(theme => ({
@@ -33,7 +33,7 @@ const NewContact = (props) => {
             setNewContactName(value);
             if (value.trim().length) {
                 if (value.length > 32) {
-                    setNameError("max 32 chars")
+                    setNameError("You can enter max 32 chars")
                 }
                 else { setNameError(""); }
             }
@@ -73,7 +73,7 @@ const NewContact = (props) => {
 
     const saveContact = () => {
         props.addNewContact({
-            id: props.data.length ? props.data.reduce((max, next) => Math.max(max, next.id), props.data[0].id) + 1 : 0,
+            id: uuidv4(), //props.data.length ? props.data.reduce((max, next) => Math.max(max, next.id), props.data[0].id) + 1 : 0,
             fullname: newContactName,
             email: newContactEmail,
             checked: false

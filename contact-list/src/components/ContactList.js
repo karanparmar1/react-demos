@@ -25,7 +25,7 @@ const ContactList = (props) => {
     const [selectAll, setSelectAll] = React.useState(false);
 
 
-    React.useEffect(() => { setSelectAll(props.data.some(contact => contact.checked)); },[props.data]);
+    React.useEffect(() => { setSelectAll(props.data.some(contact => contact.checked)); }, [props.data]);
     return (
         <List style={{ flexGrow: 1 }} disablePadding={true}>
             <ListItem dense className="bg-silver" style={{ padding: "1px 12px" }}>
@@ -49,7 +49,7 @@ const ContactList = (props) => {
                         <React.Fragment key={index}>
                             <ListItem dense selected={props.activeContact.id === contact.id} disabled={props.wannaCreateNew}
                                 button onClick={() => { props.handleContactClick(contact); }} key={index}
-                                style={{ padding: "8px 16px"}}>
+                                style={{ padding: "8px 16px" }}>
                                 <ListItemIcon className={classes.Checkbox}>
                                     <Checkbox
                                         edge="start"
@@ -65,15 +65,23 @@ const ContactList = (props) => {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={<Typography variant="h6" style={{ overflowWrap: "break-word", lineHeight: "1" }}>{contact.fullname}</Typography>}
-                                    secondary={<Hidden mdUp>{contact.email ? <Typography component="span" noWrap={true} style={{ fontWeight: "600",display:"block" }}>{contact.email}</Typography> : <small>&nbsp;</small>}</Hidden>}
+                                    primary={<Tooltip title="Full Name" arrow>
+                                        <Typography variant="h6" style={{ overflowWrap: "break-word", lineHeight: "1", fontSize: "1.2rem" }}>{contact.fullname}</Typography>
+                                    </Tooltip>}
+                                    secondary={<Hidden mdUp>{contact.email ?
+                                        <Tooltip title="Email" arrow>
+                                            <Typography component="span" noWrap={true} style={{ fontWeight: "600", display: "block" }}>{contact.email}</Typography>
+                                        </Tooltip>
+                                        : <small>&nbsp;</small>}</Hidden>}
                                     className={classes.basicInfo}
                                 />
                                 <Hidden smDown>
                                     <ListItemText /*className={classes.basicInfo}*/ style={{ maxWidth: "fit-content" }}
                                         primary={contact.email ?
-                                            <h4 style={{ maxWidth: "24ch", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                                                {contact.email}</h4> : <h4>&nbsp;</h4>} />
+                                            <Tooltip title="Email" arrow>
+                                                <h4 style={{ maxWidth: "24ch", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                                    {contact.email}</h4>
+                                            </Tooltip> : <h4>&nbsp;</h4>} />
                                 </Hidden>
 
                             </ListItem>

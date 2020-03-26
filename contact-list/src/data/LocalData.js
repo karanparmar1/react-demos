@@ -1,8 +1,18 @@
+import {v4 as uuidv4} from "uuid";
 
 const LocalData = () => {
     let data = [
         {
-            id: 0,
+            // id: uuidv4(),
+            // checked: false,
+            // fullname: "ZAjflkasdjflksdjfkl dfjdfkjddksj",
+            // about: "adkghdkjfghafkjldghkljfdghkjdfaghlkjdaghkjadgafgkljhakjdfghlkjhafldgjhaldkfgjhaj@kdjfghadgkjdfhg.com",
+            // image: "",
+            // email: "adkghdkjfghafkjldghkljfdghkjdfaghlkjdaghkjadgafgkljhakjdfghlkjhafldgjhaldkfgjhaj@kdjfghadgkjdfhg.com",
+            // phone: "+91 8511918322",
+            // company: "ZURUTEXH INDIA PVT LTD sdfjhfkjd",
+            // address: "KJDSFAHDSKLFJAHDSFKJDSHF DSK JHSDKFJHDSKJFHKJHFKfd",
+            id: uuidv4(),
             checked: false,
             fullname: "Admin User",
             about: "I am Admin Of the App",
@@ -12,7 +22,7 @@ const LocalData = () => {
             company: "Work at Work",
             address: "Gotham City",
         }, {
-            id: 1,
+            id: uuidv4(),
             checked: false,
             fullname: "Karan Parmar",
             about: "Intern At Zuru Tech India pvt ltd",
@@ -22,7 +32,7 @@ const LocalData = () => {
             company: "ZURU Tech India",
             address: "Jivrajpark, Ahmedabad, Gujarat",
         }, {
-            id: 2,
+            id: uuidv4(),
             checked: false,
             fullname: "Elon Musk",
             about: "I build cool stuff",
@@ -32,7 +42,7 @@ const LocalData = () => {
             company: "Tesla Inc",
             address: "Mars nearby Earth",
         }, {
-            id: 3,
+            id: uuidv4(),
             checked: false,
             fullname: "Jeff Bezos",
             about: "I am that rich guy",
@@ -42,7 +52,7 @@ const LocalData = () => {
             company: "Amazon Inc",
             address: "Washington",
         }, {
-            id: 4,
+            id: uuidv4(),
             checked: false,
             fullname: "Vrajpal Jhala",
             about: "Intern At ZURU Tech India pvt ltd",

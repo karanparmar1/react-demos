@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 import {
-    List, ListItem, ListItemIcon, ListItemText, IconButton, Drawer,
+    List, ListItem, ListItemIcon, ListItemText, IconButton, Drawer, Tooltip
 } from '@material-ui/core';
 
 import { useTheme } from "@material-ui/core/styles";
@@ -48,27 +48,34 @@ const SideDrawer = (props) => {
 
                 <NavLink exact activeClassName={classes.active} className="link" to="/contact-app" >
                     <ListItem button>
-                        <ListItemIcon className={classes.textWhite}>
-                            <PersonOutline fontSize="large" />
-                        </ListItemIcon>
+                        <Tooltip title={!open?"Local":""} placement="right" arrow>
+                            <ListItemIcon className={classes.textWhite}>
+                                <PersonOutline fontSize="large" />
+                            </ListItemIcon>
+                        </Tooltip>
+
                         <ListItemText primary="Local" />
                     </ListItem>
                 </NavLink>
 
-                <NavLink  activeClassName={classes.active} className="link" to="/contact-app/twitter">
-                    <ListItem button >
-                        <ListItemIcon className={classes.textWhite}>
-                            <Twitter fontSize="large" />
-                        </ListItemIcon>
+                <NavLink exact activeClassName={classes.active} className="link" to="/contact-app/twitter">
+                    <ListItem button>
+                        <Tooltip title={!open?"Twitter":""} placement="right" arrow>
+                            <ListItemIcon className={classes.textWhite}>
+                                <Twitter fontSize="large" />
+                            </ListItemIcon>
+                        </Tooltip>
                         <ListItemText primary="Twitter" />
                     </ListItem>
                 </NavLink>
 
-                <NavLink  activeClassName={classes.active} className="link" to="/contact-app/github">
+                <NavLink exact activeClassName={classes.active} className="link" to="/contact-app/github">
                     <ListItem button>
-                        <ListItemIcon className={classes.textWhite}>
-                            <GitHub fontSize="large" />
-                        </ListItemIcon>
+                        <Tooltip title={!open?"GitHub":""} placement="right" arrow>
+                            <ListItemIcon className={classes.textWhite}>
+                                <GitHub fontSize="large" />
+                            </ListItemIcon>
+                        </Tooltip>
                         <ListItemText primary="GitHub" />
                     </ListItem>
                 </NavLink>
