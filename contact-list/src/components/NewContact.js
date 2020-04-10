@@ -1,10 +1,13 @@
 import React from 'react'
-import { ListItem, ListItemAvatar, ListItemText, Fab, InputAdornment, TextField } from "@material-ui/core";
+import clsx from 'clsx';
+import { ListItem, ListItemAvatar, ListItemText, Fab, InputAdornment, TextField, Tooltip } from "@material-ui/core";
 import { DoneOutline, Close, AccountBox, Email } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles"
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 const NewContact = (props) => {
+    let { titleField, uniqueField } = props;
+    console.log("New Contact Rendered.");
     const useStyles = makeStyles(theme => ({
         newListItem: {
             [theme.breakpoints.down("xs")]: {
@@ -26,41 +29,65 @@ const NewContact = (props) => {
     const [newContactEmail, setNewContactEmail] = React.useState("");
     const [emailError, setEmailError] = React.useState("");
     const [nameError, setNameError] = React.useState("");
-
+    let timeoutId = newContactName;
     const handleOnChange = e => {
         let value = e.target.value;
-        if (e.target.name === "fullname") {
-            setNewContactName(value);
+        if (e.target.name === titleField.fieldname) {
+            let { fieldname, max, min, required, type, label } = titleField;
             if (value.trim().length) {
-                if (value.length > 32) {
-                    setNameError("You can enter max 32 chars")
+                if (value.length > max) {
+                    if (timeoutId) clearTimeout(timeoutId);
+                    timeoutId = setTimeout(() => {
+                        setNameError("");
+                    }, 1500);
+                    setNameError("You can enter max" + max + " chars");
                 }
-                else { setNameError(""); }
+                else if (value.length < min) {
+                    setNameError("Enter atleast " + min + " chars");
+                    setNewContactName(value);
+                }
+                else {
+                    setNameError("");
+                    setNewContactName(value);
+                }
             }
             else {
-                setNameError("name is required");
+                setNameError(label + " is required");
+                setNewContactName(value);
             }
 
         }
-        if (e.target.name === "email") {
-            value = value.trim();
-            setNewContactEmail(value);
+        if (e.target.name === uniqueField.fieldname) {
+            let { fieldname, max, min, type, required, label } = uniqueField;
+            let value = e.target.value.trim();
             if (value.length) {
-                let found = props.data.find(obj => obj.email.toLowerCase() === value.toLowerCase()) || null;
-                if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-                    setEmailError("Invalid email address");
+                let found = props.data.find(obj => (obj[fieldname]) ? obj[fieldname].toLowerCase() === value.toLowerCase() : false);
+                if (type === "email" && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
+                    setEmailError("Invalid " + label);
+                    setNewContactEmail(value);
                 }
-                else if (value.length > 100) {
-                    setEmailError("max 100 chars");
+                else if (value.length < min) {
+                    setEmailError("min " + min + " chars");
+                    setNewContactEmail(value);
                 }
-                else if (found !== null) {
-                    setEmailError("Email already exists");
+                else if (value.length > max) {
+                    if (timeoutId) clearTimeout(timeoutId);
+                    timeoutId = setTimeout(() => {
+                        setEmailError("");
+                    }, 1500);
+                    setEmailError("max " + max + " chars");
+                }
+                else if (found) {
+                    setEmailError(label + " already exists");
+                    setNewContactEmail(value);
                 }
                 else {
                     setEmailError("");
+                    setNewContactEmail(value);
                 }
             } else {
-                setEmailError("");
+                setNewContactEmail(value);
+                setEmailError(uniqueField.required ? label + " is required" : ""); //fieldname==="id"?setEmailError(label+" is required"):setEmailError("");
             }
         }
     }
@@ -74,30 +101,35 @@ const NewContact = (props) => {
     const saveContact = () => {
         props.addNewContact({
             id: uuidv4(), //props.data.length ? props.data.reduce((max, next) => Math.max(max, next.id), props.data[0].id) + 1 : 0,
-            fullname: newContactName,
-            email: newContactEmail,
+            [props.titleField.fieldname]: newContactName,
+            [props.uniqueField.fieldname]: newContactEmail,
             checked: false
         });
         setNewContactName("");
         setNewContactEmail("");
+        props.gotoLastPage();
     }
 
     return (
-        <ListItem className={classes.newListItem}>
+        <ListItem className={clsx(classes.newListItem)}>
+
             <ListItemAvatar>
-                <Fab color="primary" size="medium"
-                    onClick={saveContact}
-                    disabled={!newContactName.length > 0 || nameError.length > 0 || emailError.length > 0}
-                >
-                    <DoneOutline />
-                </Fab>
+                <Tooltip title="Save New Contact" arrow><span>
+                    <Fab color="primary" size="medium"
+                        onClick={saveContact}
+                        disabled={(!newContactName.length > 0 || nameError.length > 0 || emailError.length > 0) || (uniqueField.fieldname === "CountryCode" ? !newContactEmail.length > 0 : false)}
+                    >
+                        <DoneOutline />
+                    </Fab>
+                </span></Tooltip>
             </ListItemAvatar>
+
 
             <ListItemText primary={
                 <form align="center">
                     <TextField required autoFocus multiline
                         value={newContactName}
-                        label=" FullName" name="fullname"
+                        label=" FullName" name={titleField.fieldname}
                         InputProps={{
                             startAdornment: (<InputAdornment position="start">
                                 <AccountBox /> </InputAdornment>
@@ -111,8 +143,8 @@ const NewContact = (props) => {
                         className={classes.newContactField}
                     />
                     <TextField multiline value={newContactEmail}
-                        placeholder="abc@xyz.com"
-                        label="Email" name="email"
+                        placeholder={uniqueField.placeholder}
+                        label={uniqueField.label} name={uniqueField.fieldname}
                         InputProps={{
                             startAdornment: (<InputAdornment position="start">
                                 <Email /> </InputAdornment>
@@ -126,14 +158,17 @@ const NewContact = (props) => {
                     />
                 </form>
             } />
+
             <ListItemAvatar style={{ textAlign: "right" }}>
-                <Fab color="secondary" size="medium"
-                    onClick={() => {
-                        props.handleAdd(false); setNewContactName(""); setNewContactEmail("");
-                        setNameError(""); setEmailError("");
-                    }}>
-                    <Close />
-                </Fab>
+                <Tooltip title="Cancel" arrow>
+                    <Fab color="secondary" size="medium"
+                        onClick={() => {
+                            props.handleAdd(false); setNewContactName(""); setNewContactEmail("");
+                            setNameError(""); setEmailError("");
+                        }}>
+                        <Close />
+                    </Fab>
+                </Tooltip>
             </ListItemAvatar>
         </ListItem>
 

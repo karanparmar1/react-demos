@@ -1,4 +1,4 @@
-import {v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 const LocalData = () => {
     let data = [
@@ -36,7 +36,7 @@ const LocalData = () => {
             checked: false,
             fullname: "Elon Musk",
             about: "I build cool stuff",
-            image: "https://i1.wp.com/smestreet.in/wp-content/uploads/2018/05/Elon-Musk-Tesla.gif?fit=300%2C225&ssl=1",
+            image: "https://shareville-media.s3.amazonaws.com/cache/17/28/17280a8830b41b2d4b8b7d97c1f9a265.jpg",
             email: "musk@tesla.com",
             phone: "124 421 8055",
             company: "Tesla Inc",
@@ -46,7 +46,7 @@ const LocalData = () => {
             checked: false,
             fullname: "Jeff Bezos",
             about: "I am that rich guy",
-            image: "https://images.ladbible.com/thumbnail?type=jpeg&url=http://beta.ems.ladbiblegroup.com/s3/content/dceff8665e34a7857ec00b211f98cd9f.png&quality=70&width=720",
+            image: "https://pbs.twimg.com/profile_images/669103856106668033/UF3cgUk4_400x400.jpg",
             email: "bezos@amazon.com",
             phone: "",
             company: "Amazon Inc",
@@ -68,4 +68,4 @@ const LocalData = () => {
     )
 }
 
-export default LocalData
+export default LocalData;

@@ -1,13 +1,14 @@
 import React from 'react';
+import clsx from 'clsx';
 import { Edit, Save, Close, ArrowBack, AddAPhoto } from "@material-ui/icons";
-import { Grid, Avatar, Fab, Badge, TextField, IconButton, Tooltip } from "@material-ui/core";
+import { Grid, Avatar, Fab, Badge, TextField, Select, MenuItem, IconButton, Tooltip, Fade } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { DropzoneDialog } from 'material-ui-dropzone';
 import CommonStyle from "./CommonStyle";
 
 function display(data) {
-    if (data !== undefined) return (data.length > 0)
-        ? data
+    // console.log(data)
+    return (data) ? data
         : <span style={{ color: "dimgray" }}>Info Not Provided</span>;
 }
 function stringToColor(string) {
@@ -21,82 +22,99 @@ function stringToColor(string) {
     }
     return color;
 }
-let nameError = "", emailError = "", phoneError = "", companyError = "", addressError = "", aboutError = "";
-let formError = false;
-const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) => {
-
+let timeoutId = 111, fieldTimer = 99;
+const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, objRule, imgField, titleField, uniqueField, descriptionField }) => {
+    let id = uniqueField.fieldname;
     const theme = useTheme();
     const classes = CommonStyle(theme);
     const [state, setState] = React.useState(contact);
-    let [dropzoneOpen, setDropzoneOpen] = React.useState(false);
+    const [formError, setFormError] = React.useState(false);
+    const [dropzoneOpen, setDropzoneOpen] = React.useState(false);
+    const [currentError, setCurrentError] = React.useState(false);
 
-    const validateField = (e) => {
+    const validateForm = () => {
+        setFormError(Object.entries(objRule).reduce((sum, next) => sum + next[1].error, "").length > 0);
+    };
+
+    const setValue = (field, value) => {
+        // if (fieldTimer) clearTimeout(fieldTimer);
+        //fieldTimer = setTimeout(() =>
+        setState({
+            ...state,
+            [field]: value,
+        })
+        //     , 500);
+    };
+
+    const validateField = (e, field) => {
         let value = e.target.value || "";
-        let field = e.target.name;
+        const { fieldname, type, label, required, min, max } = field;
+        if (value.length) {
+            if (type === "phone") {
+                let invalidPhone = !/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(value);
+                setValue(field.fieldname, value);
+                objRule[fieldname].error = invalidPhone ? "Invalid Phone number" : "";
+            }
 
-        if (field === "fullname") {
-            if (value.length) {
-                if (value.length > 32) {
-                    nameError = "max 32 chars";
+            else if (type === "email") {
+                let invalidEmail = !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
+                if (invalidEmail && value.length <= max) {
+                    objRule[fieldname].error = "Invalid Email address";
+                    setValue(field.fieldname, value);
                 }
-                else { nameError = ""; }
-            }
-            else {
-                nameError = "fullname is required"
-            }
-        }
-        if (field === "email") {
-            if (value.length) {
-                if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-                    emailError = "Invalid email address";
-                }
-                else if (value.length > 100) {
-                    emailError = "max 100 chars";
-                }
-                else { emailError = ""; }
-            }
-            else {
-                emailError = "email is required"
-            }
-        }
-        if (field === "phone") {
-            if (value.length) {
-                if (!/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(value)) {
-                    phoneError = "Invalid phone number";
+                else if (value.length > max) {
+                    if (timeoutId) clearTimeout(timeoutId);
+                    timeoutId = setTimeout(() => {
+                        objRule[fieldname].error = invalidEmail ? "Invalid Email address" : "";
+                        setCurrentError(false);
+                        validateForm();
+                    }, 1500);
+                    objRule[fieldname].error = "You can enter max " + max + " chars";
+                    setCurrentError(true);
                 }
                 else {
-                    phoneError = "";
+                    objRule[fieldname].error = "";
+                    setValue(field.fieldname, value);
                 }
             }
             else {
-                phoneError = "phone is required"
+                let invalidId = (!/^([a-zA-Z])[a-zA-Z0-9-]*$/i.test(value));
+                if (field.fieldname === "id" && invalidId) {
+                    if (timeoutId) clearTimeout(timeoutId);
+                    timeoutId = setTimeout(() => {
+                        objRule[fieldname].error = "Enter AlphaNumeric with \"-\"";
+                        setCurrentError(false);
+                        validateForm();
+                    }, 1000);
+                    objRule[fieldname].error = "Invalid " + label;
+                    setValue(field.fieldname, value);
+                    setCurrentError(true);
+                }
+                else if (value.length < min) {
+                    objRule[fieldname].error = "Enter ateleast " + min + " chars";
+                    setValue(field.fieldname, value);
+                }
+                else if (value.length > max) {
+                    if (timeoutId) clearTimeout(timeoutId);
+                    timeoutId = setTimeout(() => {
+                        objRule[fieldname].error = "";
+                        setCurrentError(false);
+                        validateForm();
+                    }, 1500);
+                    objRule[fieldname].error = "You can enter max " + max + "  chars";
+                    setCurrentError(true);
+                }
+                else {
+                    objRule[fieldname].error = ""
+                    setValue(fieldname, value);
+                }
             }
         }
-        if (field === "company") {
-            if (value.length) {
-                companyError = value.length < 2 ? "atleast 2 chars" : value.length > 32 ? "max 32 chars" : "";
-            }
-            else {
-                companyError = "";
-            }
+        else {
+            objRule[fieldname].error = required ? (label + " is required") : "";
+            setValue(fieldname, value);
         }
-        if (field === "address") {
-            if (value.length) {
-                addressError = value.length < 4 ? "atleast 4 chars" : value.length > 50 ? "max 50 chars" : "";
-            }
-            else {
-                addressError = "";
-            }
-        }
-        if (field === "about") {
-            if (value.length) {
-                aboutError = value.length < 1 ? "atleast 1 chars" : value.length > 100 ? "max 100 chars" : "";
-            }
-            else {
-                aboutError = "";
-            }
-        }
-        formError = (nameError + emailError + phoneError + aboutError + companyError + addressError).length > 0;
+        validateForm();
     };
 
     const handleFileSubmit = (files) => {
@@ -108,28 +126,26 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) 
         setDropzoneOpen(false);
     };
 
-    const handleChangeInput = (e) => {
-        setState({
-            ...state,
-            [e.target.name]: e.target.value,
-        });
-        validateField(e);
-    };
+    const handleChangeInput = (e, field) => { validateField(e, field); };
 
     const handleCancel = () => {
         handleEdit(false);
         setState(contact);
+        Object.entries(objRule).forEach(obj => obj[1].error = "");
     };
 
     React.useEffect(() => {
         setState(contact);
-        nameError = ""; emailError = ""; phoneError = ""; companyError = ""; addressError = ""; aboutError = ""; formError = false;
-    }, [contact]);
+        Object.entries(objRule).forEach(obj => obj[1].error = "");
+        setFormError(false);
+    }, [contact, objRule]);
+
+
 
     return (
         contact.id !== undefined && contact.id !== null ?
             <Grid container item xs={12} justify="center" className={`${classes.detailCard} ${classes.bgSilver}`} >
-
+                {/* BACK - EDIT BUTTONS */}
                 <Grid container item xs={12} justify="space-between">
                     <Grid item xs style={{ textAlign: "left" }}>
                         <Tooltip title="Back">
@@ -143,8 +159,10 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) 
                     </Grid>
                 </Grid>
 
+                {/* DETAILS */}
                 <Grid container item spacing={editable ? 1 : 3}>
-                    <Grid container item xs={12} justify="center">
+                    {/* Image, Title, Subtitle/Description Text */}
+                    < Grid container item xs={12} justify="center" >
                         <Grid item>
                             <DropzoneDialog showPreviewsInDropzone={true} showPreviews={false} filesLimit={1} acceptedFiles={["image/*"]} showFileNamesInPreview={true} showFileNames={true}
                                 open={dropzoneOpen} onClose={() => setDropzoneOpen(false)} onSave={handleFileSubmit}
@@ -155,103 +173,95 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) 
                                     horizontal: 'right',
                                 }}
                                 badgeContent=
-                                {<Tooltip title="Upload Photo" arrow><IconButton
+                                {<Tooltip title="Upload Photo" arrow><span><IconButton
                                     onClick={() => setDropzoneOpen(true)}
                                     style={{
                                         position: "relative", top: "-5px", left: "-5px", padding: "4px", background: "white", border: "3px solid darkgray"
                                     }}
+                                    disabled={!editable}
                                     size="medium">
                                     <AddAPhoto color="primary" />
-                                </IconButton></Tooltip>}
+                                </IconButton></span></Tooltip>}
                             >
-                                <Avatar src={state.image} className={classes.larger} style={{ background: stringToColor(contact.id + contact.fullname) }}>
-                                    {contact.fullname.split(" ").map((n, i) => i < 2 ? n[0] : "")}
+                                <Avatar src={state[imgField.fieldname]} className={classes.larger} style={{ background: stringToColor(contact.id) }}>
+                                    {contact[titleField.fieldname].split(" ").map((n, i) => i < 2 ? n[0] : "")}
                                 </Avatar>
                             </Badge>
                         </Grid>
+
                         <Grid container item justify="center" style={{ textAlign: "center" }}>
                             <Grid item xs={12}>
                                 <h1 style={{ lineHeight: 1, margin: "10px auto", color: "black", maxWidth: "100%", overflowWrap: "anywhere", }}>
-                                    {contact.fullname}
+                                    {contact[titleField.fieldname]}
                                 </h1>
                             </Grid>
                             <Grid item xs={12} md={8} className={classes.aboutGrid}>
                                 {editable ?
-                                    <TextField multiline type="text" label="about" variant="filled" className={classes.contactField}
-                                        value={state.about} name="about" onChange={handleChangeInput} autoFocus
-                                        helperText={aboutError || " "} error={aboutError.length > 0} rowsMax={3} 
-                                    />
-                                    : display(contact.about)}
+                                    <TextField multiline type="text" label={descriptionField.label} variant="filled" className={classes.contactField}
+                                        value={state[descriptionField.fieldname]} name={descriptionField.fieldname} onChange={(e) => handleChangeInput(e, descriptionField)} autoFocus
+                                        helperText={descriptionField.error || " " /*  OR " " is used cuz want to display blank so it takes space */} error={descriptionField.error.length > 0} rowsMax={3}
+                                    /> : contact[descriptionField.fieldname]}
+                                {/* : display(contact[descriptionField.fieldname])} */}
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid container item xs={12}>
-                        <Grid item xs={12} md={4}>Full Name</Grid>
-                        <Grid item xs={12} md={8} className={classes.fieldGrid} >
-                            {editable ?
-                                <TextField multiline type="text" className={classes.contactField}
-                                    value={state.fullname} name="fullname" onChange={handleChangeInput}
-                                    helperText={nameError || " "} error={nameError.length > 0}
-                                />
-                                : display(contact.fullname)}
+                    {
+                        Object.entries(objRule).map((keyValuePair, index) => {
+                            //keyValuePair has-> [0] as fieldname(as Key) and [1] as Value of Single Field, i.e., fullname:"karan paramar"
+                            let fieldname = keyValuePair[0];
+                            let field = objRule[fieldname];  //Getting rule of field ,objRule is passed from props
 
-                        </Grid>
-                    </Grid>
-                    <Grid container item xs={12}>
-                        <Grid item xs={12} md={4}>Email</Grid>
-                        <Grid item xs={12} md={8} className={classes.fieldGrid}>
-                            {editable ?
-                                <TextField multiline type="text" className={classes.contactField}
-                                    value={state.email} name="email" onChange={handleChangeInput}
-                                    helperText={emailError || " "} error={emailError.length > 0}
-                                />
-                                : display(contact.email)}
-                        </Grid>
-                    </Grid>
-                    <Grid container item xs={12}>
-                        <Grid item xs={12} md={4}>Phone</Grid>
-                        <Grid item xs={12} md={8} className={classes.fieldGrid} > {editable ?
-                            <TextField multiline type="number" className={classes.contactField}
-                                value={state.phone} name="phone" onChange={handleChangeInput}
-                                helperText={phoneError || " "} error={phoneError.length > 0}
-                            />
-                            : display(contact.phone)}</Grid>
-                    </Grid>
-                    <Grid container item xs={12}>
-                        <Grid item xs={12} md={4}>Company</Grid>
-                        <Grid item xs={12} md={8} className={classes.fieldGrid}  > {editable ?
-                            <TextField multiline type="text" className={classes.contactField}
-                                value={state.company} name="company" onChange={handleChangeInput}
-                                helperText={companyError || " "} error={companyError.length > 0}
-                            />
-                            : display(contact.company)}</Grid>
-                    </Grid>
-                    <Grid container item xs={12}>
-                        <Grid item xs={12} md={4}>Address</Grid>
-                        <Grid item xs={12} md={8} className={classes.fieldGrid} > {editable ?
-                            <TextField multiline type="text" className={classes.contactField}
-                                value={state.address} name="address" onChange={handleChangeInput}
-                                helperText={addressError || " "} error={addressError.length > 0}
-                            />
-                            : display(contact.address)}</Grid>
-                    </Grid>
+                            return !(["image", "description"].includes(field.type)) &&
+
+                                <Grid container item xs={12} key={index}>
+                                    <Grid item xs={12} md={4}>{field.label.concat((editable && field.required) ? "*" : "")}</Grid>
+                                    <Grid item xs={12} md={8} className={classes.fieldGrid} >
+                                        {
+                                            field.type === "boolean" ?
+                                                (editable ?
+                                                    <Select
+                                                        value={state[fieldname] || "NO"}
+                                                        onChange={(e) => handleChangeInput(e, field)}
+                                                        autoWidth
+                                                        className={classes.selectEmpty}>
+                                                        <MenuItem value={"YES"}>Yes</MenuItem>
+                                                        <MenuItem value={"NO"}>No</MenuItem>
+                                                    </Select>
+                                                    : display(contact[fieldname] ? contact[fieldname] : "NO"))
+                                                : (editable ? <TextField multiline type="text" className={classes.contactField}
+                                                    value={state[fieldname]} name={fieldname} placeholder={field.placeholder} onChange={(e) => handleChangeInput(e, field)}
+                                                    helperText={objRule[fieldname].error || " "} error={objRule[fieldname].error.length > 0}
+                                                />
+                                                    // field.error not used but accessing objRule[fieldname].error cuz objRule is global and is modified in validation fxn
+                                                    //If I am making TextField Uncontrolled i.e. removing value attr, maxLength prob.
+                                                    : display(contact[fieldname]))
+                                        }
+                                    </Grid>
+                                </Grid>
+
+                        }
+                        )
+                    }
+
                 </Grid>
 
-                {editable ? <Grid container item justify="center" spacing={1}>
-                    <Grid item>
-                        <Tooltip title={formError?"Saving requires valid values":"Save"} arrow>
-                            <span>
-                                <Fab variant="extended" size="medium" color="primary" disabled={formError} onClick={() => { handleUpdate(state); handleEdit(false); setState(contact) }}><Save /> &nbsp;Save </Fab>
-                            </span>
-                        </Tooltip>
+                {/* SAVE - CANCEL BUTTONS */}
+                <Fade in={editable}>
+                    <Grid container item justify="center" spacing={1}>
+                        <Grid item>
+                            <Tooltip title={formError ? "Saving requires valid values" : "Save"} arrow>
+                                <div className={clsx({ [classes.cursorDisabled]: formError })}>
+                                    <Fab variant="extended" size="medium" color="primary" disabled={formError} onClick={() => { handleUpdate(state); handleEdit(false); setState(contact) }}><Save /> &nbsp;Save </Fab>
+                                </div>
+                            </Tooltip>
+                        </Grid>
+                        <Grid item>
+                            <Tooltip title="Cancel" arrow>
+                                <Fab variant="extended" size="medium" color="secondary" onClick={handleCancel}><Close /> &nbsp;Cancel </Fab>
+                            </Tooltip>
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        <Tooltip title="Cancel" arrow>
-                            <Fab variant="extended" size="medium" color="secondary" onClick={handleCancel}><Close /> &nbsp;Cancel </Fab>
-                        </Tooltip>
-                    </Grid>
-                </Grid>
-                    : <></>}
+                </Fade>
 
 
 
@@ -262,4 +272,4 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive }) 
     )
 }
 
-export default DetailCard
+export default DetailCard;

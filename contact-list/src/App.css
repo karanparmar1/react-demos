@@ -11,9 +11,9 @@ html {
 .text-left {
   text-align: left;
 }
-.link{
+.link {
   text-decoration: none;
-  color:white;
+  color: white;
 }
 
 .icon-gradient {
@@ -23,16 +23,21 @@ html {
   -webkit-text-fill-color: transparent;
   color: "transparent";
 }
-.text-black{
-  color:black;
+.text-black {
+  color: black;
 }
 .text-silver {
   color: rgb(128, 128, 128);
 }
-.bg-silver{
-  background: rgb(230, 230, 230);
-  color:rgb(128, 128, 128);
+.text-white{
+  color: white;
 }
+.bg-silver {
+  background: rgb(230, 230, 230);
+  color: rgb(128, 128, 128);
+}
+
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

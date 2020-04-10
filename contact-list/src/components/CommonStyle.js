@@ -1,9 +1,8 @@
 import { useTheme, makeStyles } from "@material-ui/core/styles";
-
+import React from "react";
 const CommonStyle = () => {
     const theme = useTheme();
     const drawerWidth = 220;
-
     const styles =
     {
         root: {
@@ -28,7 +27,7 @@ const CommonStyle = () => {
                 color: "black"
             }
         },
-      
+
         active: {
             "& > div": {
                 boxShadow: "inset 4px 0 0 0 white",
@@ -40,19 +39,43 @@ const CommonStyle = () => {
         },
         heading: {
             transition: 'all 0.5s linear',
+            transform: "scale(0.9)",
+            margin: "8px 0px",
             whiteSpace: "nowrap",
             maxWidth: "fit-content",
+
             [theme.breakpoints.only("sm")]: {
-                marginLeft: theme.spacing(3),
+                margin: "auto",
             },
             [theme.breakpoints.down("xs")]: {
-                marginLeft: "50%",
-                transform: "translate(-50%)"
+                margin: "auto",
+                transform: "scale(0.8) translateX(-16px)"
             }
         },
-
-        searchbar: {
+        actionbar: {
+            textAlign: "right",
+            [theme.breakpoints.only('lg')]: { paddingRight: "0px !important" },
+        },
+        searchWrapper: {
             transition: "all 0.3s linear",
+            boxShadow: "none",
+            borderRadius: 25,
+            background: "rgb(230, 230, 230)",
+
+            "& :hover": {
+
+                boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.7) !important",
+                cursor: "help",
+                background: "white",
+                "& *": {
+                    color: "black",
+                    boxShadow: "none !important",
+                }
+            },
+
+        },
+        searchbar: {
+            // transition: "all 0.3s linear",
             background: "rgb(230, 230, 230)",
             display: "flex",
             borderRadius: 25,
@@ -61,22 +84,25 @@ const CommonStyle = () => {
             "& :hover": {
                 cursor: "help",
             },
-            [theme.breakpoints.down(321)]: {
-                transform: "scale(0.9)",
-            }
+
 
         },
+
+
         input: {
+            borderRadius: 5,
             background: "transparent",
             marginLeft: theme.spacing(1),
             flex: 1,
-            transition: "all 0.5s linear",
+            transition: "color 0.3s linear",
             "& :focus": {
                 fontWeight: "600",
                 cursor: "text"
             },
+            "& input": { padding: "6px 0px 6px", },
         },
         Checkbox: {
+            minWidth: "50px",
             [theme.breakpoints.down("xs")]: {
                 minWidth: "24px"
             }
@@ -100,6 +126,11 @@ const CommonStyle = () => {
                 transform: "scale(0.9)",
             }
         },
+        cursorDisabled: {
+            "&:hover": {
+                cursor: "not-allowed",
+            }
+        },
         btn: {
             "&:hover": {
                 "& button": {
@@ -107,6 +138,8 @@ const CommonStyle = () => {
                     boxShadow: "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);"
                 },
             },
+            paddingTop: "12px",
+            paddingBottom: "12px"
         },
 
         btnAdd: {
@@ -114,11 +147,16 @@ const CommonStyle = () => {
                 paddingLeft: "12px"
             }
         },
+        btnAdding: {
+            cursor: "not-allowed !important",
+            "& button": {
+                boxShadow: "none",
+            }
+        },
         btnDelete: {
             [theme.breakpoints.up("md")]: {
-                paddingRight: "14px"
+                paddingRight: "20px"
             },
-
         },
         btnEdit: {
             color: "black",
@@ -132,21 +170,56 @@ const CommonStyle = () => {
                 fontWeight: "bolder"
             }
         },
-        listHeaderItem: {
+        contactList: {
+            flexGrow: 1,
+            boxShadow: "0px 1px 6px 0px rgba(0,0,0,0.7)",
+            [theme.breakpoints.down("xs")]: {
+                boxShadow: "none",
+            },
+
+        },
+        listItemHeader: {
+            background: "rgb(230, 230, 230)",
+            color: "rgb(128, 128, 128)",
+            padding: "4px 12px",
+            [theme.breakpoints.up("md")]: {
+                paddingLeft: "28px",
+            },
+            [theme.breakpoints.only("sm")]: {
+                paddingLeft: "22px",
+            }
+        },
+        listItemHeaderText: {
             transition: "all 0.3s linear",
             maxWidth: "40ch",
             [theme.breakpoints.up("lg")]: {
-                marginLeft: "24px",
+                marginLeft: "18px",
                 maxWidth: "25ch",
             },
             [theme.breakpoints.only("md")]: {
-                marginLeft: "24px",
+                marginLeft: "18px",
                 minWidth: "36ch",
                 maxWidth: "39ch",
             },
             [theme.breakpoints.down("sm")]: {
                 textAlign: "center"
             }
+        },
+        renderedRecords: {
+            overflowY: "auto",
+            [theme.breakpoints.up("lg")]: {
+                height: "60vh",
+            }
+        },
+        listItem: {
+            padding: "8px 16px",
+            [theme.breakpoints.up("md")]: {
+                paddingLeft: "30px",
+            },
+            [theme.breakpoints.only("sm")]: {
+                paddingLeft: "24px",
+            }
+
         },
         basicInfo: {
             transition: "all 0.3s linear",
@@ -250,20 +323,21 @@ const CommonStyle = () => {
 
         },
         appBarShift: {
-            marginLeft: drawerWidth,
-            width: `calc(100% - ${drawerWidth}px)`,
-            transition: theme.transitions.create(["width", "margin"], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.enteringScreen
-            })
+            [theme.breakpoints.up("sm")]: {
+                marginLeft: drawerWidth,
+                width: `calc(100% - ${drawerWidth}px)`,
+                transition: theme.transitions.create(["width", "margin"], {
+                    easing: theme.transitions.easing.sharp,
+                    duration: theme.transitions.duration.enteringScreen
+                })
+            },
         },
         menuButton: {
-            marginRight: 29
+            marginRight: 29,
         },
         invisible: {
             visibility: "hidden",
-            [theme.breakpoints.down("sm")]: { display: "none" },
-
+            // [theme.breakpoints.down("sm")]: { display: "none" },
         },
         hide: {
             display: "none",
@@ -304,23 +378,24 @@ const CommonStyle = () => {
             padding: theme.spacing(0, 1),
             ...theme.mixins.toolbar
         },
-        mainContent: {
-            [theme.breakpoints.down('sm')]: {
-                position: "absolute",
-                left: "0",
-                top: "0",
-            }
-        },
         removePadding: {
             [theme.breakpoints.down('xs')]: {
                 padding: "20px 0px !important",
             }
         },
+        absoluteAtSmall: {
+            [theme.breakpoints.only('sm')]: { left: "65px", },
+            [theme.breakpoints.down('sm')]: {
+                position: "absolute",
+
+                // top: "0",
+            }
+        },
         innerContent: {
             padding: "auto 0px",
-            [theme.breakpoints.up('md')]: {
-                paddingLeft: "32px"
-            },
+            // [theme.breakpoints.up('md')]: {
+            //     paddingLeft: "32px"
+            // },
             [theme.breakpoints.down('sm')]: {
                 padding: "auto 0px auto",
             },
@@ -331,8 +406,9 @@ const CommonStyle = () => {
             [theme.breakpoints.up("md")]: {
                 margin: "20px",
             },
-            [theme.breakpoints.down('xs')]: {
-                margin: "0px"
+            [theme.breakpoints.down("sm")]: {
+                margin: "0px",
+                marginTop: "20px",
             },
         },
     };
