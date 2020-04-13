@@ -3,26 +3,6 @@ import MyLoader from "./MyLoader";
 import MyApiWrapper from './MyApiWrapper';
 import { createApolloFetch } from "apollo-fetch";
 
-// const query = `{
-//   jobes {
-//     id
-//     mission_name
-//     rocket {
-//       rocket_name
-//     }
-//     job_success 
-//     job_year
-//     job_site {
-//       site_name
-//     }
-//     links {
-//       flickr_images
-//     }
-//   }
-// }`;
-
-// const uri = "https://api.spacex.land/graphql/";
-
 const query = `{
     jobs {
       id
@@ -54,7 +34,7 @@ const Jobs = ({ classes, handleDrawerOpen, open }) => {
     icon: "fa fa-suitcase fa-3x icon-gradient"
   };
 
-  //Mentioning Rules Editable Fields to be displayed
+  //Mentioning Rules for Editable Fields to be displayed
   let objRule = {
     title: { fieldname: "title", label: "Job Title", required: true, min: 1, max: 32, type: "title", error: "", placeholder: "Job Title" },
     userEmail: { fieldname: "userEmail", label: "Email", required: true, min: 6, max: 100, type: "email", error: "", placeholder: "mail@xyz.com", unique: true },
@@ -64,18 +44,6 @@ const Jobs = ({ classes, handleDrawerOpen, open }) => {
     company: { fieldname: "company", label: "Company", required: false, min: 2, max: 32, type: "text", error: "", placeholder: "ZURU Tech pvt" },
     logoUrl: { fieldname: "logoUrl", label: "Image", required: false, min: 2, max: 32, type: "image", error: "", placeholder: "Set Image" }
   };
-
-
-  //Mentioning Rules Editable Fields to be displayed
-  // let objRule = {
-  //   mission_name: { fieldname: "mission_name", label: "Mission Name", required: true, min: 1, max: 32, type: "title", error: "", placeholder: "Mission Name" },
-  //   id: { fieldname: "id", label: "job id", required: true, min: 6, max: 36, type: "text", error: "", placeholder: "XXX-XXX" },
-  //   rocket: { fieldname: "rocket", label: "Rocket", required: false, min: 4, max: 20, type: "text", error: "", placeholder: "Rocket Name" },
-  //   job_success: { fieldname: "job_success", label: "Success Status", required: false, min: 3, max: 5, type: "text", error: "", placeholder: "true" },
-  //   job_year: { fieldname: "job_year", label: "job Year", required: false, min: 4, max: 4, type: "text", error: "", placeholder: "2020" },
-  //   job_site: { fieldname: "job_site", label: "job Site", required: false, min: 3, max: 50, type: "text", error: "", placeholder: "Someplace" },
-  //   links: { fieldname: "links", label: "Image", required: false, min: 0, max: 1, type: "image", error: "" },
-  // };
 
 
   async function fetchApiData(uri) {

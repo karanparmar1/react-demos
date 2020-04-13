@@ -1,5 +1,5 @@
 import { useTheme, makeStyles } from "@material-ui/core/styles";
-import React from "react";
+
 const CommonStyle = () => {
     const theme = useTheme();
     const drawerWidth = 220;

@@ -1,5 +1,5 @@
 import React from 'react';
-import MainContentWrapper from "./MainContentWrapper"
+import MainContentWrapper from "./MainContentWrapper";
 
 
 const MyApiWrapper = (props) => {

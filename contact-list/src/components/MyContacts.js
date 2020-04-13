@@ -25,7 +25,7 @@ const MyContacts = ({ classes, handleDrawerOpen, open }) => {
         company: { fieldname: "company", label: "Company", required: false, min: 2, max: 32, type: "text", error: "", placeholder: "Zuru pvt ltd" },
         about: { fieldname: "about", label: "About", required: false, min: 2, max: 100, type: "text", error: "", placeholder: "Something relevant", subtitle: true },
         address: { fieldname: "address", label: "Address", required: false, min: 4, max: 50, type: "text", error: "", placeholder: "Someplace" },
-        image: { fieldname: "image2", label: "Image", required: false, min: 0, max: 1, type: "image", error: "" },
+        image: { fieldname: "image", label: "Image", required: false, min: 0, max: 1, type: "image", error: "" },
 
     };
 

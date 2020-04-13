@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from "clsx";
 import {
-    List, ListItem, ListItemIcon, ListItemText, ListItemAvatar, ListItemSecondaryAction,
+    List, ListItem, ListItemIcon, ListItemText, ListItemAvatar,
     Checkbox, Hidden, IconButton, Avatar, Tooltip, Typography,
     Select, MenuItem, Divider,
 } from '@material-ui/core';
@@ -74,7 +74,7 @@ const ContactList = (props) => {
 
                                     <ListItemAvatar>
                                         <Avatar src={contact[imgField.fieldname]} alt={contact[titleField.fieldname]} variant={imgField.fieldname === "flag" ? "square" : "circle"}
-                                            className={classes.large} style={{ background: contact[imgField.fieldname] ? "transparent" : stringToColor(contact.id) }}>
+                                            className={classes.large} style={{ background: stringToColor(contact.id) }}>
                                             {contact[titleField.fieldname].split(" ").map((n, i) => i < 2 ? n[0] : "")}
                                         </Avatar>
                                     </ListItemAvatar>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography, Hidden } from "@material-ui/core";
+import { Grid, Hidden } from "@material-ui/core";
 
 const Heading = ({ heading, headerStyle }) => {
     return (

@@ -3,17 +3,13 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "font-awesome/css/font-awesome.min.css";
 import { useTheme } from "@material-ui/core/styles";
 import CommonStyle from "./CommonStyle";
-import { IconButton, AppBar, Toolbar } from "@material-ui/core";
-import clsx from "clsx";
-import { ClearAllRounded } from "@material-ui/icons";
 import SideDrawer from "./SideDrawer";
 import MyContacts from "./MyContacts";
-import GraphqlData from "../data/GraphqlData";
-import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "react-apollo";
 import Jobs from "./Jobs";
 import Covid from "./Covid";
-import CovidGQL from './CovidGQL';
+// import GraphqlData from "../data/GraphqlData";
+// import ApolloClient from "apollo-boost";
+// import { ApolloProvider } from "react-apollo";
 
 // const client = new ApolloClient({
 //     uri: "https://api.spacex.land/graphql/"
@@ -49,13 +45,10 @@ const Wrapper = () => {
                         </ApolloProvider> */}
                         <Jobs classes={classes} open={open} handleDrawerOpen={handleDrawerToggle} />
                     </Route>
+
                     <Route exact path="/contact-app/covid19" >
                         <Covid classes={classes} open={open} handleDrawerOpen={handleDrawerToggle} />
                     </Route>
-
-                    {/* <Route exact path="/contact-app/covid19" >
-                        <CovidGQL classes={classes} open={open} handleDrawerOpen={handleDrawerToggle} />
-                    </Route> */}
                 </Switch>
 
 

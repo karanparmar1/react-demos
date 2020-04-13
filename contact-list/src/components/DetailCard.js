@@ -28,9 +28,8 @@ function stringToColor(string) {
     }
     return color;
 }
-let timeoutId = 111, fieldTimer = 99;
+let timeoutId = 111;
 const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, objRule, imgField, titleField, uniqueField, descriptionField }) => {
-    let id = uniqueField.fieldname;
     const theme = useTheme();
     const classes = CommonStyle(theme);
     const [state, setState] = React.useState(contact);
@@ -51,7 +50,7 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
             d = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ", " + d.toLocaleTimeString();;
             updatedContact.updated = d;
         }
-        updatedContact.lastUpdated = displayDate(new Date);
+        updatedContact.lastUpdated = displayDate(new Date());
         handleUpdate(updatedContact);
     }
     const validateForm = () => {
@@ -170,7 +169,7 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
         console.log("submit")
         setState({
             ...state,
-            image: URL.createObjectURL(files[0])
+            [imgField.fieldname]: URL.createObjectURL(files[0])
         });
         setDropzoneOpen(false);
     };
@@ -233,7 +232,7 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
                                 </IconButton></span></Tooltip>}
                             >
                                 <Avatar src={state[imgField.fieldname]} variant={imgField.fieldname === "flag" ? "square" : "circle"}
-                                    className={classes.larger} style={{ background: state[imgField.fieldname] ? "transparent" : stringToColor(contact.id) }}>
+                                    className={classes.larger} style={{ background: stringToColor(contact.id) }}>
                                     {contact[titleField.fieldname].split(" ").map((n, i) => i < 2 ? n[0] : "")}
                                 </Avatar>
                             </Badge>

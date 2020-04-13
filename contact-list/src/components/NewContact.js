@@ -33,7 +33,7 @@ const NewContact = (props) => {
     const handleOnChange = e => {
         let value = e.target.value;
         if (e.target.name === titleField.fieldname) {
-            let { fieldname, max, min, required, type, label } = titleField;
+            let { max, min, label } = titleField;
             if (value.trim().length) {
                 if (value.length > max) {
                     if (timeoutId) clearTimeout(timeoutId);
@@ -87,7 +87,7 @@ const NewContact = (props) => {
                 }
             } else {
                 setNewContactEmail(value);
-                setEmailError(uniqueField.required ? label + " is required" : ""); //fieldname==="id"?setEmailError(label+" is required"):setEmailError("");
+                setEmailError(required ? label + " is required" : ""); //fieldname==="id"?setEmailError(label+" is required"):setEmailError("");
             }
         }
     }
@@ -103,7 +103,8 @@ const NewContact = (props) => {
             id: uuidv4(), //props.data.length ? props.data.reduce((max, next) => Math.max(max, next.id), props.data[0].id) + 1 : 0,
             [props.titleField.fieldname]: newContactName,
             [props.uniqueField.fieldname]: newContactEmail,
-            lastUpdated : new Date().toISOString(),
+            created: Date.now(),
+            lastUpdated: new Date().toISOString(),
             checked: false
         });
         setNewContactName("");

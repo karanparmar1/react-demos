@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, Hidden } from "@material-ui/core";
-
 import clsx from "clsx";
 import Header from "./Header";
 import ActionBar from "./ActionBar";
@@ -18,7 +17,7 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
     const [wannaCreateNew, setWannaCreateNew] = React.useState(false);
     let titleField = {}, uniqueField = {}, imgField = {}, descriptionField = {};
     Object.entries(objRule).map((keyvalue) => {
-        const { type, fieldname } = keyvalue[1];
+        const { type } = keyvalue[1];
         if (type === "image") { imgField = keyvalue[1] }
         if (type === "title") { titleField = keyvalue[1] }
         if (keyvalue[1].subtitle) { descriptionField = keyvalue[1] }
@@ -108,7 +107,6 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
             }, 2000);
         }
     }
-
 
     return (
         <>
