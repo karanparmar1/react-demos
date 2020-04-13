@@ -23,7 +23,7 @@ const MyContacts = ({ classes, handleDrawerOpen, open }) => {
         email: { fieldname: "email", label: "Email", required: true, min: 6, max: 100, type: "email", error: "", placeholder: "abc@xyz.com", unique: true },
         phone: { fieldname: "phone", label: "Phone", required: true, min: 10, max: 14, type: "phone", error: "", placeholder: "+91 1234567890" },
         company: { fieldname: "company", label: "Company", required: false, min: 2, max: 32, type: "text", error: "", placeholder: "Zuru pvt ltd" },
-        about: { fieldname: "about", label: "About", required: false, min: 2, max: 100, type: "description", error: "", placeholder: "Something relevant" },
+        about: { fieldname: "about", label: "About", required: false, min: 2, max: 100, type: "text", error: "", placeholder: "Something relevant", subtitle: true },
         address: { fieldname: "address", label: "Address", required: false, min: 4, max: 50, type: "text", error: "", placeholder: "Someplace" },
         image: { fieldname: "image2", label: "Image", required: false, min: 0, max: 1, type: "image", error: "" },
 

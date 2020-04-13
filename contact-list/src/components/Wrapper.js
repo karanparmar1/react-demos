@@ -13,6 +13,7 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import Jobs from "./Jobs";
 import Covid from "./Covid";
+import CovidGQL from './CovidGQL';
 
 // const client = new ApolloClient({
 //     uri: "https://api.spacex.land/graphql/"
@@ -51,6 +52,10 @@ const Wrapper = () => {
                     <Route exact path="/contact-app/covid19" >
                         <Covid classes={classes} open={open} handleDrawerOpen={handleDrawerToggle} />
                     </Route>
+
+                    {/* <Route exact path="/contact-app/covid19" >
+                        <CovidGQL classes={classes} open={open} handleDrawerOpen={handleDrawerToggle} />
+                    </Route> */}
                 </Switch>
 
 

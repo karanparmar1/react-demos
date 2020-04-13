@@ -11,6 +11,12 @@ function display(data) {
     return (data) ? data
         : <span style={{ color: "dimgray" }}>Info Not Provided</span>;
 }
+
+const displayDate = (dateString) => {
+    let d = new Date(dateString);
+    return d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ", " + d.toLocaleTimeString();
+};
+
 function stringToColor(string) {
     let hash = 0, i = 0, color = "#";
     for (i = 0; i < string.length; i += 1) {
@@ -32,6 +38,22 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
     const [dropzoneOpen, setDropzoneOpen] = React.useState(false);
     const [currentError, setCurrentError] = React.useState(false);
 
+
+    const updateContact = (updatedContact) => {
+
+        if (updatedContact.Date) {
+            let d = new Date(new Date().toISOString());
+            d = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ", " + d.toLocaleTimeString();;
+            updatedContact.Date = d;
+        }
+        if (updatedContact.updated) {
+            let d = new Date(new Date().toISOString());
+            d = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ", " + d.toLocaleTimeString();;
+            updatedContact.updated = d;
+        }
+        updatedContact.lastUpdated = displayDate(new Date);
+        handleUpdate(updatedContact);
+    }
     const validateForm = () => {
         setFormError(Object.entries(objRule).reduce((sum, next) => sum + next[1].error, "").length > 0);
     };
@@ -90,6 +112,33 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
                     setValue(field.fieldname, value);
                     setCurrentError(true);
                 }
+                else if (field.type === "number") {
+                    let invalid = !value.match(/^[0-9]+$/);
+                    if (invalid && value.length <= max) {
+                        if (timeoutId) clearTimeout(timeoutId);
+                        timeoutId = setTimeout(() => {
+                            objRule[fieldname].error = "";
+                            setCurrentError(false);
+                            validateForm();
+                        }, 1500);
+                        objRule[fieldname].error = "Enter Numbers Only";
+                        setCurrentError(true);
+                    }
+                    if (value.length > max) {
+                        if (timeoutId) clearTimeout(timeoutId);
+                        timeoutId = setTimeout(() => {
+                            objRule[fieldname].error = "";
+                            setCurrentError(false);
+                            validateForm();
+                        }, 1500);
+                        objRule[fieldname].error = "You can enter max " + max + " chars";
+                        setCurrentError(true);
+                    }
+                    if (!invalid && value.length <= max) {
+                        objRule[fieldname].error = "";
+                        setValue(field.fieldname, value);
+                    }
+                }
                 else if (value.length < min) {
                     objRule[fieldname].error = "Enter ateleast " + min + " chars";
                     setValue(field.fieldname, value);
@@ -100,12 +149,12 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
                         objRule[fieldname].error = "";
                         setCurrentError(false);
                         validateForm();
-                    }, 1500);
+                    }, 1000);
                     objRule[fieldname].error = "You can enter max " + max + "  chars";
                     setCurrentError(true);
                 }
                 else {
-                    objRule[fieldname].error = ""
+                    objRule[fieldname].error = "";
                     setValue(fieldname, value);
                 }
             }
@@ -183,7 +232,8 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
                                     <AddAPhoto color="primary" />
                                 </IconButton></span></Tooltip>}
                             >
-                                <Avatar src={state[imgField.fieldname]} className={classes.larger} style={{ background: stringToColor(contact.id) }}>
+                                <Avatar src={state[imgField.fieldname]} variant={imgField.fieldname === "flag" ? "square" : "circle"}
+                                    className={classes.larger} style={{ background: state[imgField.fieldname] ? "transparent" : stringToColor(contact.id) }}>
                                     {contact[titleField.fieldname].split(" ").map((n, i) => i < 2 ? n[0] : "")}
                                 </Avatar>
                             </Badge>
@@ -196,11 +246,19 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
                                 </h1>
                             </Grid>
                             <Grid item xs={12} md={8} className={classes.aboutGrid}>
-                                {editable ?
-                                    <TextField multiline type="text" label={descriptionField.label} variant="filled" className={classes.contactField}
-                                        value={state[descriptionField.fieldname]} name={descriptionField.fieldname} onChange={(e) => handleChangeInput(e, descriptionField)} autoFocus
-                                        helperText={descriptionField.error || " " /*  OR " " is used cuz want to display blank so it takes space */} error={descriptionField.error.length > 0} rowsMax={3}
-                                    /> : contact[descriptionField.fieldname]}
+                                {
+                                    descriptionField.type === "date" ?
+                                        <TextField multiline type="text" disabled={true} label={descriptionField.label} variant="filled" className={classes.contactField}
+                                            value={state[descriptionField.fieldname] ? displayDate(state[descriptionField.fieldname]) : displayDate(state.lastUpdated)} name={descriptionField.fieldname}
+                                            onChange={(e) => handleChangeInput(e, descriptionField)} autoFocus helperText={descriptionField.error || " "}
+                                        />
+
+                                        :
+                                        editable ?
+                                            <TextField multiline type="text" label={descriptionField.label} variant="filled" className={classes.contactField}
+                                                value={state[descriptionField.fieldname]} name={descriptionField.fieldname} onChange={(e) => handleChangeInput(e, descriptionField)} autoFocus
+                                                helperText={descriptionField.error || " " /*  OR " " is used cuz want to display blank so it takes space */} error={descriptionField.error.length > 0} rowsMax={3}
+                                            /> : contact[descriptionField.fieldname]}
                                 {/* : display(contact[descriptionField.fieldname])} */}
                             </Grid>
                         </Grid>
@@ -210,28 +268,31 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
                             //keyValuePair has-> [0] as fieldname(as Key) and [1] as Value of Single Field, i.e., fullname:"karan paramar"
                             let fieldname = keyValuePair[0];
                             let field = objRule[fieldname];  //Getting rule of field ,objRule is passed from props
+                            // if (field.unique) {
+                            //     objRule[fieldname].error = field.required ? !contact[fieldname].length ? field.label + " is Required" : objRule[fieldname].error : objRule[fieldname].error;
+                            // }
+                            return !(field.type === "image" || field.subtitle) &&
 
-                            return !(["image", "description"].includes(field.type)) &&
-
-                                <Grid container item xs={12} key={index}>
+                                <Grid container item xs={12} key={index} className={classes.fieldGrid}>
                                     <Grid item xs={12} md={4}>{field.label.concat((editable && field.required) ? "*" : "")}</Grid>
-                                    <Grid item xs={12} md={8} className={classes.fieldGrid} >
+                                    <Grid item xs={12} md={8} className={classes.inputGrid} >
                                         {
                                             field.type === "boolean" ?
                                                 (editable ?
-                                                    <Select
-                                                        value={state[fieldname] || "NO"}
+                                                    <><Select
+                                                        value={state[fieldname] || false}
                                                         onChange={(e) => handleChangeInput(e, field)}
                                                         autoWidth
                                                         className={classes.selectEmpty}>
-                                                        <MenuItem value={"YES"}>Yes</MenuItem>
-                                                        <MenuItem value={"NO"}>No</MenuItem>
-                                                    </Select>
-                                                    : display(contact[fieldname] ? contact[fieldname] : "NO"))
-                                                : (editable ? <TextField multiline type="text" className={classes.contactField}
-                                                    value={state[fieldname]} name={fieldname} placeholder={field.placeholder} onChange={(e) => handleChangeInput(e, field)}
-                                                    helperText={objRule[fieldname].error || " "} error={objRule[fieldname].error.length > 0}
-                                                />
+                                                        <MenuItem value={true}>Yes</MenuItem>
+                                                        <MenuItem value={false}>No</MenuItem>
+                                                    </Select> <br />&nbsp;</>
+                                                    : display(contact[fieldname] ? "Yes" : "No"))
+                                                : (editable ?
+                                                    <TextField multiline type="text" className={classes.contactField}
+                                                        value={state[fieldname]} name={fieldname} placeholder={field.placeholder} onChange={(e) => handleChangeInput(e, field)}
+                                                        helperText={objRule[fieldname].error || " "} error={objRule[fieldname].error.length > 0}
+                                                    />
                                                     // field.error not used but accessing objRule[fieldname].error cuz objRule is global and is modified in validation fxn
                                                     //If I am making TextField Uncontrolled i.e. removing value attr, maxLength prob.
                                                     : display(contact[fieldname]))
@@ -251,7 +312,7 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
                         <Grid item>
                             <Tooltip title={formError ? "Saving requires valid values" : "Save"} arrow>
                                 <div className={clsx({ [classes.cursorDisabled]: formError })}>
-                                    <Fab variant="extended" size="medium" color="primary" disabled={formError} onClick={() => { handleUpdate(state); handleEdit(false); setState(contact) }}><Save /> &nbsp;Save </Fab>
+                                    <Fab variant="extended" size="medium" color="primary" disabled={formError} onClick={() => { updateContact(state); handleEdit(false); setState(contact) }}><Save /> &nbsp;Save </Fab>
                                 </div>
                             </Tooltip>
                         </Grid>

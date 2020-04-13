@@ -3,42 +3,24 @@ import MyLoader from "./MyLoader";
 import MyApiWrapper from './MyApiWrapper';
 import { createApolloFetch } from "apollo-fetch";
 
-// const query = `{
-//   jobes {
-//     id
-//     mission_name
-//     rocket {
-//       rocket_name
-//     }
-//     job_success 
-//     job_year
-//     job_site {
-//       site_name
-//     }
-//     links {
-//       flickr_images
-//     }
-//   }
-// }`;
-
-// const uri = "https://api.spacex.land/graphql/";
 
 const query = `{
-    jobs {
-      id
-      title
-      userEmail
-      postedAt
-      locationNames
-      isFeatured
-      applyUrl
-      company{
-        name
-        logoUrl
-      }
+  countries{
+    name
+    info{
+      flag
     }
+    cases
+    active
+    critical
+    deaths
+    recovered
+    todayCases
+    todayDeaths
+    updated
+  }
 }`;
-const uri = "https://api.graphql.jobs/";
+const uri = "http://covid.quintero.io/";
 
 let localData = {};
 let error = {}
@@ -54,15 +36,20 @@ const Jobs = ({ classes, handleDrawerOpen, open }) => {
     icon: "fa fa-suitcase fa-3x icon-gradient"
   };
 
+  
+
   //Mentioning Rules Editable Fields to be displayed
   let objRule = {
-    title: { fieldname: "title", label: "Job Title", required: true, min: 1, max: 32, type: "title", error: "", placeholder: "Job Title" },
-    userEmail: { fieldname: "userEmail", label: "Email", required: true, min: 6, max: 100, type: "email", error: "", placeholder: "mail@xyz.com", unique: true },
-    locationNames: { fieldname: "locationNames", label: "Location", required: false, min: 2, max: 32, type: "text", error: "", placeholder: "Some Place" },
-    isFeatured: { fieldname: "isFeatured", label: "is Featured", required: false, min: 2, max: 5, type: "boolean", error: "", placeholder: "True/False" },
-    applyUrl: { fieldname: "applyUrl", label: "ApplyLink", required: false, min: 4, max: 5, type: "text", error: "", placeholder: "https://www.joburl.com", subtitle: true },
-    company: { fieldname: "company", label: "Company", required: false, min: 2, max: 32, type: "text", error: "", placeholder: "ZURU Tech pvt" },
-    logoUrl: { fieldname: "logoUrl", label: "Image", required: false, min: 2, max: 32, type: "image", error: "", placeholder: "Set Image" }
+    name: { fieldname: "namd", label: "Country", required: true, min: 2, max: 32, type: "title", error: "", placeholder: "Country Name" },
+    iso2: { fieldname: "iso2", label: "CodeName", required: true, min: 2, max: 3, type: "text", error: "", placeholder: "IND", unique: true },
+    cases: { fieldname: "cases", label: "Total Cases", required: false, min: 1, max: 9, type: "number", error: "", placeholder: "Total Cases" },
+    active: { fieldname: "active", label: "Active Cases", required: false, min: 1, max: 9, type: "number", error: "", placeholder: "Active Cases" },
+    deaths: { fieldname: "deaths", label: "Total Deaths", required: false, min: 1, max: 9, type: "number", error: "", placeholder: "Total Deaths" },
+    recovered: { fieldname: "recovered", label: "Recovered", required: false, min: 1, max: 9, type: "number", error: "", placeholder: "Total Recovered" },
+    todayCases: { fieldname: "todayCases", label: "Today Cases", required: false, min: 1, max: 9, type: "number", error: "", placeholder: "Today Cases" },
+    todayDeaths: { fieldname: "todayDeaths", label: "Today Deaths", required: false, min: 1, max: 9, type: "number", error: "", placeholder: "Today Deaths" },
+    updated: { fieldname: "updated", label: "Updated on", required: false, min: 4, max: 50, type: "date", error: "", placeholder: "DATE", subtitle:true },
+    flag: { fieldname: "flag", label: "Image", required: false, min: 2, max: 32, type: "image", error: "", placeholder: "Set Image" }
   };
 
 
@@ -84,11 +71,11 @@ const Jobs = ({ classes, handleDrawerOpen, open }) => {
       const apolloFetch = createApolloFetch({ uri });
       const res = await apolloFetch({ query })
       if (res && res.data) {
-        data = res.data.jobs;
-        data.forEach(job => {
-          job.checked = false;
-          job.company = job.company.name;
-          job.logoUrl = job.company.logoUrl || "";
+        data = res.data.countrys;
+        data.forEach(country => {
+          country.checked = false;
+          country.iso2=country.info.iso2;
+          country.flag = country.info.flag || "";
         });
       }
       return data;

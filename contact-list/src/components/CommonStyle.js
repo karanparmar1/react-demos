@@ -31,7 +31,7 @@ const CommonStyle = () => {
         active: {
             "& > div": {
                 boxShadow: "inset 4px 0 0 0 white",
-                background: "rgba(140, 81, 81, 0.15)",
+                background: "rgba(140, 81, 81, 0.18)",
             }
         },
         drawerLink: {
@@ -39,7 +39,7 @@ const CommonStyle = () => {
         },
         heading: {
             transition: 'all 0.5s linear',
-            transform: "scale(0.9)",
+            transform: "translateX(-10px) scale(0.85)",
             margin: "8px 0px",
             whiteSpace: "nowrap",
             maxWidth: "fit-content",
@@ -49,7 +49,7 @@ const CommonStyle = () => {
             },
             [theme.breakpoints.down("xs")]: {
                 margin: "auto",
-                transform: "scale(0.8) translateX(-16px)"
+                transform: "scale(0.8) translateX(-36px)"
             }
         },
         actionbar: {
@@ -264,13 +264,17 @@ const CommonStyle = () => {
             },
         },
         fieldGrid: {
+            paddingLeft: "5% !important",
+            paddingRight: "5% !important",
+        },
+        inputGrid: {
             color: "black",
             transition: "all 0.5s linear",
             overflowWrap: "break-word",
             lineHeight: "1.2",
             // maxWidth: "40ch",
             [theme.breakpoints.up("lg")]: {
-                maxWidth: "25ch"
+                maxWidth: "100%"
             },
             [theme.breakpoints.only("md")]: {
                 minWidth: "40ch",

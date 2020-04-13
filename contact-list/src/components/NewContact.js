@@ -103,6 +103,7 @@ const NewContact = (props) => {
             id: uuidv4(), //props.data.length ? props.data.reduce((max, next) => Math.max(max, next.id), props.data[0].id) + 1 : 0,
             [props.titleField.fieldname]: newContactName,
             [props.uniqueField.fieldname]: newContactEmail,
+            lastUpdated : new Date().toISOString(),
             checked: false
         });
         setNewContactName("");

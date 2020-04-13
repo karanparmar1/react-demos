@@ -27,7 +27,7 @@ const ContactList = (props) => {
     const [selectAll, setSelectAll] = React.useState(false);
     const { imgField, titleField, uniqueField, descriptionField } = props;
     const [per_page, setPerPage] = React.useState(5);
-    let {page,setPage}= props;
+    let { page, setPage } = props;
 
     const handlePageChange = (event, value) => { setPage(value); props.setActive({}); }
     const gotoLastPage = () => { setPage(Math.ceil((props.data.length + 1) / per_page)) }
@@ -73,7 +73,8 @@ const ContactList = (props) => {
                                     </ListItemIcon>
 
                                     <ListItemAvatar>
-                                        <Avatar src={contact[imgField.fieldname]} alt={contact[titleField.fieldname]} className={classes.large} style={{ background: stringToColor(contact.id) }}>
+                                        <Avatar src={contact[imgField.fieldname]} alt={contact[titleField.fieldname]} variant={imgField.fieldname === "flag" ? "square" : "circle"}
+                                            className={classes.large} style={{ background: contact[imgField.fieldname] ? "transparent" : stringToColor(contact.id) }}>
                                             {contact[titleField.fieldname].split(" ").map((n, i) => i < 2 ? n[0] : "")}
                                         </Avatar>
                                     </ListItemAvatar>
@@ -126,12 +127,11 @@ const ContactList = (props) => {
             }
             {props.data.length > 0 &&
                 <><Divider />
-                    <ListItem>
-                        <ListItemAvatar>
-                            <span> Total {props.keyword} : {props.totalRecords}</span>
-                        </ListItemAvatar>
-                        <ListItemSecondaryAction>
-                            <span>Limit :</span> <Select
+                    <ListItem style={{display:"flex" , justifyContent:"space-between"}}>
+                       <div>
+                       <span> Total {props.keyword}: {props.totalRecords}</span>
+                           </div>
+                         <div><span>Limit :</span> <Select
                                 value={per_page}
                                 onChange={(e) => { setPerPage(e.target.value); setPage(1); props.setActive({}); }}
                                 autoWidth
@@ -139,8 +139,7 @@ const ContactList = (props) => {
                                 <MenuItem value={5}>5</MenuItem>
                                 <MenuItem value={10}>10</MenuItem>
                                 <MenuItem value={20}>20</MenuItem>
-                            </Select>
-                        </ListItemSecondaryAction>
+                            </Select></div>
 
                     </ListItem>
                 </>

@@ -1,10 +1,8 @@
 import React from 'react';
 import { Grid, Hidden } from "@material-ui/core";
-import { IconButton, AppBar, Toolbar } from "@material-ui/core";
-import { ClearAllRounded } from "@material-ui/icons";
 
 import clsx from "clsx";
-import Heading from "./Heading";
+import Header from "./Header";
 import ActionBar from "./ActionBar";
 import ContactList from "./ContactList";
 import DetailCard from './DetailCard';
@@ -15,7 +13,7 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
     const [editable, setEditable] = React.useState(false);
     const [activeContact, setActiveContact] = React.useState({});
     const [search, setSearch] = React.useState("");
-    const [page,setPage] = React.useState(1);
+    const [page, setPage] = React.useState(1);
     const handlePageChange = (value) => { setPage(value); }
     const [wannaCreateNew, setWannaCreateNew] = React.useState(false);
     let titleField = {}, uniqueField = {}, imgField = {}, descriptionField = {};
@@ -23,7 +21,7 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
         const { type, fieldname } = keyvalue[1];
         if (type === "image") { imgField = keyvalue[1] }
         if (type === "title") { titleField = keyvalue[1] }
-        if (type === "description") { descriptionField = keyvalue[1] }
+        if (keyvalue[1].subtitle) { descriptionField = keyvalue[1] }
         if (keyvalue[1].unique) { uniqueField = keyvalue[1] }
     });
     const setActive = (contact) => setActiveContact(contact);
@@ -87,6 +85,7 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
         });
         setLocalData([...localData]);
         setData([...localData]);
+        filterData(search);
         setActiveContact(updatedContact);
 
     };
@@ -113,7 +112,8 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
 
     return (
         <>
-            <AppBar className={clsx(classes.appBar, { [classes.appBarShift]: open })}>
+            <Header heading={heading} open={open} handleDrawerOpen={handleDrawerOpen} />
+            {/* <AppBar className={clsx(classes.appBar, { [classes.appBarShift]: open })}>
                 <Toolbar>
                     <IconButton onClick={handleDrawerOpen} edge="start"
                         className={clsx({ [classes.invisible]: open, })} >
@@ -121,7 +121,7 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
                     </IconButton>
                     <Heading heading={heading} headerStyle={classes.heading} />
                 </Toolbar>
-            </AppBar>
+            </AppBar> */}
             <main className={clsx(classes.content, { [classes.absoluteAtSmall]: open })}>
                 <div className={classes.toolbar} />
                 <Grid container spacing={5}>

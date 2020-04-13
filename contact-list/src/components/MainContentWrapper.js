@@ -1,23 +1,16 @@
 import React from 'react';
 import MainContent from "./MainContent";
 
-const MainContentWrapper = ({ localData, objRule, setLocalData, classes, open, handleDrawerOpen, heading, error }) => {
+const MainContentWrapper = (props) => {
 
-    const [data, setData] = React.useState(localData);
+    const [data, setData] = React.useState(props.localData);
     const changeData = (records) => setData([...records]);
 
     return (
         <MainContent
-            localData={localData}
-            setLocalData={setLocalData}
             data={data}
             setData={changeData}
-            objRule={objRule}
-            classes={classes}
-            open={open}
-            heading={heading}
-            handleDrawerOpen={handleDrawerOpen}
-            error={error} />);
+            {...props} />);
 };
 
 export default MainContentWrapper;
