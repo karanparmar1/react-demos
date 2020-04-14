@@ -21,16 +21,18 @@ const LocalData = () => {
             phone: "1231234567",
             company: "Work at Work",
             address: "Gotham City",
+            created: Date.now(),
         }, {
             id: uuidv4(),
             checked: false,
             fullname: "Karan Parmar",
             about: "Intern At Zuru Tech India pvt ltd",
-            image: "brokenLink.png",
+            image: "",
             email: "k123parmar@gmail.com",
             phone: "+91 8511918322",
             company: "ZURU Tech India",
             address: "Jivrajpark, Ahmedabad, Gujarat",
+            created: Date.now(),
         }, {
             id: uuidv4(),
             checked: false,
@@ -41,6 +43,7 @@ const LocalData = () => {
             phone: "124 421 8055",
             company: "Tesla Inc",
             address: "Mars nearby Earth",
+            created: Date.now(),
         }, {
             id: uuidv4(),
             checked: false,
@@ -51,6 +54,7 @@ const LocalData = () => {
             phone: "",
             company: "Amazon Inc",
             address: "Washington",
+            created: Date.now(),
         }, {
             id: uuidv4(),
             checked: false,
@@ -61,6 +65,7 @@ const LocalData = () => {
             phone: "+91 1234512345",
             company: "ZURU Tech India",
             address: "Navrangpura, Ahmedabad, Gujarat",
+            created: Date.now(),
         }, {
             id: uuidv4(),
             checked: false,
@@ -71,6 +76,7 @@ const LocalData = () => {
             phone: "",
             company: "Microsoft Corporation",
             address: "Bellevue, Washington",
+            created: Date.now(),
         }, {
             id: uuidv4(),
             checked: false,
@@ -81,6 +87,7 @@ const LocalData = () => {
             phone: "",
             company: "Microsoft Corporation",
             address: "Medina, Washington",
+            created: Date.now(),
         }, {
             id: uuidv4(),
             checked: false,
@@ -91,6 +98,7 @@ const LocalData = () => {
             phone: "",
             company: "",
             address: "Washington, D.C.",
+            created: Date.now(),
         }, {
             id: uuidv4(),
             checked: false,
@@ -101,6 +109,7 @@ const LocalData = () => {
             phone: "",
             company: "Alphabet Inc",
             address: "America",
+            created: Date.now(),
         }, {
             id: uuidv4(),
             checked: false,
@@ -111,6 +120,7 @@ const LocalData = () => {
             phone: "",
             company: "Facebook",
             address: "Palo Alto, California",
+            created: Date.now(),
         }, {
             id: uuidv4(),
             checked: false,
@@ -121,6 +131,7 @@ const LocalData = () => {
             phone: "",
             company: "Wipro Limited",
             address: "Bangalore, India",
+            created: Date.now(),
         }, {
             id: uuidv4(),
             checked: false,
@@ -131,6 +142,7 @@ const LocalData = () => {
             phone: "",
             company: "Alibaba",
             address: "Hangzhou, China",
+            created: Date.now(),
         }, {
             id: uuidv4(),
             checked: false,
@@ -141,6 +153,7 @@ const LocalData = () => {
             phone: "",
             company: "Google Inc",
             address: "America",
+            created: Date.now(),
         }, {
             id: uuidv4(),
             checked: false,
@@ -151,6 +164,7 @@ const LocalData = () => {
             phone: "",
             company: "Google Inc",
             address: "America",
+            created: Date.now(),
         }, {
             id: uuidv4(),
             checked: false,
@@ -161,6 +175,7 @@ const LocalData = () => {
             phone: "",
             company: "Apple Inc",
             address: "America",
+            created: Date.now(),
         },
     ];
     return (

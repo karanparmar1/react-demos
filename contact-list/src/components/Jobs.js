@@ -55,6 +55,7 @@ const Jobs = ({ classes, handleDrawerOpen, open }) => {
         data = res.data.jobs;
         data.forEach(job => {
           job.checked = false;
+          job.created=Date.now();
           job.company = job.company.name;
           job.logoUrl = job.company.logoUrl || "";
         });

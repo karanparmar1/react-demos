@@ -65,7 +65,6 @@ const CommonStyle = () => {
             "& :hover": {
 
                 boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.7) !important",
-                cursor: "help",
                 background: "white",
                 "& *": {
                     color: "black",
@@ -82,7 +81,7 @@ const CommonStyle = () => {
             padding: "0 6px 0 12px",
             minWidth: "120px",
             "& :hover": {
-                cursor: "help",
+                // cursor: "help",
             },
 
 
@@ -424,6 +423,5 @@ const CommonStyle = () => {
 
     return (classes);
 };
-
 
 export default CommonStyle;

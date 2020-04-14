@@ -28,11 +28,21 @@ const ContactList = (props) => {
     const { imgField, titleField, uniqueField, descriptionField } = props;
     const [per_page, setPerPage] = React.useState(5);
     let { page, setPage } = props;
+    let limits = [5, 10, 20];
 
     const handlePageChange = (event, value) => { setPage(value); props.setActive({}); }
     const gotoLastPage = () => { setPage(Math.ceil((props.data.length + 1) / per_page)) }
 
-    React.useEffect(() => { setSelectAll(props.data.some(contact => contact.checked)); }, [props.data]);
+    React.useEffect(() => {
+        setSelectAll(props.data.some(contact => contact.checked));
+        if (props.data.length < limits[0] && props.data.length>0) {
+            setPerPage(props.data.length);
+        }
+        else{
+            setPerPage(limits[0]);
+        }
+
+    }, [props.data, limits]);
     return (<>
         <List className={classes.contactList} disablePadding={true} >
 
@@ -127,19 +137,26 @@ const ContactList = (props) => {
             }
             {props.data.length > 0 &&
                 <><Divider />
-                    <ListItem style={{display:"flex" , justifyContent:"space-between"}}>
-                       <div>
-                       <span> Total {props.keyword}: {props.totalRecords}</span>
-                           </div>
-                         <div><span>Limit :</span> <Select
-                                value={per_page}
-                                onChange={(e) => { setPerPage(e.target.value); setPage(1); props.setActive({}); }}
-                                autoWidth
-                                className={classes.selectEmpty}>
-                                <MenuItem value={5}>5</MenuItem>
-                                <MenuItem value={10}>10</MenuItem>
-                                <MenuItem value={20}>20</MenuItem>
-                            </Select></div>
+                    <ListItem style={{ display: "flex", justifyContent: "space-between" }}>
+                        <div>
+                            <span> Total {props.keyword}: {props.totalRecords}</span>
+                        </div>
+                        <div><span>Limit :</span> <Select
+                            value={per_page}
+                            onChange={(e) => { setPerPage(e.target.value); setPage(1); props.setActive({}); }}
+                            autoWidth
+                            className={classes.selectEmpty}>
+
+                            {props.data.length < limits[0] &&
+                                < MenuItem value={props.data.length}>{props.data.length}</MenuItem>
+                            }
+                            {
+                                limits.map((limit, i) =>
+                                    <MenuItem disabled={props.data.length < limit} value={limit} key={i}>{limit}</MenuItem>
+                                )
+                            }
+
+                        </Select></div>
 
                     </ListItem>
                 </>

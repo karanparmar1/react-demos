@@ -54,6 +54,7 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
     }
 
     const handleAdd = (status = true) => {
+        setPage(1);
         setActiveContact({});
         handleSelectAll(false);
         setSearch("");
@@ -63,11 +64,13 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
     }
 
     const addNewContact = (contact) => {
-        localData.push(contact);
+        // localData.push(contact);
+        localData.splice(0,0,contact)
         setLocalData([...localData]);
         setData([...localData]);
         setWannaCreateNew(false);
         setActiveContact(contact);
+        
     }
 
     const handleContactClick = (clickedContact) => {

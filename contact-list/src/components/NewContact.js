@@ -109,7 +109,8 @@ const NewContact = (props) => {
         });
         setNewContactName("");
         setNewContactEmail("");
-        props.gotoLastPage();
+        // props.gotoLastPage();
+        
     }
 
     return (

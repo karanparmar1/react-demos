@@ -64,6 +64,7 @@ const Covid = ({ classes, handleDrawerOpen, open }) => {
                 data.forEach(country => {
                     let { iso2, flag } = country.countryInfo;
                     if (!country.id) { country.id = uuidv4(); }
+                    country.created=Date.now();
                     country.checked = false;
                     country.iso2 = iso2;
                     country.flag = flag; // || "https://www.countryflags.io/" + country.CountryCode + "/shiny/64.png" || "";
