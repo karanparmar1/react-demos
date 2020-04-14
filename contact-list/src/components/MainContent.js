@@ -65,12 +65,12 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
 
     const addNewContact = (contact) => {
         // localData.push(contact);
-        localData.splice(0,0,contact)
+        localData.splice(0, 0, contact)
         setLocalData([...localData]);
         setData([...localData]);
         setWannaCreateNew(false);
         setActiveContact(contact);
-        
+
     }
 
     const handleContactClick = (clickedContact) => {

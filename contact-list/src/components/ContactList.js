@@ -35,10 +35,10 @@ const ContactList = (props) => {
 
     React.useEffect(() => {
         setSelectAll(props.data.some(contact => contact.checked));
-        if (props.data.length < limits[0] && props.data.length>0) {
+        if (props.data.length < limits[0] && props.data.length > 0) {
             setPerPage(props.data.length);
         }
-        else{
+        else {
             setPerPage(limits[0]);
         }
 
@@ -49,7 +49,7 @@ const ContactList = (props) => {
             <ListItem dense className={classes.listItemHeader}>
                 <Tooltip title={selectAll ? "DeSelectAll" : "SelectAll"} arrow><span>
                     <IconButton edge="start" disabled={props.wannaCreateNew || props.data.length < 1}
-                        onClick={() => { props.handleSelectAll(!selectAll); setSelectAll(!selectAll); }} >
+                        onClick={() => { props.handleSelectAll(!selectAll); setSelectAll(!selectAll); }} className={classes.hoverEffect} >
                         {selectAll ? <IndeterminateCheckBox /> : <AddBox />}
                     </IconButton></span>
                 </Tooltip>
@@ -76,6 +76,7 @@ const ContactList = (props) => {
                                                 edge="start"
                                                 // disableRipple
                                                 color="primary"
+                                                className={classes.hoverEffect}
                                                 checked={contact.checked}
                                                 onClick={(e) => { props.handleCheckedChange(contact); e.stopPropagation(); }}
                                             />
@@ -135,7 +136,8 @@ const ContactList = (props) => {
                     </ListItem>
                 </>
             }
-            {props.data.length > 0 &&
+            {/* Record Limit per Page */
+                props.data.length > 0 &&
                 <><Divider />
                     <ListItem style={{ display: "flex", justifyContent: "space-between" }}>
                         <div>

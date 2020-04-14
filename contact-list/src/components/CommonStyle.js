@@ -31,7 +31,7 @@ const CommonStyle = () => {
         active: {
             "& > div": {
                 boxShadow: "inset 4px 0 0 0 white",
-                background: "rgba(140, 81, 81, 0.18)",
+                background: "rgba(0,0,0, 0.1)",
             }
         },
         drawerLink: {
@@ -83,8 +83,12 @@ const CommonStyle = () => {
             "& :hover": {
                 // cursor: "help",
             },
+        },
 
-
+        hoverEffect: {
+            "&:hover": {
+                backgroundColor: "rgba(0,0,0,0.15) !important"
+            }
         },
 
 
@@ -108,13 +112,23 @@ const CommonStyle = () => {
         },
 
         button: {
-            transition: "all 0.3s ease-in",
+            background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+            color: "white",
+            fontWeight: "bold",
+            transition: "all 0.3s ease-in, box-shadow  0s,opacity 0s",
             minWidth: "80px",
             maxWidth: "120px",
             textTransform: "none",
             fontSize: "110%",
             whiteSpace: "nowrap",
             minHeight: "48px",
+            opacity: "0.9",
+            color: "#e5e5e5",
+            "&:hover": {
+                opacity: "1",
+                color: "white",
+                boxShadow: "0px 10px 13px -7px #000000, 44px 18px 5px 5px rgba(0,0,0,0)",
+            },
             [theme.breakpoints.down("sm")]: {
                 minWidth: "44px",
                 maxWidth: "44px",
@@ -133,8 +147,9 @@ const CommonStyle = () => {
         btn: {
             "&:hover": {
                 "& button": {
-                    color: "rgba(213, 213, 213, 0.85);",
-                    boxShadow: "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12);"
+                    color: "white",
+                    transition: "none",
+                    boxShadow: "0px 10px 13px -7px #000000, 44px 18px 5px 5px rgba(0,0,0,0)",
                 },
             },
             paddingTop: "12px",
@@ -148,6 +163,7 @@ const CommonStyle = () => {
         },
         btnAdding: {
             cursor: "not-allowed !important",
+            boxShadow: "0px 10px 13px -7px #000000, 44px 18px 5px 5px rgba(0,0,0,0)",
             "& button": {
                 boxShadow: "none",
             }
@@ -156,6 +172,7 @@ const CommonStyle = () => {
             [theme.breakpoints.up("md")]: {
                 paddingRight: "20px"
             },
+
         },
         btnEdit: {
             color: "black",
@@ -164,6 +181,15 @@ const CommonStyle = () => {
                 fontWeight: "600"
             }
         },
+        btnUpload: {
+            position: "relative", top: "-1px", left: "-1px",
+            opacity: "0.9",
+            "&:hover": {
+                opacity: "1",
+            }
+
+        },
+
         hoverbold: {
             "& :hover": {
                 fontWeight: "bolder"
@@ -406,12 +432,15 @@ const CommonStyle = () => {
         content: {
             flexGrow: 1,
             padding: theme.spacing(3),
+            marginTop: "24px",
+
             [theme.breakpoints.up("md")]: {
                 margin: "20px",
+                marginTop: "24px",
             },
             [theme.breakpoints.down("sm")]: {
                 margin: "0px",
-                marginTop: "20px",
+                marginTop: "24px",
             },
         },
     };

@@ -29,14 +29,13 @@ html {
 .text-silver {
   color: rgb(128, 128, 128);
 }
-.text-white{
+.text-white {
   color: white;
 }
 .bg-silver {
   background: rgb(230, 230, 230);
   color: rgb(128, 128, 128);
 }
-
 
 .App-logo {
   height: 40vmin;

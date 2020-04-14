@@ -197,7 +197,7 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
                 <Grid container item xs={12} justify="space-between">
                     <Grid item xs style={{ textAlign: "left" }}>
                         <Tooltip title="Back">
-                            <IconButton color="secondary" style={{ padding: "8px 0px" }} onClick={() => setActive({})}><ArrowBack />  </IconButton>
+                            <IconButton color="secondary" className={classes.hoverEffect} style={{ padding: "8px 0px" }} onClick={() => setActive({})}><ArrowBack />  </IconButton>
                         </Tooltip>
                     </Grid>
                     <Grid item xs style={{ textAlign: "right" }}>  {!editable ?
@@ -224,11 +224,13 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
                                 {<Tooltip title="Upload Photo" arrow><span><IconButton
                                     onClick={() => setDropzoneOpen(true)}
                                     style={{
-                                        position: "relative", top: "-5px", left: "-5px", padding: "4px", background: "white", border: "3px solid darkgray"
+                                        position: "relative", top: "-10px", left: "-5px", color: "white",
+                                        background: "linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)",
+                                        transform: "scale(0.8)"
                                     }}
                                     disabled={!editable}
                                     size="medium">
-                                    <AddAPhoto color="primary" />
+                                    <AddAPhoto className={classes.btnUpload} />
                                 </IconButton></span></Tooltip>}
                             >
                                 <Avatar src={state[imgField.fieldname]} variant={imgField.fieldname === "flag" ? "square" : "circle"}

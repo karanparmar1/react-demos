@@ -22,7 +22,7 @@ const ActionBar = (props) => {
                     <span className={clsx(classes.btn, { [classes.btnAdding]: props.wannaCreateNew })}>
                         <Button
                             variant="contained"
-                            className={clsx(classes.button, classes.bgGradient, classes.btnAdd)}
+                            className={clsx(classes.button, classes.btnAdd)}
                             size="large"
                             fullWidth
                             disabled={props.wannaCreateNew}
@@ -38,7 +38,7 @@ const ActionBar = (props) => {
                         <Button
                             variant="contained"
                             // style={{paddingRight:"16px"}}
-                            className={clsx(classes.button, classes.bgGradient, classes.btnDelete)}
+                            className={clsx(classes.button, classes.btnDelete)}
                             size="large"
                             fullWidth
                             onClick={props.handleDelete}
