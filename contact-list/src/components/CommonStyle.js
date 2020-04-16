@@ -113,7 +113,6 @@ const CommonStyle = () => {
 
         button: {
             background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
-            color: "white",
             fontWeight: "bold",
             transition: "all 0.3s ease-in, box-shadow  0s,opacity 0s",
             minWidth: "80px",
@@ -181,13 +180,23 @@ const CommonStyle = () => {
                 fontWeight: "600"
             }
         },
-        btnUpload: {
-            position: "relative", top: "-1px", left: "-1px",
-            opacity: "0.9",
+        btnUploadWrapper: {
+            transition: "all 0.2s",
+            position: "relative", top: "-10px", left: "-5px",
+            background: "linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)",
+            color: "rgba(255,255,255,0.9)",
             "&:hover": {
-                opacity: "1",
+                boxShadow: "0px 5px 13px -7px #000000, 44px 18px 5px 5px rgba(0,0,0,0)",
+                color: "white"
             }
-
+        },
+        btnUpload: {
+            transition:"all 0.2s",
+            position: "relative",
+            padding: "4px",
+            transform: "scale(0.9)",
+            top: "-1px",
+            left: "-1px",
         },
 
         hoverbold: {

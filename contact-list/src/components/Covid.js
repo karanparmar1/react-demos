@@ -23,22 +23,6 @@ const Covid = ({ classes, handleDrawerOpen, open }) => {
         icon: "fa fa-bug fa-3x icon-gradient"
     };
 
-    //Mentioning Rules Editable Fields to be displayed
-    // let objRule = {
-    //     Country: { fieldname: "Country", label: "Country", required: true, min: 3, max: 32, type: "title", error: "", placeholder: "New York" },
-    //     CountryCode: { fieldname: "CountryCode", label: "Country Code", required: true, min: 2, max: 3, type: "text", error: "", placeholder: "XY", unique: true },
-    //     NewConfirmed: { fieldname: "NewConfirmed", label: "New Confirmed", required: false, min: 1, max: 9, type: "number", error: "", placeholder: "99" },
-    //     TotalConfirmed: { fieldname: "TotalConfirmed", label: "Total Confirmed", required: false, min: 1, max: 9, type: "number", error: "", placeholder: "99" },
-    //     TotalDeaths: { fieldname: "TotalDeaths", label: "Total Deaths", required: false, min: 1, max: 9, type: "number", error: "", placeholder: "99" },
-    //     TotalRecovered: { fieldname: "TotalRecovered", label: "Total Recovered", required: false, min: 1, max: 9, type: "number", error: "", placeholder: "99" },
-    //     Date: { fieldname: "Date", label: "Last Update", required: false, min: 4, max: 50, type: "date", error: "", placeholder: "Date - Time", subtitle: true },
-
-    //     // login: { fieldname: "login", label: "UserName", required: true, min: 6, max: 32, type: "title", error: "", placeholder: "ABC-123" },
-    //     // id: { fieldname: "id", label: "User ID", required: true, min: 6, max: 36, type: "text", error: "", placeholder: "12345" },
-    //     // html_url: { fieldname: "html_url", label: "Profile", required: false, min: 4, max: 50, type: "text", error: "", placeholder: "Someplace" },
-    //     flag: { fieldname: "flag", label: "Image", required: false, min: 0, max: 1, type: "image", error: "" },
-    // };
-
     let objRule = {
         country: { fieldname: "country", label: "Country", required: true, min: 2, max: 32, type: "title", error: "", placeholder: "Country Name" },
         iso2: { fieldname: "iso2", label: "Country Code", required: true, min: 2, max: 3, type: "text", error: "", placeholder: "IND", unique: true },
@@ -67,7 +51,7 @@ const Covid = ({ classes, handleDrawerOpen, open }) => {
                     country.created=Date.now();
                     country.checked = false;
                     country.iso2 = iso2;
-                    country.flag = flag; // || "https://www.countryflags.io/" + country.CountryCode + "/shiny/64.png" || "";
+                    country.flag = flag;
                 });
             }
             return data;

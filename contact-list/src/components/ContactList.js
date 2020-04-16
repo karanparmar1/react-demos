@@ -31,18 +31,20 @@ const ContactList = (props) => {
     let limits = [5, 10, 20];
 
     const handlePageChange = (event, value) => { setPage(value); props.setActive({}); }
-    const gotoLastPage = () => { setPage(Math.ceil((props.data.length + 1) / per_page)) }
+    // const gotoLastPage = () => { setPage(Math.ceil((props.data.length) / per_page)) }
 
     React.useEffect(() => {
         setSelectAll(props.data.some(contact => contact.checked));
-        if (props.data.length < limits[0] && props.data.length > 0) {
-            setPerPage(props.data.length);
+        if (props.data.length > 0 && props.data.length <= limits[0]) {
+            setPage(1);
+            // setPerPage(props.data.length); //To set Limit=Data.length
         }
-        else {
-            setPerPage(limits[0]);
+        if (props.data.length < page * per_page) {
+            setPage(Math.ceil((props.data.length) / per_page)); //GoToLastPage
         }
+        console.log("Current Page:" + page)
 
-    }, [props.data, limits]);
+    }, [props.data, limits, page, per_page, setPage]);
     return (<>
         <List className={classes.contactList} disablePadding={true} >
 
@@ -58,7 +60,7 @@ const ContactList = (props) => {
             </ListItem>
             {
                 props.wannaCreateNew ?
-                    <NewContact data={props.data} handleAdd={props.handleAdd} gotoLastPage={gotoLastPage} titleField={titleField} uniqueField={uniqueField} addNewContact={props.addNewContact} />
+                    <NewContact data={props.data} handleAdd={props.handleAdd} /*gotoLastPage={gotoLastPage}*/ titleField={titleField} uniqueField={uniqueField} addNewContact={props.addNewContact} />
                     : <></>
             }
             {
@@ -148,10 +150,12 @@ const ContactList = (props) => {
                             onChange={(e) => { setPerPage(e.target.value); setPage(1); props.setActive({}); }}
                             autoWidth
                             className={classes.selectEmpty}>
-
-                            {props.data.length < limits[0] &&
-                                < MenuItem value={props.data.length}>{props.data.length}</MenuItem>
+                            {/* {(props.data.length > 0 && props.data.length < limits[0]) &&
+                                <MenuItem value={props.data.length} selected={true}>{props.data.length}</MenuItem>  */
+                                //To set Limit = Data length
                             }
+
+
                             {
                                 limits.map((limit, i) =>
                                     <MenuItem disabled={props.data.length < limit} value={limit} key={i}>{limit}</MenuItem>

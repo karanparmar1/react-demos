@@ -7,13 +7,6 @@ import SideDrawer from "./SideDrawer";
 import MyContacts from "./MyContacts";
 import Jobs from "./Jobs";
 import Covid from "./Covid";
-// import GraphqlData from "../data/GraphqlData";
-// import ApolloClient from "apollo-boost";
-// import { ApolloProvider } from "react-apollo";
-
-// const client = new ApolloClient({
-//     uri: "https://api.spacex.land/graphql/"
-// });
 
 const Wrapper = () => {
 
@@ -40,9 +33,6 @@ const Wrapper = () => {
                     </Route>
 
                     <Route exact path="/contact-app/jobs" >
-                        {/* <ApolloProvider client={client}>
-                            <GraphqlData classes={classes} open={open} limit={10}/>
-                        </ApolloProvider> */}
                         <Jobs classes={classes} open={open} handleDrawerOpen={handleDrawerToggle} />
                     </Route>
 
@@ -50,9 +40,6 @@ const Wrapper = () => {
                         <Covid classes={classes} open={open} handleDrawerOpen={handleDrawerToggle} />
                     </Route>
                 </Switch>
-
-
-
 
             </Router>
         </div>

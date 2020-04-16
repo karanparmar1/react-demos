@@ -1,13 +1,12 @@
 import React from 'react';
 import clsx from 'clsx';
-import { Edit, Save, Close, ArrowBack, AddAPhoto } from "@material-ui/icons";
+import { Edit, Save, Close, ArrowBack, AddAPhoto, Delete } from "@material-ui/icons";
 import { Grid, Avatar, Fab, Badge, TextField, Select, MenuItem, IconButton, Tooltip, Fade } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { DropzoneDialog } from 'material-ui-dropzone';
 import CommonStyle from "./CommonStyle";
 
 function display(data) {
-    // console.log(data)
     return (data) ? data
         : <span style={{ color: "dimgray" }}>Info Not Provided</span>;
 }
@@ -29,7 +28,7 @@ function stringToColor(string) {
     return color;
 }
 let timeoutId = 111;
-const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, objRule, imgField, titleField, uniqueField, descriptionField }) => {
+const DetailCard = ({ contact, data, editable, handleEdit, handleUpdate, setActive, objRule, imgField, titleField, uniqueField, descriptionField }) => {
     const theme = useTheme();
     const classes = CommonStyle(theme);
     const [state, setState] = React.useState(contact);
@@ -52,9 +51,22 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
         }
         updatedContact.lastUpdated = displayDate(new Date());
         handleUpdate(updatedContact);
-    }
-    const validateForm = () => {
-        setFormError(Object.entries(objRule).reduce((sum, next) => sum + next[1].error, "").length > 0);
+    };
+
+    const handleFileSubmit = (files) => {
+        console.log("submit")
+        setState({
+            ...state,
+            [imgField.fieldname]: URL.createObjectURL(files[0])
+        });
+        setDropzoneOpen(false);
+    };
+
+
+    const handleCancel = () => {
+        handleEdit(false);
+        setState(contact);
+        Object.entries(objRule).forEach(obj => obj[1].error = "");
     };
 
     const setValue = (field, value) => {
@@ -67,10 +79,16 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
         //     , 500);
     };
 
+    const validateForm = () => {
+        setFormError(Object.entries(objRule).reduce((sum, next) => sum + next[1].error, "").length > 0);
+    };
+
+    // Validations [not Refactored]
     const validateField = (e, field) => {
         let value = e.target.value || "";
         const { fieldname, type, label, required, min, max } = field;
         if (value.length) {
+
             if (type === "phone") {
                 let invalidPhone = !/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/.test(value);
                 setValue(field.fieldname, value);
@@ -157,6 +175,13 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
                     setValue(fieldname, value);
                 }
             }
+            if (field.unique) {
+                let found = data.find(obj => (obj[fieldname]) ? obj.id !== contact.id && obj[fieldname].toLowerCase() === value.toLowerCase() : false);
+                if (found) {
+                    objRule[fieldname].error = label + " already exist";
+                    setValue(fieldname, value);
+                }
+            }
         }
         else {
             objRule[fieldname].error = required ? (label + " is required") : "";
@@ -165,22 +190,7 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
         validateForm();
     };
 
-    const handleFileSubmit = (files) => {
-        console.log("submit")
-        setState({
-            ...state,
-            [imgField.fieldname]: URL.createObjectURL(files[0])
-        });
-        setDropzoneOpen(false);
-    };
-
     const handleChangeInput = (e, field) => { validateField(e, field); };
-
-    const handleCancel = () => {
-        handleEdit(false);
-        setState(contact);
-        Object.entries(objRule).forEach(obj => obj[1].error = "");
-    };
 
     React.useEffect(() => {
         setState(contact);
@@ -221,16 +231,12 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
                                     horizontal: 'right',
                                 }}
                                 badgeContent=
-                                {<Tooltip title="Upload Photo" arrow><span><IconButton
-                                    onClick={() => setDropzoneOpen(true)}
-                                    style={{
-                                        position: "relative", top: "-10px", left: "-5px", color: "white",
-                                        background: "linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%)",
-                                        transform: "scale(0.8)"
-                                    }}
+                                {<Tooltip title={state[imgField.fieldname] ? "Delete Photo" : "Upload Photo"} arrow><span><IconButton
+                                    onClick={() => { state[imgField.fieldname] ? setValue(imgField.fieldname, "") : setDropzoneOpen(true) }}
+                                    className={classes.btnUploadWrapper}
                                     disabled={!editable}
-                                    size="medium">
-                                    <AddAPhoto className={classes.btnUpload} />
+                                    size="small">
+                                    {state[imgField.fieldname] ? <Delete className={classes.btnUpload} style={{ top: 0, left: 0 }} /> : <AddAPhoto className={classes.btnUpload} />}
                                 </IconButton></span></Tooltip>}
                             >
                                 <Avatar src={state[imgField.fieldname]} variant={imgField.fieldname === "flag" ? "square" : "circle"}
@@ -300,7 +306,6 @@ const DetailCard = ({ contact, editable, handleEdit, handleUpdate, setActive, ob
                                         }
                                     </Grid>
                                 </Grid>
-
                         }
                         )
                     }

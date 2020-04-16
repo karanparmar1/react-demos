@@ -29,7 +29,7 @@ const Jobs = ({ classes, handleDrawerOpen, open }) => {
 
   const heading = {
     keyword: "Job",
-    title: "graphQLjobs",
+    title: "GraphQLjobs",
     subtitle: "Explore Jobs",
     icon: "fa fa-suitcase fa-3x icon-gradient"
   };

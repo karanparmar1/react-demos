@@ -35,7 +35,7 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
         // someSelected = data.some(item => item.checked);
         setData([...temp]);
 
-    }
+    };
 
     const handleSelectAll = (selectAll) => {
         let temp = data;
@@ -51,7 +51,8 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
         setData([...localData]);
         if (activeContact.checked) { setActiveContact({}) }
         setSearch("");
-    }
+        console.log(data.length);
+    };
 
     const handleAdd = (status = true) => {
         setPage(1);
@@ -61,7 +62,7 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
         filterData("");
         handleEdit(false);
         setWannaCreateNew(status);
-    }
+    };
 
     const addNewContact = (contact) => {
         // localData.push(contact);
@@ -71,13 +72,12 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
         setWannaCreateNew(false);
         setActiveContact(contact);
 
-    }
+    };
 
     const handleContactClick = (clickedContact) => {
         setActiveContact(clickedContact);
         setEditable((editable) ? clickedContact.id === activeContact.id : false);
-    }
-
+    };
 
     const handleUpdate = (updatedContact) => {
         localData.forEach((item, index) => {
@@ -91,8 +91,8 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
         setActiveContact(updatedContact);
 
     };
-    /*SEARCH FUNCTION*/
 
+    /*SEARCH FUNCTION*/
     const searchFilter = (search) => item => item[titleField.fieldname].toLowerCase().includes(search.toLowerCase());
     const filterData = (value) => { setData([...localData.filter(searchFilter(value))]); }
     const [searchError, setSearchError] = React.useState("");
@@ -149,7 +149,7 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
                                     </Grid>
                                     <Hidden mdDown>
                                         <Grid container item xs={12} lg style={{ height: "fit-content" }}>
-                                            <DetailCard contact={activeContact} objRule={objRule}
+                                            <DetailCard contact={activeContact} objRule={objRule} data={data}
                                                 titleField={titleField} imgField={imgField} uniqueField={uniqueField} descriptionField={descriptionField}
                                                 setActive={setActive} editable={editable} handleEdit={handleEdit} handleUpdate={handleUpdate} keyword={heading.keyword}
                                             />
