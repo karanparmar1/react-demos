@@ -114,15 +114,7 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
     return (
         <>
             <Header heading={heading} open={open} handleDrawerOpen={handleDrawerOpen} />
-            {/* <AppBar className={clsx(classes.appBar, { [classes.appBarShift]: open })}>
-                <Toolbar>
-                    <IconButton onClick={handleDrawerOpen} edge="start"
-                        className={clsx({ [classes.invisible]: open, })} >
-                        <ClearAllRounded fontSize="large" />
-                    </IconButton>
-                    <Heading heading={heading} headerStyle={classes.heading} />
-                </Toolbar>
-            </AppBar> */}
+        
             <main className={clsx(classes.content, { [classes.absoluteAtSmall]: open })}>
                 <div className={classes.toolbar} />
                 <Grid container spacing={5}>

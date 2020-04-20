@@ -54,17 +54,24 @@ const CommonStyle = () => {
         },
         actionbar: {
             textAlign: "right",
-            [theme.breakpoints.only('lg')]: { paddingRight: "0px !important" },
+            background: "rgb(215,215,215)",
+            boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.5) !important",
+            borderRadius: "10px",
+            padding: "40px !important",
+            margin: "24px",
+            [theme.breakpoints.down('xs')]: {
+                padding: "20px 0px !important",
+                margin: "12px 0px"
+            },
         },
         searchWrapper: {
             transition: "all 0.3s linear",
             boxShadow: "none",
-            borderRadius: 25,
-            background: "rgb(230, 230, 230)",
+             borderRadius: 25,
+            // background: "rgba(255, 255, 255,0.6))",
 
             "& :hover": {
-
-                boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.7) !important",
+                boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.5) !important",
                 background: "white",
                 "& *": {
                     color: "black",
@@ -75,13 +82,16 @@ const CommonStyle = () => {
         },
         searchbar: {
             // transition: "all 0.3s linear",
-            background: "rgb(230, 230, 230)",
+            background: "rgba(255, 255, 255,0.8)",
             display: "flex",
             borderRadius: 25,
             padding: "0 6px 0 12px",
             minWidth: "120px",
             "& :hover": {
                 // cursor: "help",
+            },
+            [theme.breakpoints.down('xs')]: {
+                transform:"scale(0.9)"
             },
         },
 
@@ -191,7 +201,7 @@ const CommonStyle = () => {
             }
         },
         btnUpload: {
-            transition:"all 0.2s",
+            transition: "all 0.2s",
             position: "relative",
             padding: "4px",
             transform: "scale(0.9)",

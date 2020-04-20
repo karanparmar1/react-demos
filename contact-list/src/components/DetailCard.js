@@ -18,6 +18,9 @@ const displayDate = (dateString) => {
 
 function stringToColor(string) {
     let hash = 0, i = 0, color = "#";
+    const adjustBrightness = (color, amount) => {
+        return '#' + color.replace(/^#/, '').replace(/../g, color => ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2));
+    };
     for (i = 0; i < string.length; i += 1) {
         hash = string.charCodeAt(i) + ((hash << 5) - hash);
     }
@@ -25,6 +28,7 @@ function stringToColor(string) {
         const value = (hash >> (i * 8)) & 0xff;
         color += `00${value.toString(16)}`.substr(-2);
     }
+    color = adjustBrightness(color, -25); //Minus value to darken,positive for light
     return color;
 }
 let timeoutId = 111;

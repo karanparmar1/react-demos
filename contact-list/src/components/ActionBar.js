@@ -8,26 +8,26 @@ import SearchBar from "./SearchBar";
 
 const ActionBar = (props) => {
     const theme = useTheme();
-    const { keyword } = props;
+    const { keyword, search, wannaCreateNew } = props;
     let someSelected = props.data.some(item => item.checked); //props.someSelected; 
     const classes = CommonStyle(theme);
     return (
-        <Grid container item xs={12} lg={6} className={clsx(classes.actionbar, classes.removePadding)}>
-            <Grid item xs={8} lg={6} style={{ textAlign: "left" }} >
-                <SearchBar classes={classes} search={props.search} error={props.error} data={props.data} onChange={props.onChange} setActive={props.setActive} filterData={props.filterData}
-                    wannaCreateNew={props.wannaCreateNew} keyword={keyword} />
+        <Grid container item xs={12} lg={6} className={clsx(classes.actionbar)}>
+            <Grid item xs={8} lg={6} style={{ textAlign: "left", }} >
+                <SearchBar classes={classes} search={search} error={props.error} data={props.data} onChange={props.onChange} setActive={props.setActive} filterData={props.filterData}
+                    wannaCreateNew={wannaCreateNew} keyword={keyword} />
             </Grid>
             <Grid item xs={2} lg={3}>
-                <Tooltip title={props.wannaCreateNew ? "Adding..." : `Add ${keyword}`} arrow TransitionComponent={Zoom}>
-                    <span className={clsx(classes.btn, { [classes.btnAdding]: props.wannaCreateNew })}>
+                <Tooltip title={wannaCreateNew ? "Adding..." : `Add ${keyword}`} arrow TransitionComponent={Zoom}>
+                    <span className={clsx(classes.btn, { [classes.btnAdding]: wannaCreateNew })}>
                         <Button
                             variant="contained"
                             className={clsx(classes.button, classes.btnAdd)}
                             size="large"
                             fullWidth
-                            disabled={props.wannaCreateNew}
+                            disabled={wannaCreateNew}
                             onClick={() => props.handleAdd(true)} >
-                            <Add /> <Hidden smDown>Add{props.wannaCreateNew && "ing"}</Hidden>
+                            <Add /> <Hidden smDown>Add{wannaCreateNew && "ing"}</Hidden>
 
                         </Button> </span>
                 </Tooltip>
@@ -42,7 +42,7 @@ const ActionBar = (props) => {
                             size="large"
                             fullWidth
                             onClick={props.handleDelete}
-                            disabled={!someSelected || props.wannaCreateNew}
+                            disabled={!someSelected || wannaCreateNew}
                         > <Delete /> <Hidden smDown>Delete&nbsp;</Hidden>
                         </Button>
                     </span>
