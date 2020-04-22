@@ -155,16 +155,10 @@ const ContactList = (props) => {
                             onChange={(e) => { setPerPage(e.target.value); setPage(1); props.setActive({}); }}
                             autoWidth
                             className={classes.selectEmpty}>
-                            {/* {(props.data.length > 0 && props.data.length < limits[0]) &&
-                                <MenuItem value={props.data.length} selected={true}>{props.data.length}</MenuItem>  */
-                                //To set Limit = Data length
-                            }
-
 
                             {
                                 limits.map((limit, i) =>
-                                    <MenuItem disabled={props.data.length < limit} value={limit} key={i}>{limit}</MenuItem>
-                                )
+                                    <MenuItem disabled={props.data.length < limit} value={limit} key={i}>{limit}</MenuItem>)
                             }
 
                         </Select></div>
@@ -174,7 +168,7 @@ const ContactList = (props) => {
             }
         </List>
     </>
-    )
-}
+    );
+};
 
 export default ContactList;

@@ -464,10 +464,8 @@ const CommonStyle = () => {
         },
     };
 
-
     const useStyles = makeStyles(theme => (styles));
     const classes = useStyles();
-
 
     return (classes);
 };

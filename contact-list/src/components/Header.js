@@ -6,7 +6,7 @@ import Heading from "./Heading";
 import { IconButton, AppBar, Toolbar } from "@material-ui/core";
 import { ClearAllRounded } from "@material-ui/icons";
 
-const Header = ({ heading,open,handleDrawerOpen }) => {
+const Header = ({ heading, open, handleDrawerOpen }) => {
     const theme = useTheme();
     const classes = CommonStyle(theme);
     return (
@@ -20,6 +20,6 @@ const Header = ({ heading,open,handleDrawerOpen }) => {
             </Toolbar>
         </AppBar>
     );
-}
+};
 
 export default Header;

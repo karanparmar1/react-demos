@@ -6,9 +6,10 @@ import ActionBar from "./ActionBar";
 import ContactList from "./ContactList";
 import DetailCard from './DetailCard';
 
-const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data, setData, setLocalData, objRule = {}, error = {} }) => {
+const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, setLocalData, objRule = {}, error }) => {
 
     console.log("Rendered MainContent with LocalData:", localData);
+    const [data, setData] = React.useState(localData);
     const [editable, setEditable] = React.useState(false);
     const [activeContact, setActiveContact] = React.useState({});
     const [search, setSearch] = React.useState("");
@@ -114,12 +115,12 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
     return (
         <>
             <Header heading={heading} open={open} handleDrawerOpen={handleDrawerOpen} />
-        
+
             <main className={clsx(classes.content, { [classes.absoluteAtSmall]: open })}>
                 <div className={classes.toolbar} />
                 <Grid container spacing={5}>
 
-                    {error.name ? <Grid item xs={12} style={{ color: "red", background: "lightgrey", margin: "20px auto", fontSize: "200%", border: '1px solid red' }}>{error.name + " : " + error.message}</Grid>
+                    {error ? <Grid item xs={12} style={{ color: "red", background: "lightgrey", margin: "20px auto", fontSize: "200%", border: '1px solid red' }}>{error.name + " : " + error.message}</Grid>
                         :
                         <Grid container item xs={12} justify="center">
                             {/* MAIN CONTENT SEARCHBAR AND LIST STARTS HERE */}
@@ -130,7 +131,7 @@ const MainContent = ({ classes, handleDrawerOpen, open, heading, localData, data
                                     wannaCreateNew={wannaCreateNew} keyword={heading.keyword} />
                                 {/* ActionBar Ends ; Wrapper for List starts here*/}
 
-                                <Grid container item xs={12} className={clsx(classes.removePadding)}>
+                                <Grid container item xs={12} className={classes.removePadding}>
                                     <Grid item xs={12} lg >
                                         <ContactList data={data} page={page} setPage={handlePageChange} totalRecords={localData.length} objRule={objRule} activeContact={activeContact} editable={editable} setActive={setActive}
                                             handleContactClick={handleContactClick} handleCheckedChange={handleCheckedChange}

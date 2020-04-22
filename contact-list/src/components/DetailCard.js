@@ -35,30 +35,28 @@ let timeoutId = 111;
 const DetailCard = ({ contact, data, editable, handleEdit, handleUpdate, setActive, objRule, imgField, titleField, uniqueField, descriptionField }) => {
     const theme = useTheme();
     const classes = CommonStyle(theme);
+
     const [state, setState] = React.useState(contact);
-    const [formError, setFormError] = React.useState(false);
     const [dropzoneOpen, setDropzoneOpen] = React.useState(false);
+    const [formError, setFormError] = React.useState(false);
     const [currentError, setCurrentError] = React.useState(false);
 
 
     const updateContact = (updatedContact) => {
 
+        // Handling Dates if Any
         if (updatedContact.Date) {
-            let d = new Date(new Date().toISOString());
-            d = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ", " + d.toLocaleTimeString();;
-            updatedContact.Date = d;
+            updatedContact.Date = displayDate(new Date().toISOString());
         }
         if (updatedContact.updated) {
-            let d = new Date(new Date().toISOString());
-            d = d.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ", " + d.toLocaleTimeString();;
-            updatedContact.updated = d;
+            updatedContact.updated = displayDate(new Date().toISOString());
         }
         updatedContact.lastUpdated = displayDate(new Date());
         handleUpdate(updatedContact);
     };
 
     const handleFileSubmit = (files) => {
-        console.log("submit")
+        console.log("submitted File")
         setState({
             ...state,
             [imgField.fieldname]: URL.createObjectURL(files[0])
@@ -98,6 +96,35 @@ const DetailCard = ({ contact, data, editable, handleEdit, handleUpdate, setActi
                 setValue(field.fieldname, value);
                 objRule[fieldname].error = invalidPhone ? "Invalid Phone number" : "";
             }
+            else if (field.type === "number") {
+                let invalid = !/^[0-9]+$/.test(value);
+                if (invalid && value.length <= max) {
+                    if (timeoutId) clearTimeout(timeoutId);
+                    timeoutId = setTimeout(() => {
+                        objRule[fieldname].error = "";
+                        setCurrentError(false);
+                        validateForm();
+                    }, 1500);
+                    objRule[fieldname].error = "Enter Numbers Only";
+                    setCurrentError(true);
+                }
+                else if (value.length > max) {
+                    if (timeoutId) clearTimeout(timeoutId);
+                    timeoutId = setTimeout(() => {
+                        objRule[fieldname].error = "";
+                        setCurrentError(false);
+                        validateForm();
+                    }, 1500);
+                    objRule[fieldname].error = "You can enter max " + max + " chars";
+                    setCurrentError(true);
+                }
+                else {
+                    if (!invalid && value.length <= max) {
+                        objRule[fieldname].error = "";
+                        setValue(field.fieldname, value);
+                    }
+                }
+            }
 
             else if (type === "email") {
                 let invalidEmail = !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value);
@@ -132,33 +159,6 @@ const DetailCard = ({ contact, data, editable, handleEdit, handleUpdate, setActi
                     objRule[fieldname].error = "Invalid " + label;
                     setValue(field.fieldname, value);
                     setCurrentError(true);
-                }
-                else if (field.type === "number") {
-                    let invalid = !value.match(/^[0-9]+$/);
-                    if (invalid && value.length <= max) {
-                        if (timeoutId) clearTimeout(timeoutId);
-                        timeoutId = setTimeout(() => {
-                            objRule[fieldname].error = "";
-                            setCurrentError(false);
-                            validateForm();
-                        }, 1500);
-                        objRule[fieldname].error = "Enter Numbers Only";
-                        setCurrentError(true);
-                    }
-                    if (value.length > max) {
-                        if (timeoutId) clearTimeout(timeoutId);
-                        timeoutId = setTimeout(() => {
-                            objRule[fieldname].error = "";
-                            setCurrentError(false);
-                            validateForm();
-                        }, 1500);
-                        objRule[fieldname].error = "You can enter max " + max + " chars";
-                        setCurrentError(true);
-                    }
-                    if (!invalid && value.length <= max) {
-                        objRule[fieldname].error = "";
-                        setValue(field.fieldname, value);
-                    }
                 }
                 else if (value.length < min) {
                     objRule[fieldname].error = "Enter ateleast " + min + " chars";
@@ -289,8 +289,8 @@ const DetailCard = ({ contact, data, editable, handleEdit, handleUpdate, setActi
                                     <Grid item xs={12} md={8} className={classes.inputGrid} >
                                         {
                                             field.type === "boolean" ?
-                                                (editable ?
-                                                    <><Select
+                                                (editable ? <>
+                                                    <Select
                                                         value={state[fieldname] || false}
                                                         onChange={(e) => handleChangeInput(e, field)}
                                                         autoWidth
@@ -310,8 +310,7 @@ const DetailCard = ({ contact, data, editable, handleEdit, handleUpdate, setActi
                                         }
                                     </Grid>
                                 </Grid>
-                        }
-                        )
+                        })
                     }
 
                 </Grid>
@@ -333,8 +332,6 @@ const DetailCard = ({ contact, data, editable, handleEdit, handleUpdate, setActi
                         </Grid>
                     </Grid>
                 </Fade>
-
-
 
             </Grid >
             : <></>

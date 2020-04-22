@@ -1,8 +1,7 @@
 import React from 'react'
-import clsx from 'clsx';
 import { ListItem, ListItemAvatar, ListItemText, Fab, InputAdornment, TextField, Tooltip } from "@material-ui/core";
 import { DoneOutline, Close, AccountBox, Email } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/core/styles"
+import { makeStyles } from "@material-ui/core/styles";
 import { v4 as uuidv4 } from "uuid";
 
 const NewContact = (props) => {
@@ -90,13 +89,13 @@ const NewContact = (props) => {
                 setEmailError(required ? label + " is required" : ""); //fieldname==="id"?setEmailError(label+" is required"):setEmailError("");
             }
         }
-    }
+    };
 
     const handleOnKeyDown = (e) => {
         if (e.keyCode === 13 && newContactName.trim().length && !nameError.length && !emailError.length) {
             saveContact();
         }
-    }
+    };
 
     const saveContact = () => {
         props.addNewContact({
@@ -110,11 +109,10 @@ const NewContact = (props) => {
         setNewContactName("");
         setNewContactEmail("");
         // props.gotoLastPage();
-
-    }
+    };
 
     return (
-        <ListItem className={clsx(classes.newListItem)}>
+        <ListItem className={classes.newListItem}>
 
             <ListItemAvatar>
                 <Tooltip title="Save New Contact" arrow><span>
@@ -132,7 +130,7 @@ const NewContact = (props) => {
                 <form align="center">
                     <TextField required autoFocus multiline
                         value={newContactName}
-                        label=" FullName" name={titleField.fieldname}
+                        label={titleField.label} name={titleField.fieldname}
                         InputProps={{
                             startAdornment: (<InputAdornment position="start">
                                 <AccountBox /> </InputAdornment>
@@ -142,7 +140,7 @@ const NewContact = (props) => {
                         helperText={nameError}
                         onChange={handleOnChange}
                         onKeyDown={handleOnKeyDown}
-                        placeholder="Peter Parker"
+                        placeholder={titleField.placeholder}
                         className={classes.newContactField}
                     />
                     <TextField multiline value={newContactEmail}
@@ -175,7 +173,7 @@ const NewContact = (props) => {
             </ListItemAvatar>
         </ListItem>
 
-    )
-}
+    );
+};
 
-export default NewContact
+export default NewContact;

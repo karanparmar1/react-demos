@@ -8,7 +8,7 @@ const MyLoader = ({ heading, open, handleDrawerOpen }) => (
     <Header heading={heading} open={open} handleDrawerOpen={handleDrawerOpen} />
     <Grid container style={{ padding: "24px", marginTop: "64px", }}>
       <Grid container item xs={12} lg={6} style={{ margin: "32px 16px 0" }}>
-        <Grid item xs={11} style={{ background: "silver", margin: "auto", borderRadius: "30px", lineHeight: "2.5" }}>&nbsp;</Grid>
+        <Grid item xs={11} style={{ background: "silver", margin: "auto", borderRadius: "15px", lineHeight: "2.5" }}>&nbsp;</Grid>
       </Grid>
       <Grid container item xs={12} lg={6} style={{ margin: "32px 16px", boxShadow: "0px 1px 6px 0px rgba(0,0,0,0.7)", transform: "scale(0.94)" }}>
 

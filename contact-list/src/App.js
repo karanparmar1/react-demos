@@ -1,6 +1,7 @@
 import React from 'react';
 import Wrapper from './components/Wrapper';
 import './App.css';
+import "font-awesome/css/font-awesome.min.css";
 
 function App() {
   return (

@@ -12,7 +12,7 @@ const ActionBar = (props) => {
     let someSelected = props.data.some(item => item.checked); //props.someSelected; 
     const classes = CommonStyle(theme);
     return (
-        <Grid container item xs={12} lg={6} className={clsx(classes.actionbar)}>
+        <Grid container item xs={12} lg={6} className={classes.actionbar}>
             <Grid item xs={8} lg={6} style={{ textAlign: "left", }} >
                 <SearchBar classes={classes} search={search} error={props.error} data={props.data} onChange={props.onChange} setActive={props.setActive} filterData={props.filterData}
                     wannaCreateNew={wannaCreateNew} keyword={keyword} />

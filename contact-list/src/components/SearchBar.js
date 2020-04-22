@@ -7,7 +7,7 @@ const SearchBar = (props) => {
     return (
         <Tooltip title="Search" arrow disableFocusListener >
             <div>
-                <div className={props.classes.searchWrapper}  style={props.search .length ?{ boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.5)",background:"white" }:{}}>
+                <div className={props.classes.searchWrapper} style={props.search.length ? { boxShadow: "0px 1px 6px 0px rgba(0, 0, 0, 0.5)", background: "white" } : {}}>
                     <div className={props.classes.searchbar}>
                         <InputBase
                             className={props.classes.input}

@@ -1,21 +1,21 @@
 import React from 'react';
 import axios from "axios";
 import MyLoader from "./MyLoader";
-import MyApiWrapper from './MyApiWrapper';
+import MainContent from './MainContent';
 import { v4 as uuidv4 } from "uuid";
 
 // const uri = "https://api.github.com/search/users?q=a&per_page=100";
 // const uri = "https://api.covid19api.com/summary";
 const uri = "https://corona.lmao.ninja/v2/countries";
 
-
-let localData = {};
-let error = {}
-
 const Covid = ({ classes, handleDrawerOpen, open }) => {
 
     console.log("rendered Covid");
-    const [loading, setLoading] = React.useState(true);
+    const [loading, setLoading] = React.useState(false);
+    const [localData, setLocalData] = React.useState([]);
+    const [error, setError] = React.useState(null);
+    const changeData = (records) => setLocalData([...records]);
+
     const heading = {
         keyword: "Country",
         title: "Covid19Global",
@@ -37,41 +37,36 @@ const Covid = ({ classes, handleDrawerOpen, open }) => {
     };
 
     async function fetchApiData(uri) {
-        try {
-            let data = [];
-            const res = await axios.get(uri).then((response) => {
-                return response;
-            }).catch((e) => { console.log("Err occured :", e); error = e; });
+        console.log("Fetching Covid Data from: " + uri);
+        setLoading(true);
+        let data = [];
+        await axios.get(uri)
+            .then((res) => {
+                if (res && res.data) {
+                    data = res.data;
+                    data.forEach(country => {
+                        let { iso2, flag } = country.countryInfo;
+                        if (!country.id) { country.id = uuidv4(); }
+                        country.created = Date.now();
+                        country.checked = false;
+                        country.iso2 = iso2;
+                        country.flag = flag;
+                    });
+                }
+            })
+            .catch((e) => { console.error("Error occured :", e); setError(e); });
 
-            if (res && res.data) {
-                data = res.data;
-                data.forEach(country => {
-                    let { iso2, flag } = country.countryInfo;
-                    if (!country.id) { country.id = uuidv4(); }
-                    country.created=Date.now();
-                    country.checked = false;
-                    country.iso2 = iso2;
-                    country.flag = flag;
-                });
-            }
-            return data;
-        } catch (e) { console.log("Err occured :", e); error = e; }
+        setLocalData(data);
+        setLoading(false);
     }
 
-    (async function () {
-        try {
-            const fetchData = await fetchApiData(uri);
-            localData = fetchData;
-            console.log("localData After Fetch:");
-            console.log(localData);
-            setLoading(false);
-        } catch (e) { console.log("Err occured :", e); error = e; }
-    })()
 
-    return (loading) ?
-        (<MyLoader heading={heading} open={open} handleDrawerOpen={handleDrawerOpen} />)
-        : <MyApiWrapper apiData={localData} objRule={objRule} classes={classes} heading={heading} open={open} handleDrawerOpen={handleDrawerOpen} error={error} />;
+    React.useEffect(() => {
+        fetchApiData(uri);
+    }, []);
 
+    return loading ? <MyLoader heading={heading} open={open} handleDrawerOpen={handleDrawerOpen} />
+        : <MainContent localData={localData} setLocalData={changeData} error={error} objRule={objRule} heading={heading} classes={classes} open={open} handleDrawerOpen={handleDrawerOpen} />;
 
 };
 

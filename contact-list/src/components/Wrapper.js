@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import "font-awesome/css/font-awesome.min.css";
 import { useTheme } from "@material-ui/core/styles";
 import CommonStyle from "./CommonStyle";
 import SideDrawer from "./SideDrawer";
@@ -16,9 +15,7 @@ const Wrapper = () => {
     const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => setOpen(true);
-
     const handleDrawerClose = () => setOpen(false);
-
     const handleDrawerToggle = () => setOpen(!open);
 
     return (

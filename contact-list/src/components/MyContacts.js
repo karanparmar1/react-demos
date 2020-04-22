@@ -7,8 +7,6 @@ let localData = LocalData();
 const MyContacts = ({ classes, handleDrawerOpen, open }) => {
     console.log("Rendered MyContacts.");
     const setLocalData = (records) => localData = [...records];
-    const [data, setData] = React.useState(localData);
-    const changeData = (records) => setData([...records]);
 
     const heading = {
         keyword: "Contact",
@@ -36,8 +34,6 @@ const MyContacts = ({ classes, handleDrawerOpen, open }) => {
                 classes={classes}
                 localData={localData}
                 setLocalData={setLocalData}
-                data={data}
-                setData={changeData}
                 objRule={objRule}
                 open={open}
                 handleDrawerOpen={handleDrawerOpen}

@@ -1,10 +1,7 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import clsx from "clsx";
-import {
-    List, ListItem, ListItemIcon, ListItemText, IconButton, Drawer, Tooltip
-} from '@material-ui/core';
-
+import { List, ListItem, ListItemIcon, ListItemText, IconButton, Drawer, Tooltip } from '@material-ui/core';
 import { Backdrop, Hidden } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
 import { Work, BugReport, PersonOutline, ClearAllRounded, ChevronLeft } from "@material-ui/icons";
